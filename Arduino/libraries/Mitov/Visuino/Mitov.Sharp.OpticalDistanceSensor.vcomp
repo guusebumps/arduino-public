@@ -1,0 +1,30 @@
+Mitov : Namespace
+//---------------------------------------------------------------------------
+  [ArduinoScopedEnum]
+  TArduinoSharpOpticalDistanceSensor_Type : Enum
+  
+    GP2Y0A21YK0F // 1080
+    GP2Y0A02YK0F // 20150
+    GP2Y0A710K0F // 100500
+    GP2YA41SK0F  // 430
+    GP2Y0A51SK0F // 215
+    
+  ;  
+//---------------------------------------------------------------------------
+  [ArduinoInclude( 'Mitov_SharpOpticalDistanceSensor.h' )]
+  [ArduinoClass( 'Mitov::TArduinoSharpOpticalDistanceSensor' )]
+  [Name( 'Sharp Reflective Optical Distance Meter GP2Y0A02YK0F/GP2Y0A21YK0F/GP2Y0A710K0F/GP2YA41SK0F' )]
+  [CreateName( 'DistanceMeter' )]
+  [ArduinoWebKeywords( 'Sharp GP2Y0A02YK0F' )]
+  [ArduinoWebKeywords( 'Sharp GP2Y0A21YK0F' )]
+  [ArduinoWebKeywords( 'Sharp GP2Y0A710K0F' )]
+  [ArduinoWebKeywords( 'Sharp GP2YA41SK0F' )]
+  [Category( TArduinoAnalogMeasurementToolbarCategory )]
+  +TArduinoSharpOpticalDistanceSensor : TArduinoCommonAnalogVoltageReferenceFilter
+  
+    Type : TArduinoSharpOpticalDistanceSensor_Type = GP2Y0A21YK0F
+    Units : TArduinoRangerBasicUnits = rdCm
+  
+  ;
+//---------------------------------------------------------------------------
+; // Mitov

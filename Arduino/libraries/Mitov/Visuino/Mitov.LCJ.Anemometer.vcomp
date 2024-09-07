@@ -1,0 +1,61 @@
+Mitov : Namespace
+//---------------------------------------------------------------------------
+  [ArduinoClass( 'Mitov::TArduinoLCJ_Anemometer_SA_MICRO_T_Units' )]
+  *TArduinoLCJ_Anemometer_SA_MICRO_T_Units : TArduinoCodePersistent
+  
+    Angle : TArduinoAngleUnits = auDegree
+    Speed : TArduinoSpeedUnits = Knots
+    
+    InFahrenheit : Boolean = False
+
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoClass( 'Mitov::TArduinoLCJ_Anemometer_SA_MICRO_T_Wind' )]
+  *TArduinoLCJ_Anemometer_SA_MICRO_T_Wind : TArduinoCodePersistent
+
+    SpeedOutputPin : TOWArduinoAnalogSourcePin
+    AngleOutputPin : TOWArduinoAnalogSourcePin
+    
+  ;
+//---------------------------------------------------------------------------
+{
+  [ArduinoClass( 'Mitov::TArduinoLCJ_Anemometer_SA_MICRO_T_Status' )]
+  *TArduinoLCJ_Anemometer_SA_MICRO_T_Status : TArduinoCodePersistent
+
+    TemperatureOutputPin : TOWArduinoAnalogSourcePin
+    VoltageOutputPin : TOWArduinoAnalogSourcePin
+    
+  ;
+}
+//---------------------------------------------------------------------------
+  [ParentImage( TArduinoBasicAlarm )]
+  [ArduinoClass( 'Mitov::TArduinoLCJ_Anemometer_SA_MICRO_T_Alarms' )]
+  *TArduinoLCJ_Anemometer_SA_MICRO_T_Alarms : TArduinoCodePersistent
+  
+    MeasurementOutputPin : TOWArduinoClockSourcePin
+    OverRangeOutputPin : TOWArduinoClockSourcePin
+    
+  ;
+//---------------------------------------------------------------------------
+  [Category( TArduinoAnalogMeasurementToolbarCategory )]
+  [ArduinoInclude( 'Mitov_LCJ_Anemometer_SA_MICRO_T.h' )]
+  [ArduinoClass( 'Mitov::TArduinoLCJ_Anemometer_SA_MICRO_T' )]
+  [Name( 'LCJ Serial Sonic Anemometer (Wind Speed/Direction) SA-MICRO_T' )]
+  [CreateName( 'Anemometer' )]
+//  [ArduinoLoopBegin]
+  [ArduinoVariable( Unsigned, 4, 'FIndex' )]
+  +TArduinoLCJ_Anemometer_SA_MICRO_T : TArduinoEnabledComponent
+  
+    InputPin : TOWArduinoCharSinkPin
+    
+    TemperatureOutputPin : TOWArduinoAnalogSourcePin
+    VoltageOutputPin : TOWArduinoAnalogSourcePin
+    
+    Wind : TArduinoLCJ_Anemometer_SA_MICRO_T_Wind
+//    Status : TArduinoLCJ_Anemometer_SA_MICRO_T_Status
+    Alarms : TArduinoLCJ_Anemometer_SA_MICRO_T_Alarms
+    Units : TArduinoLCJ_Anemometer_SA_MICRO_T_Units
+            
+  ;
+//---------------------------------------------------------------------------
+; // Mitov

@@ -1,0 +1,128 @@
+Mitov : Namespace
+//---------------------------------------------------------------------------
+  [Name( 'SparkFun' )]
+  TSparkFunCategory : TClassCategory;
+//---------------------------------------------------------------------------
+  [Name( 'Thing' )]
+  [Category( TSparkFunCategory )]
+  TSparkFunThingCategory : TClassCategory;
+//---------------------------------------------------------------------------
+  [Name( 'Thing Plus' )]
+  [Category( TSparkFunCategory )]
+  TSparkFunThingPlusCategory : TClassCategory;
+//---------------------------------------------------------------------------
+  [Name( 'Micro Pro' )]
+  [Category( TSparkFunCategory )]
+  TSparkFunMicroProCategory : TClassCategory;
+//---------------------------------------------------------------------------
+  [Name( 'ESP32' )]
+  [Category( TSparkFunCategory )]
+  [AlternateCategory( TESP32Category )]
+  [ParentImage( TESP32Category )]
+  TSparkFunESP32Category : TClassCategory;
+//---------------------------------------------------------------------------
+  [Name( 'ESP8266' )]
+  [Category( TSparkFunCategory )]
+  [AlternateCategory( TESP8266Category )]
+  [ParentImage( TESP8266Category )]
+  TSparkFunESP8266Category : TClassCategory;
+//---------------------------------------------------------------------------
+  [Name( 'Qwiic/STEMMA' )]
+  [CreateName( 'Qwiic/STEMMA' )]
+  [ParentImage( IOWArduinoQwiicStream )]
+  *TArduinoBasicQwiicModule : TArduinoBasicInterfaceModule;
+//---------------------------------------------------------------------------
+  TArduinoQwiicSerialModule : TArduinoBasicQwiicModule
+
+    InputPin : TOWArduinoQwiicSerialAnyMultiSinkPin
+
+  ;
+//---------------------------------------------------------------------------
+  ['{CED04141-3858-4E83-80E9-2A7F901815B8}']
+  ISparkFunThingPlusShield : Interface;
+//---------------------------------------------------------------------------
+  [ArduinoShieldsType( ISparkFunThingPlusShield )]
+  TArduinoSparkFunThingPlusShields : TArduinoShields;
+//---------------------------------------------------------------------------
+  TArduinoSparkFunThingPlusShieldsExtender : Extender
+
+    [ComponentEditorEntryDesign( 'Add S&hields ...' )]
+    Shields : TArduinoSparkFunThingPlusShields
+
+  ;
+//---------------------------------------------------------------------------
+  TArduinoESP8266_SparkFun_Thing_I2C : TArduinoPinMapI2C
+
+    [MaxValue( 16 )]
+    SDA = 2
+
+    [MaxValue( 16 )]
+    SCL = 14
+
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoI2C( 0 )]
+  +TArduinoBasicDigitaOpenlPWMI2C0Channel : TArduinoDigitalOpenDrainPWMChannel;
+//---------------------------------------------------------------------------
+  [ArduinoInterruptPin]
+  +TArduinoBasicDigitalOpenDrainPWMI2C0InterruptChannel : TArduinoBasicDigitaOpenlPWMI2C0Channel;
+//---------------------------------------------------------------------------
+  [Name( 'SparkFun ESP8266 Thing' )]
+  [ArduinoBoardCompileParams( 'esp8266:esp8266:thing' )]
+  [ArduinoBoardCompileParams( 'esp8266:esp8266:thingdev' )]
+  [Category( TSparkFunESP8266Category )]
+  [Category( TSparkFunThingCategory )]
+  +TArduinoESP8266_SparkFun_Thing_Board : TArduinoESP8266_Basic_DefaultPins_Analog_NoI2C_Board, TArduinoBasicESP8266Board_StandardSerial_Extender
+
+    [AddItem( TArduinoESP8266_SparkFun_Thing_I2C )]
+    I2CChannels
+
+    [ArduinoBoard_Add_ReservedChannel( 0,  'Digital', True )]
+    [ArduinoBoard_Add_ReservedChannel( 1,  'Digital', True )]
+    [ArduinoBoard_Add_ReservedChannel( 2,  'Digital', True )]
+    [ArduinoBoard_Add_ReservedChannel( 3,  'Digital', True )]
+    [ArduinoBoard_Add_ReservedChannel( 4,  'Digital', True )]
+    [ArduinoBoard_Add_ReservedChannel( 5,  'Digital', True )]
+    [ArduinoBoard_Add_ReservedChannel( 12,  'Digital', True )]
+    [ArduinoBoard_Add_ReservedChannel( 13,  'Digital', True )]
+    [ArduinoBoard_Add_ReservedChannel( 14,  'Digital', True )]
+    [ArduinoBoard_Add_ReservedChannel( 15,  'Digital', True )]
+    [ArduinoBoard_Add_ReservedChannel( 16,  'Digital', True )]
+    Digital
+{
+    [ArduinoBoard_Add_DigitalAnalogChannels( 0,  1, TArduinoBasicDigitalOpenDrainPWMInterruptChannel, 'Digital' )]
+    [ArduinoBoard_Add_DigitalAnalogChannels( 2,  1, TArduinoBasicDigitalOpenDrainPWMI2C0InterruptChannel, 'Digital(I2C-SDA)' )]
+    [ArduinoBoard_Add_DigitalAnalogChannels( 4,  1, TArduinoBasicDigitalOpenDrainPWMInterruptChannel, 'Digital' )]
+    [ArduinoBoard_Add_DigitalAnalogChannels( 5,  1, TArduinoBasicDigitalOpenDrainPWMInterruptChannel, 'Digital(LED)' )]
+    [ArduinoBoard_Add_DigitalAnalogChannels( 7,  1, TArduinoBasicDigitalOpenDrainPWMInterruptChannel, 'Digital(TX0)' )]
+    [ArduinoBoard_Add_DigitalAnalogChannels( 8,  1, TArduinoBasicDigitalOpenDrainPWMInterruptChannel, 'Digital(RX0)' )]
+    [ArduinoBoard_Add_DigitalAnalogChannels( 12, 1, TArduinoBasicDigitalOpenDrainPWMSPI0InterruptChannel, 'Digital(SPI-MISO)' )]
+    [ArduinoBoard_Add_DigitalAnalogChannels( 13, 1, TArduinoBasicDigitalOpenDrainPWMSPI0InterruptChannel, 'Digital(SPI-MOSI)' )]
+    [ArduinoBoard_Add_DigitalAnalogChannels( 14, 1, TArduinoBasicDigitalOpenDrainPWMI2C0InterruptChannel, 'Digital(I2C-SCL)' )]
+    [ArduinoBoard_Add_DigitalAnalogChannels( 15, 1, TArduinoBasicDigitalOpenDrainPWMInterruptChannel, 'Digital' )]
+    [ArduinoBoard_Add_DigitalAnalogChannels( 16, 1, TArduinoBasicDigitalPWMInterruptChannel, 'Digital' )]
+    Digital : TArduinoDigitalChannels
+
+    [Name( 'Analog Input' )]
+    [ArduinoBoard_Add_AnalogInputChannels( 0, 1, TArduinoESP8266AnalogInputChannel, 'Analog Input' )]
+    AnalogInput : TArduinoAnalogInputChannels
+ }
+
+  ;
+//---------------------------------------------------------------------------
+  [Category( TSparkFunESP32Category )]
+  [Category( TSparkFunThingCategory )]
+  [Name( 'SparkFun ESP32 Thing' )]
+  [ArduinoBoardCompileParams( 'esp32:esp32:esp32thing' )]
+  +TArduinoESP32_SparkFun_Thing_Board : TArduinoBasicESP32Digital_SPI_I2C_ChannelsBoard
+  
+    [ArduinoBoard_Add_ReservedChannels( 0, 6 )]
+    [ArduinoBoard_Add_ReservedChannels( 12, 8 )]
+    [ArduinoBoard_Add_ReservedChannels( 21, 3 )]
+    [ArduinoBoard_Add_ReservedChannels( 25, 3 )]
+    [ArduinoBoard_Add_ReservedChannels( 32, 8 )]
+    Digital
+    
+  ;
+//---------------------------------------------------------------------------
+; // Mitov

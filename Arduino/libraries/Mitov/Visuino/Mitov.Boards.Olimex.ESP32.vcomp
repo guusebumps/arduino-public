@@ -1,0 +1,60 @@
+Mitov : Namespace
+//---------------------------------------------------------------------------
+  [Name( 'Olimex' )]
+  TOlimexCategory : TClassCategory;
+//---------------------------------------------------------------------------
+  [Name( 'ESP32' )]
+  [Category( TOlimexCategory )]
+  [AlternateCategory( TESP32Category )]
+  [ParentImage( TESP32Category )]
+  TOlimexESP32Category : TClassCategory;
+//---------------------------------------------------------------------------
+  [ArduinoTemplateParameter( 'Clock', 'Mitov::ConstantProperty<146, Mitov::TArduinoESP32BasicWiFiModuleEthernet_Clock::TArduinoESP32BasicWiFiModuleEthernet_Clock, Mitov::TArduinoESP32BasicWiFiModuleEthernet_Clock::Output_17 >' )]
+  [ArduinoTemplateParameter( 'Transducer', 'Mitov::ConstantProperty<145, Mitov::TArduinoESP32BasicWiFiModuleEthernet_Transducer::TArduinoESP32BasicWiFiModuleEthernet_Transducer, Mitov::TArduinoESP32BasicWiFiModuleEthernet_Transducer::LAN8720 >' )]
+  [ArduinoTemplateParameter( 'MDCPin', 'Mitov::ConstantProperty<119, uint32_t, 23 >' )]
+  [ArduinoTemplateParameter( 'MDIOPin', 'Mitov::ConstantProperty<118, uint32_t, 18 >' )]
+  [ArduinoTemplateParameter( 'PhysicalAddress', 'Mitov::ConstantProperty<112, uint32_t, 0 >' )]
+  [ArduinoTemplateParameter( 'PowerPin', 'Mitov::NestedProperty<151, Mitov::TArduinoESP32WiFiModuleEthernet_PowerPin< Mitov::ConstantProperty<149, bool, true >, Mitov::ConstantProperty<150, uint32_t, 12 > > >' )]
+  *TArduinoESP32_Olimex_ESP32_POE_WiFiModuleEthernet : TArduinoESP32WiFiModuleBasicEthernet;
+//---------------------------------------------------------------------------
+  +TArduinoESP32_Olimex_ESP32_POE_WiFiModule : TArduinoESP32WiFiBasicEspNowModule
+  
+    Ethernet : TArduinoESP32_Olimex_ESP32_POE_WiFiModuleEthernet
+    
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoTemplateParameterBoardChannel( 'ChipSelectPin', '15' )]
+//  [ArduinoTemplateParameter( 'ChipSelectPin', 'Mitov::ConstantProperty<66, uint32_t, 15 >' )]
+  +TArduinoESP32_Olimex_ESP32_POE_MicroSDModule : TArduinoBasicStandardBoardMicroSDModule;
+//---------------------------------------------------------------------------
+  [ArduinoTemplateParameter( 'C_PIN', '34' )]
+  [ArduinoClass( '::Mitov::DigitalInput_Inverted_Flexible' )]
+  [ArduinoShieldPin( '34', 'Button' )]
+  *TArduinoESP32_Olimex_ESP32_POE_BoardButton : TArduinoBasicInterruptButtonModule;
+//---------------------------------------------------------------------------
+  [Category( TOlimexESP32Category )]
+  [Name( 'Olimex ESP32-POE Ethernet' )]
+  [ArduinoBoardCompileParams( 'esp32:esp32:esp32' )]
+  +TArduinoESP32_Olimex_ESP32_POE_Board : TArduinoBasicESP32Digital_SPI_I2C_ChannelsBoard
+  
+    [ReplaceItem( TArduinoESP32WiFiModule, TArduinoESP32_Olimex_ESP32_POE_WiFiModule )]
+    [AddItem( TArduinoESP32Board_MMC_MicroSDModule )]
+    [AddItem( TArduinoESP32_Olimex_ESP32_POE_BoardButton )]
+    Modules
+  
+    [ArduinoBoard_Add_ReservedChannels( 0, 2 )]
+    [ArduinoBoard_Add_ReservedChannel( 2, 'MicroSD' )]
+    [ArduinoBoard_Add_ReservedChannels( 3, 3 )]
+    [ArduinoBoard_Add_ReservedChannel( 13 )]
+    [ArduinoBoard_Add_ReservedChannel( 14, 'MicroSD' )]
+    [ArduinoBoard_Add_ReservedChannel( 15, 'MicroSD' )]
+    [ArduinoBoard_Add_ReservedChannel( 16 )]
+    [ArduinoBoard_Add_ReservedChannels( 32, 3 )]
+    [ArduinoBoard_Add_ReservedChannel( 35, 'Battery' )]
+    [ArduinoBoard_Add_ReservedChannel( 36 )]
+    [ArduinoBoard_Add_ReservedChannel( 39, 'Power Sense' )]
+    Digital
+    
+  ;
+//---------------------------------------------------------------------------
+; // Mitov

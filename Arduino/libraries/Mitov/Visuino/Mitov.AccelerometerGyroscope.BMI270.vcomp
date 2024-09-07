@@ -1,0 +1,168 @@
+Mitov : Namespace
+//---------------------------------------------------------------------------
+//  [ArduinoExcludeNotConnectedAndDefault]
+//  [ArduinoDeclaredClass]
+  [ArduinoClass( 'Mitov::TArduinoAccelerometerGyroscopeBoschBMI270_Thermometer' )]
+//  [ArduinoOwnerTemplateTypeAndReference]
+  TArduinoAccelerometerGyroscopeBoschBMI270Thermometer : TArduinoBasicEnabledBasicClockedThermometer
+
+    [ArduinoPinCall( 'Thermometer_ClockInputPin' )]
+//    [ArduinoPinIsConnectedFlag]
+//    [ArduinoPinConnectedAddCodeEntry( ceStart, 'SystemStartClock' )]
+    [ArduinoPinDisconnectedAddCodeEntry( ceStart, 'SystemStartThermometer' )]
+    [ArduinoPinDisconnectedAddCodeEntry( ceLoopBegin, 'SystemLoopBeginThermometer' )]
+    ClockInputPin
+    
+    [ArduinoUseBindingCheckSetter_Parent( 'Update_PWR_CTRL' )]
+    Enabled
+    
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoClass( 'Mitov::TArduinoAccelerometerGyroscopeBoschBMI270_Accelerometer' )]
+  TArduinoAccelerometerGyroscopeBoschBMI270_Accelerometer : TArduinoBasicEnabledXYZAccelerometerSensor
+
+    [ArduinoPinDisconnectedAddCodeEntry( ceStart, 'SystemStartAccelerometerGyroscope' )]
+    [ArduinoPinDisconnectedAddCodeEntry( ceLoopBegin, 'SystemLoopBeginAccelerometerGyroscope' )]
+    [ArduinoPinCall( 'Accelerometer_ClockInputPin' )]
+    ClockInputPin : TOWArduinoClockSinkPin
+    
+    [ArduinoUseBindingCheckSetter_Parent( 'Update_PWR_CTRL' )]
+    Enabled
+
+    [PropertyFixedListDesign]
+    [PropertyListDesignValue( '2' )]
+    [PropertyListDesignValue( '4' )]
+    [PropertyListDesignValue( '8' )]
+    [PropertyListDesignValue( '16' )]
+    [ArduinoUseBindingCheckSetter_Parent( 'Update_ACC_RANGE' )]
+    [NamePostfix( '(g)' )]
+    FullScaleRange : Unsigned = 2
+    
+    [PropertyFixedListDesign]
+    [PropertyListDesignValue( '1' )]
+    [PropertyListDesignValue( '2' )]
+    [PropertyListDesignValue( '4' )]
+    [PropertyListDesignValue( '8' )]
+    [PropertyListDesignValue( '16' )]
+    [PropertyListDesignValue( '32' )]
+    [PropertyListDesignValue( '64' )]
+    [PropertyListDesignValue( '128' )]
+    [ArduinoUseBindingCheckSetter_Parent( 'Update_ACC_CONF' )]
+    Averaging : Unsigned = 4
+    
+    [ValueRange( 0.78, 1600.0 )]    
+    [ArduinoUseBindingCheckSetter_Parent( 'Update_ACC_CONF' )]
+    [NamePostfix( '(Hz)' )]
+    SampleRate : Single = 100.0
+    
+    [ArduinoUseBindingCheckSetter_Parent( 'Update_ACC_CONF' )]
+    HighPerformanceFilter : Boolean = False
+    
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoClass( 'Mitov::TArduinoAccelerometerGyroscopeBoschBMI270_Gyroscope' )]
+  [ParentImage( TArduinoMPUXYZGyroscope )]
+  TArduinoAccelerometerGyroscopeBoschBMI270_Gyroscope : TArduinoBasicEnabledXYZSensor
+
+    [ArduinoPinDisconnectedAddCodeEntry( ceStart, 'SystemStartAccelerometerGyroscope' )]
+    [ArduinoPinDisconnectedAddCodeEntry( ceLoopBegin, 'SystemLoopBeginAccelerometerGyroscope' )]
+    [ArduinoPinCall( 'Gyroscope_ClockInputPin' )]
+    ClockInputPin : TOWArduinoClockSinkPin
+
+    [ArduinoUseBindingCheckSetter_Parent( 'Update_PWR_CTRL' )]
+    Enabled
+    
+    [PropertyFixedListDesign]
+    [PropertyListDesignValue( '125' )]
+    [PropertyListDesignValue( '250' )]
+    [PropertyListDesignValue( '500' )]
+    [PropertyListDesignValue( '1000' )]
+    [PropertyListDesignValue( '2000' )]
+    [ArduinoUseBindingCheckSetter_Parent( 'Update_GYR_RANGE' )]
+    [NamePostfix( '(dps)' )]
+    FullScaleRange : Unsigned = 2000
+    
+    [PropertyFixedListDesign]
+    [PropertyListDesignValue( '1' )]
+    [PropertyListDesignValue( '2' )]
+    [PropertyListDesignValue( '4' )]
+    [ArduinoUseBindingCheckSetter_Parent( 'Update_ACC_CONF' )]
+    Averaging : Unsigned = 1
+    
+    [ValueRange( 25.0, 3200.0 )]    
+    [ArduinoUseBindingCheckSetter_Parent( 'Update_GYR_CONF' )]
+    [NamePostfix( '(Hz)' )]
+    SampleRate : Single = 200.0
+    
+    [ArduinoUseBindingCheckSetter_Parent( 'Update_GYR_CONF' )]
+    HighPerformanceNoise : Boolean = False
+    
+    [ArduinoUseBindingCheckSetter_Parent( 'Update_GYR_CONF' )]
+    HighPerformanceFilter : Boolean = False
+    
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoInclude( 'Mitov_AccelerometerGyroscope_Bosch_BMI270.h' )]
+  [ArduinoClass( 'Mitov::AccelerometerGyroscopeBoschBMI270' )]
+  [Category( TArduinoAnalogMeasurementToolbarCategory )]
+  [CreateName( 'AccelerometerGyroscope' )]
+  [ArduinoInit]
+  TArduinoAccelerometerGyroscopeBoschBMI270_Component_Extender : Extender
+
+    ResetInputPin : TOWArduinoClockSinkPin
+    
+    Accelerometer : TArduinoAccelerometerGyroscopeBoschBMI270_Accelerometer
+    Gyroscope : TArduinoAccelerometerGyroscopeBoschBMI270_Gyroscope
+    Thermometer : TArduinoAccelerometerGyroscopeBoschBMI270Thermometer
+    
+    [ArduinoUseBindingCheckSetter( 'Update_PWR_CONF' )]
+    PowerSave : Boolean = True
+    
+    [ArduinoUseBindingCheckSetter( 'Update_PWR_CONF' )]
+    FastPowerUp : Boolean = False
+    
+  ;
+//---------------------------------------------------------------------------
+//  [ArduinoInclude( 'Wire.h' )]
+  [Name( 'Bosch BMI270 Accelerometer/Gyroscope(I2C)' )]
+  [ArduinoTemplateParameter( '0_IMPLEMENTATION', 'Mitov::InterfaceI2CNoSetHighBit' )]
+  [ArduinoTemplateParameter( 'SPI3Wire', 'Mitov::ConstantProperty<40, bool, false >' )]
+  [ArduinoTemplateParameter( '1_AUXILIARY_SENSOR', 'Mitov::BoschBMI270_NoAuxiliary' )]
+  +TArduinoAccelerometerGyroscopeBoschBMI270_I2C : TArduinoImplementationI2CAddressSensorPinComponent, TArduinoAccelerometerGyroscopeBoschBMI270_Component_Extender
+
+    [DesignRange( $68, $69 )]
+    Address = $68
+
+  ;
+//---------------------------------------------------------------------------
+  [Name( 'Bosch BMI270 Accelerometer/Gyroscope(SPI)' )]
+  [ArduinoTemplateParameter( '1_AUXILIARY_SENSOR', 'Mitov::BoschBMI270_NoAuxiliary' )]
+  +TArduinoAccelerometerGyroscopeBoschBMI270_SPI : TArduinoCommonSpeedImplementationSPI, TArduinoAccelerometerGyroscopeBoschBMI270_Component_Extender
+
+//    [ArduinoAddToTemplate( '0_IMPLEMENTATION' )]
+//    SPISpeed : Unsigned = 8000000
+
+    [ArduinoUseBindingCheckSetter( 'Update_IF_CONF' )]
+    SPI3Wire : Boolean = False
+
+  ;  
+//---------------------------------------------------------------------------
+  [ArduinoDeclaredClass]
+  [ArduinoExcludeNotConnectedAndDefault]
+  [ArduinoTemplateParameter( '0_IMPLEMENTATION', 'Mitov::TArduinoAccelerometerGyroscopeBoschBMI270_BMM150_Compass' )]
+  [ArduinoOwnerTemplateTypeAndReference( '0_IMPLEMENTATION' )]
+  TArduinoAccelerometerGyroscopeBoschBMI270_BMM150_Compass_Element : TArduinoCompassBoschBMM150_BasicElement;
+//---------------------------------------------------------------------------
+  [ParentImage( TArduinoBasicGyroscopeAccelerometerCompassModule )]
+  [ArduinoExcludeNotConnectedAndDefault]
+  [ArduinoTemplateParameter( 'SPI3Wire', 'Mitov::ConstantProperty<40, bool, false >' )]
+  [ArduinoTemplateParameter( '1_AUXILIARY_SENSOR', 'Mitov::BoschBMI270_Auxiliary_Compass_BMM150' )]
+  [CreateName( 'Orientation' )]
+  *TArduinoAccelerometerGyroscopeCompassBoschBMI270_BasicModule : TArduinoShield, TArduinoAccelerometerGyroscopeBoschBMI270_Component_Extender
+  
+//    [ArduinoAddToTemplate( '1_AUXILIARY_SENSOR' )]
+    Compass : TArduinoAccelerometerGyroscopeBoschBMI270_BMM150_Compass_Element
+    
+  ;
+//---------------------------------------------------------------------------
+; // Mitov

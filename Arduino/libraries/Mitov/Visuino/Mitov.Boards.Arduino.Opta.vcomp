@@ -1,0 +1,158 @@
+Mitov : Namespace
+//---------------------------------------------------------------------------
+  [Name( 'Opta' )]
+  [Category( TArduinoCategory )]
+  [AlternateCategory( TArduinoARMCategory )]
+  TArduinoOptaCategory : TClassCategory;
+//---------------------------------------------------------------------------
+  [ArduinoBoardIndex( '' )]
+  [ArduinoBoardArchitecture( 'mbed_opta' )]
+  ArduinoBoardArchitecture_OptaAttribute : TAttributeCollectionAttribute;
+//---------------------------------------------------------------------------
+  [ArduinoTemplateParameter( 'PIN', 'LED_USER' )]
+  +TArduino_Opta_LEDModule : TArduinoBasicLEDModule;
+//---------------------------------------------------------------------------
+  [CreateName( '(Red)' )]
+  [ArduinoTemplateParameter( 'PIN', 'LEDR' )]
+  [ArduinoExcludeNotConnectedAndDefault]
+  +TArduino_Opta_LED_RG_Red : TArduinoBasicLEDShieldElement_RED_Part;
+//---------------------------------------------------------------------------
+  [CreateName( '(Green)' )]
+  [ArduinoTemplateParameter( 'PIN', 'LED_RESET' )]
+  [ArduinoExcludeNotConnectedAndDefault]
+  +TArduino_Opta_LED_RG_Green : TArduinoBasicLEDShieldElement_GREEN_Part;
+//---------------------------------------------------------------------------
+  [Name( 'LED (Red/Green)' )]
+  [ParentImage( TArduino_RG_LEDItems )]
+  [ArduinoExcludeNotConnectedAndDefault]
+  [ArduinoDeclaredClass]
+  +TArduino_Opta_LED_RG : TArduinoShield
+
+    [AddItem( TArduino_Opta_LED_RG_Red )]
+    [AddItem( TArduino_Opta_LED_RG_Green )]
+    Channels : TArduino_RG_LEDItems
+
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoTemplateParameter( 'PIN', 'LED_D0' )]
+  [CreateName( 'LED 1' )]
+  [ArduinoExcludeNotConnectedAndDefault]
+  +TArduino_Opta_LED_D0 : TArduinoBasicLEDShieldElement;
+//---------------------------------------------------------------------------
+  [ArduinoTemplateParameter( 'PIN', 'LED_D1' )]
+  [CreateName( 'LED 2' )]
+  [ArduinoExcludeNotConnectedAndDefault]
+  +TArduino_Opta_LED_D1 : TArduinoBasicLEDShieldElement;
+//---------------------------------------------------------------------------
+  [ArduinoTemplateParameter( 'PIN', 'LED_D2' )]
+  [CreateName( 'LED 3' )]
+  [ArduinoExcludeNotConnectedAndDefault]
+  +TArduino_Opta_LED_D2 : TArduinoBasicLEDShieldElement;
+//---------------------------------------------------------------------------
+  [ArduinoTemplateParameter( 'PIN', 'LED_D3' )]
+  [CreateName( 'LED 4' )]
+  [ArduinoExcludeNotConnectedAndDefault]
+  +TArduino_Opta_LED_D3 : TArduinoBasicLEDShieldElement;
+//---------------------------------------------------------------------------
+  [Name( 'Status LEDs' )]
+  [ParentImage( TArduino_RG_LEDItems )]
+  [ArduinoExcludeNotConnectedAndDefault]
+  [ArduinoDeclaredClass]
+  +TArduino_Opta_Status_LEDs : TArduinoShield
+
+    [AddItem( TArduino_Opta_LED_D0 )]
+    [AddItem( TArduino_Opta_LED_D1 )]
+    [AddItem( TArduino_Opta_LED_D2 )]
+    [AddItem( TArduino_Opta_LED_D3 )]
+    Channels : TArduino_LEDItems
+
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoTemplateParameter( 'C_PIN', 'BTN_USER' )]
+  [ArduinoClass( '::Mitov::DigitalInput_Inverted_Flexible' )]
+  +TArduino_Opta_Button : TArduinoBasicInterruptButtonModule;
+//---------------------------------------------------------------------------
+  [ArduinoInterruptPin]
+  +TArduinoAnalogOnlyInputInterruptChannel : TArduinoAnalogOnlyInputChannel;
+//---------------------------------------------------------------------------
+  [Category( TArduinoOptaCategory )]
+  [ArduinoDefine( 'VISUINO_ARDUINO_OPTA' )]
+  [ArduinoDefine( 'VISUINO_ARDUINO_PORTENTA' )]
+  [ArduinoDefine( 'VISUINO_ANALOG_IN_RANGE 4095' )]
+  [ArduinoDefine( 'VISUINO_ANALOG_IN_THRESHOLD 1636' )]
+  [ArduinoBoardNeedsReset]
+  [ArduinoBoardArchitecture_Opta]
+  [ArduinoBoardCompileParams( 'arduino:mbed_opta:opta' )]
+  [ArduinoDeclaredClass]
+  [ArduinoInclude( 'Mitov_Arduino_Opta.h' )]
+  [ArduinoClass( '::Mitov::TArduino_Opta_BasicBoard' )]
+  TArduino_Opta_BasicBoard : TArduinoBoardExtendableImplementation
+
+    [AddItem( TArduinoPortenta_Serial )]
+    Serial : TArduinoSerials
+    
+    [AddItem( TArduinoPortenta_H7_MX_Shared_Module )]
+    [AddItem( TArduinoPortenta_RTCModule )]
+    [AddItem( TArduino_Opta_LEDModule )]
+    [AddItem( TArduino_Opta_LED_RG )]
+    [AddItem( TArduino_Opta_Status_LEDs )]
+    [AddItem( TArduino_Opta_Button )]
+    [AddItem( TArduinoEthernetModule )]
+    Modules : TArduinoModules
+    
+    [ArduinoBoard_Add_DigitalAnalogChannel(  0, TArduinoBasicDigitalInputChannel, 'Relay 1', 'RELAY1' )]
+    [ArduinoBoard_Add_DigitalAnalogChannel(  1, TArduinoBasicDigitalInputChannel, 'Relay 2', 'RELAY2' )]
+    [ArduinoBoard_Add_DigitalAnalogChannel(  2, TArduinoBasicDigitalInputChannel, 'Relay 3', 'RELAY3' )]
+    [ArduinoBoard_Add_DigitalAnalogChannel(  3, TArduinoBasicDigitalInputChannel, 'Relay 4', 'RELAY4' )]
+    [ArduinoBoard_Add_DigitalAnalogChannel(  4, TArduinoAnalogOnlyInputInterruptChannel, 'I1', 'A0' )]
+    [ArduinoBoard_Add_DigitalAnalogChannel(  5, TArduinoAnalogOnlyInputInterruptChannel, 'I2', 'A1' )]
+    [ArduinoBoard_Add_DigitalAnalogChannel(  6, TArduinoAnalogOnlyInputInterruptChannel, 'I3', 'A2' )]
+    [ArduinoBoard_Add_DigitalAnalogChannel(  7, TArduinoAnalogOnlyInputInterruptChannel, 'I4', 'A3' )]
+    [ArduinoBoard_Add_DigitalAnalogChannel(  8, TArduinoAnalogOnlyInputInterruptChannel, 'I5', 'A4' )]
+    [ArduinoBoard_Add_DigitalAnalogChannel(  9, TArduinoAnalogOnlyInputInterruptChannel, 'I6', 'A5' )]
+    [ArduinoBoard_Add_DigitalAnalogChannel( 10, TArduinoAnalogOnlyInputInterruptChannel, 'I7', 'A6' )]
+    [ArduinoBoard_Add_DigitalAnalogChannel( 11, TArduinoAnalogOnlyInputInterruptChannel, 'I8', 'A7' )]
+    [Name( 'Channels' )]
+    Digital : TArduinoDigitalChannels
+    
+  ;
+//---------------------------------------------------------------------------
+  [Name( 'Arduino Opta Lite' )]
+  [ParentImage( TArduinoOptaCategory )]
+  +TArduinoOpta_Lite_Board : TArduino_Opta_BasicBoard;
+//---------------------------------------------------------------------------
+  [ArduinoInclude( 'Mitov_Serial_Opta_RS485.h' )]
+  [ArduinoClass( 'Mitov::Serial_Opta_RS485_Port' )]
+//  [ArduinoTemplateParameter( 'C_TRANSMIT_PIN', 'RS485_DEFAULT_DE_PIN' )]
+//  [ArduinoTemplateParameter( 'C_RECEIVE_PIN', 'RS485_DEFAULT_RE_PIN' )]
+  [ArduinoTemplateParameter( 'C_TRANSMIT_PIN', '56' )]
+  [ArduinoTemplateParameter( 'C_RECEIVE_PIN', '55' )]
+//  [ArduinoTemplateParameter( 'C_TRANSMIT_PIN', '30' )]
+//  [ArduinoTemplateParameter( 'C_RECEIVE_PIN', '29' )]
+  [ArduinoTemplateParameter( 'TXPin', 'Mitov::ConstantProperty<87, uint32_t, SERIAL2_TX >' )]
+  [Name( 'RS485' )]  
+  [ArduinoPortInstanceName( 'Serial2' )]
+  [ArduinoChannelInstanceName( 'Serial2' )]
+  [ArduinoTemplateParameter( '0_SERIAL_TYPE', 'arduino::UART' )]
+  +TArduino_Opta_RS485_Serial : TArduinoBasicBreakHardwareSerial, TArduinoRS485Loopback_Extender;
+//---------------------------------------------------------------------------
+  TArduinoOpta_Basic_RS485_Board : TArduino_Opta_BasicBoard
+  
+    [AddItem( TArduino_Opta_RS485_Serial )]
+    Serial
+    
+  ;
+//---------------------------------------------------------------------------
+  [Name( 'Arduino Opta RS485' )]
+  +TArduinoOpta_RS485_Board : TArduinoOpta_Basic_RS485_Board;
+//---------------------------------------------------------------------------
+  [Name( 'Arduino Opta WiFi' )]
+  +TArduinoOpta_WiFi_Board : TArduinoOpta_Basic_RS485_Board
+  
+    [AddItem( TArduinoPortenta_WiFi )]
+    [AddItem( TArduinoPortenta_BluetoothModule )]
+    Modules
+    
+  ;
+//---------------------------------------------------------------------------
+; // Mitov

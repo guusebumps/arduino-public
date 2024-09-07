@@ -1,0 +1,25 @@
+Mitov : Namespace
+//---------------------------------------------------------------------------
+  [ArduinoInclude( 'Wire.h' )]
+  [CreateName( 'GPIO' )]
+  TArduinoI2CGPIOBasic : TArduinoComponent
+
+    OutputPin : TOWArduinoI2CSourcePin
+
+    Channels : TArduinoDigitalGPIOChannels
+
+  ;
+//---------------------------------------------------------------------------
+  TArduinoI2CGPIO : TArduinoI2CGPIOBasic
+
+    Address : TArduinoUInt8 = 0
+
+  ;
+//---------------------------------------------------------------------------
+  TArduinoEnableI2CGPIO : TArduinoI2CGPIO
+
+    Enabled  : Boolean = True
+
+  ;
+//---------------------------------------------------------------------------
+; // Mitov

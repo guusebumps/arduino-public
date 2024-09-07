@@ -1,0 +1,184 @@
+Mitov : Namespace
+//---------------------------------------------------------------------------
+  [ArduinoDeclaredClass]
+  [ArduinoInclude( 'Mitov_Joystick.h' )]
+  [ArduinoClass( 'Mitov::ArduinoModuleJoystick' )]
+  [ParentImage( TArduinoJoystick )]
+  [ArduinoExcludeNotConnectedAndDefault]
+  TArduinoJoystickShieldJoystick : TArduinoCodePersistent
+
+    [OWPrimaryPin]
+    [OWPinListPrimaryPinType( TOWArduinoAnalogSourcePin )]
+    [ArduinoPinConnectedAddCodeEntry( ceStart, 'SystemStartJoystick' )]
+    [ArduinoPinConnectedAddCodeEntry( ceLoopBegin, 'SystemLoopBeginJoystick' )]
+    [OWAddPin( 'X', TOWArduinoAnalogSourcePin )]
+    [OWAddPin( 'Y', TOWArduinoAnalogSourcePin )]
+    AxesOutputPins : TOWArduinoPinList
+
+    [OWArduinoBoardDigitalPin( '8' )]
+    [OWPrimaryPin]
+    [ArduinoPinConnectedAddCodeEntry( ceStart, 'SystemStartButton' )]
+    [ArduinoPinConnectedAddCodeEntry( ceLoopBegin, 'SystemLoopBeginButton' )]
+    ButtonOutputPin : TOWArduinoDigitalInputSourcePin
+
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoDeclaredClass]
+  [ArduinoInclude( 'Mitov_Joystick.h' )]
+  [ArduinoClass( 'Mitov::ArduinoModuleJoystickButtons' )]
+  [ParentImage( TArduinoButton )]
+  [ArduinoExcludeNotConnectedAndDefault]
+  TArduinoJoystickShieldButtons : TArduinoCodePersistent
+
+    [OWPrimaryPin]
+    [OWPinListPrimaryPinType( TOWArduinoDigitalSourcePin )]
+    [ArduinoPinConnectedAddCodeEntry( ceStart, 'SystemStartDirection' )]
+    [ArduinoPinConnectedAddCodeEntry( ceLoopBegin, 'SystemLoopBeginDirection' )]
+    [OWAddPin( 'Up (A)', TOWArduinoDigitalSourcePin )]
+    [OWAddPin( 'Down (C)', TOWArduinoDigitalSourcePin )]
+    [OWAddPin( 'Left (D)', TOWArduinoDigitalSourcePin )]
+    [OWAddPin( 'Right (B)', TOWArduinoDigitalSourcePin )]
+    DirectionOutputPins : TOWArduinoPinList
+
+    [OWPinListPrimaryPinType( TOWArduinoDigitalSourcePin )]
+    [ArduinoPinConnectedAddCodeEntry( ceStart, 'SystemStartButtons' )]
+    [ArduinoPinConnectedAddCodeEntry( ceLoopBegin, 'SystemLoopBeginButtons' )]
+    [OWAddPin( 'Button E', TOWArduinoDigitalSourcePin )]
+    [OWAddPin( 'Button F', TOWArduinoDigitalSourcePin )]
+    OutputPins : TOWArduinoPinList
+
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoTemplateParameter( '0_SPI_TYPE_PIN', '::BoardDeclarations::Types::BoardSPI0' )]
+  [ArduinoTemplateParameter( '1_SPI_NAME_PIN', '::BoardDeclarations::Instances::BoardSPI0' )]
+  [ArduinoTemplateParameter( 'ChipEnableOutputPin', 'Mitov::DigitalPin_DirectBoardPinImplementation<9>' )]
+  [ArduinoTemplateParameter( 'ChipSelectOutputPin', 'Mitov::DigitalPin_DirectBoardPinImplementation<10>' )]
+  [ArduinoExcludeNotConnectedAndDefault]
+  [ArduinoShieldPin( '9',  'NRF24L01 CS' )]
+  [ArduinoShieldPin( '10',  'NRF24L01 CE' )]
+  [ArduinoSPI( 0 )]
+  TArduinoJoystickShieldNRF24L01 : TArduinoNRF24L01BasicElement;
+//---------------------------------------------------------------------------
+  [ArduinoInclude( 'Mitov_Shield_Joystick_Display.h' )]
+  [ArduinoTemplateParameter( '0_SPI_TYPE_PIN', 'Mitov::VisuinoSoftwareSPI<10, 9>' )]
+  [ArduinoTemplateParameter( '1_SPI_NAME_PIN', 'Mitov::GSoftwareSPI_Nokia' )]
+  [ArduinoTemplateParameter( 'ResetOutputPin_RESET', 'Mitov::ResetPinImplementation' )]
+  [ArduinoTemplateParameter( 'ChipSelectOutputPin', 'Mitov::DigitalPin_DirectBoardPinImplementation<13>' )]
+  [ArduinoTemplateParameter( 'DataCommandOutputPin', 'Mitov::DigitalPin_DirectBoardPinImplementation<11>' )]
+  [ArduinoTemplateParameter( 'ResetOutputPin', 'Mitov::DigitalPin_DirectBoardPinImplementation<12>' )]
+  [ArduinoShieldPin( '9',  'Display Clk' )]
+  [ArduinoShieldPin( '10',  'Display Data' )]
+  [ArduinoShieldPin( '13',  'Display CS' )]
+  [ArduinoShieldPin( '11',  'Display D/C' )]
+  [ArduinoShieldPin( '12',  'Display Reset' )]
+  [ArduinoExcludeNotConnectedAndDefault]
+  TArduinoJoystickShieldNokia5110 : TArduinoDisplayNokia5110Property;
+//---------------------------------------------------------------------------
+  [ParentImage( TArduinoJoystick )]
+  [Name( 'Funduino Joystick Shield' )]
+  [CreateName( 'Joystick Shield' )]
+  [Collection( TArduinoBasicShields )]
+  [ArduinoShieldPin( '2',  'Button Up(A)' )]
+  [ArduinoShieldPin( '3',  'Button Right(B)' )]
+  [ArduinoShieldPin( '4',  'Button Down(C)' )]
+  [ArduinoShieldPin( '5',  'Button Left(D)' )]
+  [ArduinoShieldPin( '6',  'Button (E)' )]
+  [ArduinoShieldPin( '7',  'Button (F)' )]
+  [ArduinoShieldPin( '8',  'Joystick Button' )]
+  [ArduinoShieldPin( 'A0',  'Joystick X' )]
+  [ArduinoShieldPin( 'A1',  'Joystick Y' )]
+  +TArduinoJoystickShield : TArduinoShield, IStandardShield
+
+    Joystick : TArduinoJoystickShieldJoystick
+    Buttons : TArduinoJoystickShieldButtons
+    NRF24L01 : TArduinoJoystickShieldNRF24L01
+    Display : TArduinoJoystickShieldNokia5110
+
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoDeclaredClass]
+//  [Collection( TArduinoBasicShields )]
+  [ArduinoInclude( 'Mitov_Arduino4RelaysShield.h' )]
+  [ArduinoClass( 'Mitov::TArduino4RelaysShield_Channel' )]
+  [ParentImage( TESP8266_01_SimpleRelayShield )]
+//  [ArduinoTemplateParameterCollectionItemIndex]
+  [ArduinoExcludeNotConnectedAndDefault]
+  [ArduinoInit]
+  *TArduino4RelaysShield_Channel : TArduinoCodeEnabledPersistent
+
+    [OWPrimaryPin]
+    InputPin : TOWArduinoDigitalSinkPin
+
+    [ArduinoUseBindingCheckSetter( 'UpdateOutput' )]
+    Enabled
+
+    [OWExcludeBindings]
+    [ArduinoFlexibleVariableIfPinConnected( InputPin )]
+    [OWPinGroup( TArduino4RelaysShield_Channel )]
+    InitialValue : Boolean = False
+
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoShieldPin( '4',  'Relay 1' )]
+  [ArduinoTemplateParameter( 'C_PIN', '4' )]
+  *TArduino4RelaysShield_Channel1 : TArduino4RelaysShield_Channel;
+//---------------------------------------------------------------------------
+  [ArduinoShieldPin( '7',  'Relay 2' )]
+  [ArduinoTemplateParameter( 'C_PIN', '7' )]
+  *TArduino4RelaysShield_Channel2 : TArduino4RelaysShield_Channel;
+//---------------------------------------------------------------------------
+  [ArduinoShieldPin( '8',  'Relay 3' )]
+  [ArduinoTemplateParameter( 'C_PIN', '8' )]
+  *TArduino4RelaysShield_Channel3 : TArduino4RelaysShield_Channel;
+//---------------------------------------------------------------------------
+  [ArduinoShieldPin( '12',  'Relay 4' )]
+  [ArduinoTemplateParameter( 'C_PIN', '12' )]
+  *TArduino4RelaysShield_Channel4 : TArduino4RelaysShield_Channel;
+//---------------------------------------------------------------------------
+  [Name( 'Arduino 4 Relays Shield' )]
+  [CreateName( '4 Relays Shield' )]
+  [Collection( TArduinoBasicShields )]
+  [ArduinoShieldPin( '16',  'IN2', True )]
+  [ArduinoShieldPin( '17',  'IN3', True )]
+  [ArduinoShieldPin( '5',  'OUT5', True )]
+  [ArduinoShieldPin( '6',  'OUT6', True )]
+  [Category( TRelayCategory )]
+  +TArduino4RelaysShield : TArduinoShield, IStandardShield
+  
+    Relay1 : TArduino4RelaysShield_Channel1
+    Relay2 : TArduino4RelaysShield_Channel2
+    Relay3 : TArduino4RelaysShield_Channel3
+    Relay4 : TArduino4RelaysShield_Channel4
+      
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoShieldPin( '7',  'Relay 1' )]
+  [ArduinoTemplateParameter( 'C_PIN', '7' )]
+  *TArduinoHiLetgo4RelaysShield_Channel1 : TArduino4RelaysShield_Channel;
+//---------------------------------------------------------------------------
+  [ArduinoShieldPin( '6',  'Relay 2' )]
+  [ArduinoTemplateParameter( 'C_PIN', '6' )]
+  *TArduinoHiLetgo4RelaysShield_Channel2 : TArduino4RelaysShield_Channel;
+//---------------------------------------------------------------------------
+  [ArduinoShieldPin( '5',  'Relay 3' )]
+  [ArduinoTemplateParameter( 'C_PIN', '5' )]
+  *TArduinoHiLetgo4RelaysShield_Channel3 : TArduino4RelaysShield_Channel;
+//---------------------------------------------------------------------------
+  [ArduinoShieldPin( '4',  'Relay 4' )]
+  [ArduinoTemplateParameter( 'C_PIN', '4' )]
+  *TArduinoHiLetgo4RelaysShield_Channel4 : TArduino4RelaysShield_Channel;
+//---------------------------------------------------------------------------
+  [Name( 'HiLetgo 4 Relays Shield' )]
+  [CreateName( '4 Relays Shield' )]
+  [Collection( TArduinoBasicShields )]
+  [Category( TRelayCategory )]
+  +TArduinoHiLetgo4RelaysShield : TArduinoShield, IStandardShield
+  
+    Relay1 : TArduinoHiLetgo4RelaysShield_Channel1
+    Relay2 : TArduinoHiLetgo4RelaysShield_Channel2
+    Relay3 : TArduinoHiLetgo4RelaysShield_Channel3
+    Relay4 : TArduinoHiLetgo4RelaysShield_Channel4
+      
+  ;
+//---------------------------------------------------------------------------
+; // Mitov

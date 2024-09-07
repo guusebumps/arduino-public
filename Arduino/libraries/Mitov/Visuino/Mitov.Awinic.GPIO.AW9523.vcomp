@@ -1,0 +1,101 @@
+Mitov : Namespace
+//---------------------------------------------------------------------------
+  [Name( 'GetDirection' )]
+  [ArduinoPopulatedCallChainParameter( 'uint8_t &', 'ADirection' )]
+  TArduinoAwinicGPIO_I2C_AW9523_GetDirection_CallChainAttribute : ArduinoCallChainCompleteAttribute;
+//---------------------------------------------------------------------------
+  [Name( 'GetMode' )]
+  [ArduinoPopulatedCallChainParameter( 'uint8_t &', 'AMode' )]
+  TArduinoAwinicGPIO_I2C_AW9523_GetMode_CallChainAttribute : ArduinoCallChainCompleteAttribute;
+//---------------------------------------------------------------------------
+  [Name( 'GetAnalogValue' )]
+  [ArduinoCallChainIndex]
+  [ArduinoPopulatedCallChainParameter( 'uint8_t &', 'AValue' )]
+  TArduinoAwinicGPIO_I2C_AW9523_GetAnalogValue_CallChainAttribute : ArduinoCallChainCompleteAttribute;
+//---------------------------------------------------------------------------
+  [Name( 'GetAnalogValue' )]
+  [ArduinoPopulatedCallChainParameter( 'uint8_t', 'AIndex' )]
+  [ArduinoPopulatedCallChainParameter( 'uint8_t &', 'AValue' )]
+  TArduinoAwinicGPIO_I2C_AW9523_Port0_GetAnalogValue_CallChainAttribute : ArduinoCallChainCompleteAttribute;
+//---------------------------------------------------------------------------
+  [Name( 'GetIsOpenDrain' )]
+  [ArduinoPopulatedCallChainParameter( 'bool &', 'AValue' )]
+  TArduinoAwinicGPIO_I2C_AW9523_Port0_GetIsOpenDrain_CallChainAttribute : ArduinoCallChainCompleteAttribute;
+//---------------------------------------------------------------------------
+  [Name( 'GetDigitalValue' )]
+  [ArduinoPopulatedCallChainParameter( 'uint8_t &', 'AValue' )]
+  TArduinoAwinicGPIO_I2C_AW9523_GetDigitalValue_CallChainAttribute : ArduinoCallChainCompleteAttribute;
+//---------------------------------------------------------------------------
+  [Name( 'SetDigitalValue' )]
+  [ArduinoPopulatedCallChainParameter( 'uint8_t', 'AValue' )]
+  TArduinoAwinicGPIO_I2C_AW9523_SetDigitalValue_CallChainAttribute : ArduinoCallChainCompleteAttribute;
+//---------------------------------------------------------------------------
+  [ArduinoClass( 'Mitov::TArduinoAwinicGPIO_I2C_AW9523Channel' )]
+  [TArduinoAwinicGPIO_I2C_AW9523_GetDigitalValue_CallChain]
+  [TArduinoAwinicGPIO_I2C_AW9523_SetDigitalValue_CallChain]
+  [TArduinoAwinicGPIO_I2C_AW9523_GetAnalogValue_CallChain]
+  [TArduinoAwinicGPIO_I2C_AW9523_GetDirection_CallChain]
+  [TArduinoAwinicGPIO_I2C_AW9523_GetMode_CallChain]
+  +TArduinoAwinicGPIO_I2C_AW9523Channel : TArduinoBasicDigitalAnalogOutputGPIOChannel
+    
+    [Name( 'Is LED' )]
+    IsAnalog
+        
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoDeclaredClass]
+  [ArduinoClass( 'Mitov::TArduinoAwinicGPIO_I2C_AW9523_Port_0' )]
+  [ParentImage( TArduinoDigitalGPIOChannels )]
+  [ArduinoOwnerTemplateTypeAndReference]
+  [TArduinoAwinicGPIO_I2C_AW9523_Port0_GetIsOpenDrain_CallChain]
+  [TArduinoAwinicGPIO_I2C_AW9523_GetDigitalValue_CallChain]
+  [TArduinoAwinicGPIO_I2C_AW9523_SetDigitalValue_CallChain]
+  [TArduinoAwinicGPIO_I2C_AW9523_Port0_GetAnalogValue_CallChain]
+  [TArduinoAwinicGPIO_I2C_AW9523_GetDirection_CallChain]
+  [TArduinoAwinicGPIO_I2C_AW9523_GetMode_CallChain]
+  *TArduinoAwinicGPIO_I2C_AW9523_Port_0 : TArduinoCodePersistent
+  
+    IsOpenDrain : Boolean = True
+    
+    [TArduinoAwinicGPIO_I2C_AW9523_GetDigitalValue_CallChain]
+    [TArduinoAwinicGPIO_I2C_AW9523_SetDigitalValue_CallChain]
+    [TArduinoAwinicGPIO_I2C_AW9523_GetAnalogValue_CallChain]
+    [TArduinoAwinicGPIO_I2C_AW9523_GetDirection_CallChain]
+    [TArduinoAwinicGPIO_I2C_AW9523_GetMode_CallChain]
+    [AddIndexedNamedItem( TArduinoAwinicGPIO_I2C_AW9523Channel, 'P0', 8 )]
+    Channels : TArduinoDigitalGPIOChannels
+    
+  ;
+//---------------------------------------------------------------------------
+  [Name( 'Awinic GPIO/LED Control AW9523(I2C)' )]
+  [ArduinoWebKeywords( 'Awinic AW9523' )]
+  [ArduinoInclude( 'Mitov_Avinic_GPIO_AW9523.h' )]
+  [ArduinoClass( 'Mitov::TArduinoAwinicGPIO_I2C_AW9523' )]
+  [Category( TArduinoDigitalInputOutputToolbarCategory )]
+  [ArduinoInit]
+  [ArduinoStart]
+  [ArduinoLoopBegin]
+  [CreateName( 'GPIO' )]
+  +TArduinoAwinicGPIO_I2C_AW9523 : TArduinoComponent
+  
+    OutputPin : TOWArduinoI2CSourcePin
+
+    [ValueRange( $58, $5B )]
+    Address : TArduinoUInt8 = $58
+    
+    [ValueRange( 0.25, 1.0 )]
+    DimmingRange : Single = 1.0
+
+    Port0 : TArduinoAwinicGPIO_I2C_AW9523_Port_0
+
+    [TArduinoAwinicGPIO_I2C_AW9523_GetDigitalValue_CallChain]
+    [TArduinoAwinicGPIO_I2C_AW9523_SetDigitalValue_CallChain]
+    [TArduinoAwinicGPIO_I2C_AW9523_GetAnalogValue_CallChain]
+    [TArduinoAwinicGPIO_I2C_AW9523_GetDirection_CallChain]
+    [TArduinoAwinicGPIO_I2C_AW9523_GetMode_CallChain]
+    [AddIndexedNamedItem( TArduinoAwinicGPIO_I2C_AW9523Channel, 'P1', 8 )]
+    Port1 : TArduinoDigitalGPIOChannels
+   
+  ;
+//---------------------------------------------------------------------------
+; // Mitov

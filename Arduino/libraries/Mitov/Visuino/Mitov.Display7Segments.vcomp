@@ -1,0 +1,33 @@
+Mitov : Namespace
+//---------------------------------------------------------------------------
+  [ArduinoClass( 'Mitov::Display7Segment' )]
+  [CreateName( 'Display7Segment' )]
+  [Name( '7 Segment Display' )]
+  [Category( TArduinoDigitalDisplaysToolbarCategory )]
+  [ArduinoInit]
+  +TArduinoDisplay7Segments : TArduinoBasicDisplay7Segments
+
+    [OWPrimaryPin]
+    InputPin : TOWArduinoIntegerSinkPin
+
+    [OldName( 'Value' )]
+    [ArduinoFlexibleVariableIfPinConnected( InputPin )]
+    InitialValue : Integer = 0
+
+    [ArduinoUseBindingCheckSetter( 'UpdateDisplay' )]
+    Enabled
+
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoClass( 'Mitov::DisplayDynamic7Segment' )]
+  [CreateName( 'DynamicDisplay7Segment' )]
+  [Name( 'Dynamic 7 Segment Display' )]
+  [Category( TArduinoDigitalDisplaysToolbarCategory )]
+  +TArduinoDisplayDynamic7Segments : TArduinoDisplayBasicPinOwnerDecimalPointDynamic7Segments
+
+    [ComponentEditorEntryDesign( 'Add Digit &Groups ...' )]
+    Digits : TArduino_4Digits_7SegmentElements
+    
+  ;
+//---------------------------------------------------------------------------
+; // Mitov

@@ -1,0 +1,48 @@
+Mitov : Namespace
+//---------------------------------------------------------------------------
+  [ArduinoScopedEnum]
+  TArduinoESP32WiFiModuleRemoteEnterpriseWPA2AuthenticationMethod : Enum
+  
+    TLS
+    PEAP
+    TTLS
+    
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoScopedEnum]
+  TArduinoESP32WiFiModuleRemoteEnterpriseWPA2AuthenticationPhase2 : Enum
+    
+    None
+    EAP
+    MSCHAPv2
+    MSCHAP
+    PAP
+    CHAP
+    
+  ;
+//---------------------------------------------------------------------------
+  [Name( 'WiFi Enterprise Access Point' )]
+  [CreateName( 'Enterprise Access Point' )]
+  [ArduinoClass( 'Mitov::ESP32ModuleEnterpriseWPA2RemoteAccessPoint' )]
+  +TArduinoESP32WiFiModuleRemoteEnterpriseWPA2AccessPoint : TArduinoESP32WiFiModuleBasicRemoteAccessPoint
+  
+    Identity : String
+    
+    UserName : String
+    
+    Authentication : TArduinoESP32WiFiModuleRemoteEnterpriseWPA2AuthenticationMethod = PEAP
+    
+    Phase2 : TArduinoESP32WiFiModuleRemoteEnterpriseWPA2AuthenticationPhase2 = None
+
+    [MultiLine]
+    CACert : String
+    
+    [MultiLine]
+    ClientCert : String
+    
+    [MultiLine]
+    ClientKey : String
+
+  ;
+//---------------------------------------------------------------------------
+; // Mitov

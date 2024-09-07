@@ -1,0 +1,47 @@
+Mitov : Namespace
+//---------------------------------------------------------------------------
+  [Name( 'General Vision' )]
+  TArduinoGeneralVisionToolbarCategory : TClassCategory;
+//---------------------------------------------------------------------------  
+  [ArduinoDeclaredClass]
+  [ArduinoInclude( 'Mitov_NeuroShield_Neurons.h' )]
+  [ArduinoExcludeNotConnectedAndDefault]
+  [ArduinoShieldPin( '7', 'Neurons' )]
+  [ArduinoSPI( 0 )]  
+  [ArduinoTemplateParameter( '0_IMPLEMENTATION', '::Mitov::ArduinoNeuroShieldNeurons<BoardDeclarations::Types::BoardSPI0, BoardDeclarations::Instances::BoardSPI0, ::Mitov::DigitalPin_DirectBoardPinImplementation<7> >' )]
+  [ArduinoRequiresOwner]
+  +TArduinoGeneralVisionNeuronsPersistent : TArduinoCodePersistent, TArduinoGeneralVisionNeurons_Extender;
+//---------------------------------------------------------------------------
+//  [ArduinoInclude( 'Mitov_GeneralVisionNeuroShield_MicroSDCard.h' )]
+//  [ArduinoClass( '::Mitov::GeneralVisionNeuroShield_MicroSDCard' )]
+  [ArduinoTemplateParameter( 'ChipSelectPin', 'Mitov::ConstantProperty<66, uint32_t, 6 >' )]
+  [ArduinoShieldPin( '6', 'Micro SD' )]
+  [ArduinoShieldPin( '5', 'Micro SD' )]
+  [ArduinoSPI( 0 )]
+  [ArduinoRequiresOwner]
+  TArduinoNeuroShieldMicroSDPersistent : TArduinoBasicMicroSDPersistent;
+//---------------------------------------------------------------------------
+  [ArduinoRequiresOwner]
+  TArduinoNeuroShieldMPU6050 : TArduinoMPU6050I2CFixedAddressPersistent;
+//---------------------------------------------------------------------------
+  [Name( 'General Vision Neuro Shield' )]
+//  [CreateName( 'General Vision Neuro Shield' )]
+  [CreateName( 'Neuro Shield' )]
+  [Collection( TArduinoBasicShields )]
+  [Category( TArduinoGeneralVisionToolbarCategory )]
+  [ArduinoInclude( 'Mitov_NeuroShield.h' )]
+  [ArduinoClass( '::Mitov::TArduinoGeneralVisionNeuroShield' )]
+  [ArduinoExcludeNotConnectedAndDefault]
+  [ArduinoInit]
+  +TArduinoGeneralVisionNeuroShield : TArduinoShield, IStandardShield
+
+//    [Name( 'Accelerometer & Gyroscope' )]
+    Orientation : TArduinoNeuroShieldMPU6050
+    
+    Neurons : TArduinoGeneralVisionNeuronsPersistent
+    
+    MicroSD : TArduinoNeuroShieldMicroSDPersistent
+    
+  ;
+//---------------------------------------------------------------------------
+; // Mitov

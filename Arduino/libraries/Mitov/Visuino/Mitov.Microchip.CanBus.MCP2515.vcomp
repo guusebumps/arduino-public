@@ -1,0 +1,115 @@
+Mitov : Namespace
+//---------------------------------------------------------------------------
+  [ArduinoPopulatedCallChainParameter( 'uint8_t', 'ABufferIndex' )]
+  [ArduinoPopulatedCallChainParameter( 'bool &', 'AResult' )]
+  [Name( 'GetMessageTimeout' )]
+  ArduinoCanBus_MCP2515_GetMessageTimeoutCallChainAttribute : ArduinoCallChainCompleteAttribute;
+//---------------------------------------------------------------------------
+  [ArduinoPopulatedCallChainParameter( 'uint8_t', 'ABufferIndex' )]
+  [Name( 'MessageSendCompeled' )]
+  ArduinoCanBus_MCP2515_MessageSendCompeledCallChainAttribute : ArduinoCallChainCompleteAttribute;
+//---------------------------------------------------------------------------
+  [ArduinoCanBus_MCP2515_GetMessageTimeoutCallChain]
+  [ArduinoCanBus_MCP2515_MessageSendCompeledCallChain]
+  TArduinoCanBusMCP2515_Elements : TArduinoCanBusElements;
+//---------------------------------------------------------------------------
+  [ArduinoHelpPostfix( '(MCP2515 CAN bus)' )]
+  [Collection( TArduinoCanBusMCP2515_Elements )]
+  [ArduinoVariable( Unsigned, 2, 'FBufferIndex' )]
+  [ArduinoCanBus_MCP2515_GetMessageTimeoutCallChain]
+  [ArduinoCanBus_MCP2515_MessageSendCompeledCallChain]
+  TArduinoCanBusSendMessageMCP2515_Element_Extender : Extender
+  
+    [MaxValue( 3 )]
+    Priority : Unsigned = 0
+    
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoClass( 'Mitov::Microchip_MCP2515_CanBus_SendMessage' )]
+  [OldName( 'TArduinoCanBusSendMessageElement' )]
+  +TArduinoCanBusSendMessageMCP2515_Element : TArduinoCanBusBasicSendMessageElement, TArduinoCanBusSendMessageMCP2515_Element_Extender;
+//---------------------------------------------------------------------------
+  [ArduinoClass( 'Mitov::Microchip_MCP2515_CanBus_RequestMessage' )]
+  [OldName( 'TArduinoCanBusRequestMessageElement' )]
+  +TArduinoCanBusRequestMessageMCP2515_Element : TArduinoBasicCanBusRequestMessageElement, TArduinoCanBusSendMessageMCP2515_Element_Extender;
+//---------------------------------------------------------------------------
+  [ArduinoClass( 'Mitov::TArduinoMicrochipCanBusMCP2515_Sending' )]
+  TArduinoMicrochipCanBusMCP2515_Sending : TArduinoBasicCanBus_Sending
+
+    [MaxValue( 3 )]
+    Priority : Unsigned = 0
+
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoInclude( 'Mitov_Microchip_MCP2515_CanBus.h' )]
+  [ArduinoClass( 'Mitov::Microchip_MCP2515_CanBus' )]
+  [ArduinoInit]
+  [ArduinoStart]
+  [ArduinoLoopBegin]
+  [ArduinoOptionalVariable( Unsigned, 2, 'FBufferIndex', 0 )]
+  [ArduinoOptionalVariable( Unsigned, 32, 'FSendTime', 0 )]
+  TArduinoMicrochipCanBusMCP2515_Extender : TArduinoCanBus_Extender
+  
+    [ArduinoVariableIfPinConnected( 'FBufferIndex' )]
+    [ArduinoVariableIfPinConnected( 'FSendTime' )]
+    InputPin
+  
+    ResetInputPin : TOWArduinoClockSinkPin
+  
+    [ArduinoUseBindingCheckSetter( 'ConfigRate' )]
+    [NamePostfix( '(MHz)' )]
+    [PropertyFixedListDesign]
+    [PropertyListDesignValue( '8' )]
+    [PropertyListDesignValue( '16' )]
+    ClockFrequency : Unsigned = 16
+
+    [ArduinoUseBindingCheckSetter( 'ConfigRate' )]
+    [NamePostfix( '(kBPS)' )]
+    [PropertyListDesignValue( '5' ) ]
+    [PropertyListDesignValue( '10' ) ]
+    [PropertyListDesignValue( '20' ) ]
+    [PropertyListDesignValue( '25' ) ]
+    [PropertyListDesignValue( '31' ) ]
+    [PropertyListDesignValue( '33' ) ]
+    [PropertyListDesignValue( '40' ) ]
+    [PropertyListDesignValue( '50' ) ]
+    [PropertyListDesignValue( '80' ) ]
+    [PropertyListDesignValue( '83' ) ]
+    [PropertyListDesignValue( '95' ) ]
+    [PropertyListDesignValue( '100' ) ]
+    [PropertyListDesignValue( '125' ) ]
+    [PropertyListDesignValue( '200' ) ]
+    [PropertyListDesignValue( '250' ) ]
+    [PropertyListDesignValue( '500' ) ]
+    [PropertyListDesignValue( '666' ) ]
+    [PropertyListDesignValue( '1000' ) ]
+    BusSpeed : Unsigned = 500
+
+    [ArduinoUseBindingCheckSetter( 'UpdateMode' )]
+    Sleep : Boolean = False
+
+    [ArduinoUseBindingCheckSetter( 'UpdateMode' )]
+    ListenOnly : Boolean = False
+
+    [ArduinoUseBindingCheckSetter( 'UpdateMode' )]
+    Loopback : Boolean = False
+
+    [ArduinoUseBindingCheckSetter( 'UpdateMode' )]
+    OneShot : Boolean = False
+    
+    Sending : TArduinoMicrochipCanBusMCP2515_Sending
+
+//    Elements : TArduinoCanBusElements // TArduinoCanBusMCP2515_Elements
+    Elements : TArduinoCanBusMCP2515_Elements
+
+  ;
+//---------------------------------------------------------------------------
+  [CreateName( 'CANbus' )]
+  [Name( 'Microchip CAN bus - MCP2515 (SPI)' )]
+  [ArduinoWebKeywords( 'Microchip MCP2515' )]
+  [Category( TCommunicationToolbarCategory )]
+  [Category( TArduinoCommunicationCanBusToolbarCategory )]
+//  [ArduinoTemplateParameter( '0_IMPLEMENTATION', '::Mitov::Microchip_MCP2515_CanBus_SPI' )]
+  +TArduinoMicrochipCanBusMCP2515 : TArduinoCommonSpeedEnabledSImplementationSPI, TArduinoMicrochipCanBusMCP2515_Extender;
+//---------------------------------------------------------------------------
+; // Mitov

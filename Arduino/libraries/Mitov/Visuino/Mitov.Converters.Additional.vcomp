@@ -1,0 +1,26 @@
+Mitov : Namespace
+//---------------------------------------------------------------------------
+  [ArduinoClass( 'Mitov::TArduinoAnalogArrayToTextDigits' )]
+  *TArduinoAnalogArrayToTextDigits : TArduinoCodePersistent, TArduinoAnalogToText_Extender;
+//---------------------------------------------------------------------------
+  [ArduinoInclude( 'Mitov_Converters.h' )]
+  [ArduinoClass( 'Mitov::ArrayToText' )]
+  TArduinoAnalogArrayToText_Extender : TArduinoArrayToText_Extender
+  
+    Digits : TArduinoAnalogArrayToTextDigits
+
+  ;
+//---------------------------------------------------------------------------
+  [CreateName( 'AnalogArrayToText' )]
+  [Name( 'Analog Array To Text' )]
+  [Category( TArduinoAnalogConvertersToolbarCategory )]
+  [ArduinoTemplateParameter( 'TYPE', 'float' )]
+  +TArduinoAnalogArrayToText : TArduinoCommonAnalogArrayEnableSink, TArduinoAnalogArrayToText_Extender;
+//---------------------------------------------------------------------------
+  [CreateName( 'ComplexToText' )]
+  [Name( 'Complex Array To Text' )]
+  [Category( TArduinoComplexConvertersToolbarCategory )]
+  [ArduinoTemplateParameter( 'TYPE', '::Mitov::TComplex' )]
+  +TArduinoComplexArrayToText : TArduinoCommonComplexArrayEnableSink, TArduinoAnalogArrayToText_Extender;
+//---------------------------------------------------------------------------
+; // Mitov

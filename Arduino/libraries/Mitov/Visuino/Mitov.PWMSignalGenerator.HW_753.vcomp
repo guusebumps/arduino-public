@@ -1,0 +1,170 @@
+Mitov : Namespace
+//---------------------------------------------------------------------------
+  [Name( 'ProcessChar' )]
+  [ArduinoPopulatedCallChainParameter( 'char', 'AValue' )]
+  TArduinoPWMSignalGenerator_HW_753_ProcessChar_CallChainAttribute : ArduinoCallChainCompleteAttribute;
+//---------------------------------------------------------------------------  
+  [Name( 'NeedsRequest' )]
+  [ArduinoPopulatedCallChainParameter( 'bool &', 'AValue' )]
+  TArduinoPWMSignalGenerator_HW_753_NeedsRequest_CallChainAttribute : ArduinoCallChainCompleteAttribute;
+//---------------------------------------------------------------------------  
+  [Name( 'IsBusy' )]
+  [ArduinoPopulatedCallChainParameter( 'bool &', 'AValue' )]
+  TArduinoPWMSignalGenerator_HW_753_IsBusy_CallChainAttribute : ArduinoCallChainCompleteAttribute;
+//---------------------------------------------------------------------------  
+  [ArduinoDeclaredClass]
+  [ArduinoExcludeNotConnectedAndDefault]
+  [ArduinoOwnerTemplateTypeAndReference]
+  [TArduinoPWMSignalGenerator_HW_753_ProcessChar_CallChain]
+  [TArduinoPWMSignalGenerator_HW_753_NeedsRequest_CallChain]
+  [TArduinoPWMSignalGenerator_HW_753_IsBusy_CallChain]
+  [ArduinoLoopEnd]
+  [ArduinoProcessChildParentVariables]
+  [ArduinoOptionalVariable( Boolean, 'FWaitForInfomation', False )]
+  [ArduinoOptionalVariable( Unsigned, 18, 'FValue', 0 )]
+  [ArduinoOptionalVariable( Boolean, 'FClocked', False )]
+  [ArduinoOptionalVariable( Unsigned, 2, 'FDecimals', 0 )]
+  *TArduinoPWMSignalGenerator_XY_LPWM_Basic_Read : TArduinoCodeEnabledPersistent
+
+    [ArduinoPinIsConnectedFlag]
+    [ArduinoVariableIfPinConnected( 'FClocked' )]
+    ClockInputPin : TOWArduinoClockSinkPin
+    
+    [NamePostfix('(Hz)' )]
+    [ArduinoVariableIfPinConnected( 'FWaitForInfomation' )]
+    [ArduinoVariableIfPinConnected( 'FState' )]
+    [ArduinoVariableIfPinConnected( 'FDecimals' )]
+    [ArduinoVariableIfPinConnected( 'FValue' )]
+    [ArduinoVariableIfPinConnected_Parent( 'FIndex' )]
+    FrequencyOutputPin : TOWArduinoAnalogSourcePin
+    
+    TimeoutOutputPin : TOWArduinoClockSourcePin
+    
+  ;
+  
+//---------------------------------------------------------------------------  
+  [ArduinoClass( 'Mitov::TArduinoPWMSignalGenerator_XY_LPWM3_Read' )]
+  [ArduinoOptionalVariable( Unsigned, 3, 'FState', 0 )]
+  [ArduinoOptionalVariable( Unsigned, 2, 'FDutyCycleIndex', 0 )]
+  *TArduinoPWMSignalGenerator_XY_LPWM3_Read : TArduinoPWMSignalGenerator_XY_LPWM_Basic_Read
+
+    [ArduinoVariableIfPinConnected( 'FWaitForInfomation' )]
+    [ArduinoVariableIfPinConnected( 'FState' )]
+    [ArduinoVariableIfPinConnected( 'FValue' )]
+    [ArduinoVariableIfPinConnected( 'FDutyCycleIndex' )]
+    [ArduinoVariableIfPinConnected_Parent( 'FIndex' )]
+    [OWAddPin( TOWArduinoAnalogSourcePin )]
+    [OWAddPin( TOWArduinoAnalogSourcePin )]
+    [OWAddPin( TOWArduinoAnalogSourcePin )]
+    DutyCycleOutputPins : TOWArduinoPinList
+
+  ;
+//---------------------------------------------------------------------------  
+  [ArduinoClass( 'Mitov::TArduinoPWMSignalGenerator_XY_LPWM_Read' )]
+//  [ArduinoOptionalVariable( Boolean, 'FHasEqual', False )]
+  [ArduinoOptionalVariable( Unsigned, 3, 'FState', 0 )]
+  *TArduinoPWMSignalGenerator_XY_LPWM_Read : TArduinoPWMSignalGenerator_XY_LPWM_Basic_Read
+  
+    [ArduinoVariableIfPinConnected( 'FWaitForInfomation' )]
+    [ArduinoVariableIfPinConnected( 'FState' )]
+    [ArduinoVariableIfPinConnected( 'FValue' )]
+    [ArduinoVariableIfPinConnected_Parent( 'FIndex' )]
+    DutyCycleOutputPin : TOWArduinoAnalogSourcePin
+    
+  ;
+//---------------------------------------------------------------------------
+  [Category( TArduinoAnalogOutputToolbarCategory )]
+  [ArduinoOptionalVariable( Boolean, 'FInDelay', False )]
+  [ArduinoOptionalVariable( Boolean, 'FWaitingFrequency_Response', False )]
+  [ArduinoOptionalVariable( Boolean, 'FInDown', False )]
+  [ArduinoOptionalVariable( Boolean, 'FFrequency_Requested', False )]
+  [ArduinoOptionalVariable( Unsigned, 30, 'FFrequency', 0 )]
+
+  [ArduinoOptionalVariable( Boolean, 'FWaitingDutyCycle_Response_0', False )]
+  [ArduinoOptionalVariable( Boolean, 'FDutyCycle_Requested_0', False )]
+  [ArduinoOptionalVariable( Unsigned, 7, 'FDutyCycle_0', 0 )]
+
+  [CreateName( 'Generator' )]
+  [ArduinoLoopEnd]
+  TArduinoPWMSignalGenerator_XY_LPWM_Basic : TArduinoSharedSerialComponent
+
+    [ArduinoVariableIfPinConnected( 'FInDelay' )]
+    [ArduinoVariableIfPinConnected( 'FIndex' )]
+    [ArduinoVariableIfPinConnected( 'FInWaitingForResponse' )]
+//    [ArduinoVariableIfPinConnected( 'FInFall' )]
+    [ArduinoVariableIfPinConnected( 'FInDown' )]
+    [ArduinoVariableIfPinConnected( 'FFrequency' )]
+    [ArduinoVariableIfPinConnected( 'FSent_Index' )]
+    [ArduinoVariableIfPinConnected( 'FFrequency_Requested' )]
+    [ArduinoVariableIfPinConnected( 'FWaitingFrequency_Response' )]
+    FrequencyInputPin : TOWArduinoAnalogSinkPin
+    
+    ErrorOutputPin : TOWArduinoDigitalSourcePin
+    
+    [NamePostfix( ' (mS)' )]
+    [MinValue( 250 )]
+    Timeout : Unsigned = 2000
+    
+    [NamePostfix( ' (Hz)' )]
+    [ValueRange( 0.00001, 20.0 )]
+    RefreshRate : Single = 5
+    
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoInclude( 'Mitov_PWM_Signal_Generator_XY_LPWM.h' )]
+  [ArduinoClass( 'Mitov::TArduinoPWMSignalGenerator_XY_LPWM' )]
+  [Name( 'XY-LPWM/VHM-800/HW-753 PWM Signal Generator Module' )]
+  [ArduinoOptionalVariable( Boolean, 'FSent_Index', False )]
+  [ArduinoOptionalVariable( Unsigned, 3, 'FIndex', 0 )]
+  [OldName( 'TArduinoPWMSignalGenerator_HW_753' )]
+  +TArduinoPWMSignalGenerator_XY_LPWM : TArduinoPWMSignalGenerator_XY_LPWM_Basic
+            
+    [ArduinoVariableIfPinConnected( 'FInDelay' )]
+    [ArduinoVariableIfPinConnected( 'FIndex' )]
+    [ArduinoVariableIfPinConnected( 'FInWaitingForResponse' )]
+    [ArduinoVariableIfPinConnected( 'FInDown' )]
+    [ArduinoVariableIfPinConnected( 'FDutyCycle_0' )]
+    [ArduinoVariableIfPinConnected( 'FDutyCycle_Sent_0' )]
+    [ArduinoVariableIfPinConnected( 'FDutyCycle_Requested_0' )]
+    [ArduinoVariableIfPinConnected( 'FWaitingDutyCycle_Response_0' )]
+    DutyCycleInputPin : TOWArduinoAnalogSinkPin
+    
+    Read : TArduinoPWMSignalGenerator_XY_LPWM_Read
+
+  ;    
+//---------------------------------------------------------------------------
+  [ArduinoInclude( 'Mitov_PWM_Signal_Generator_XY_LPWM3.h' )]
+  [ArduinoClass( 'Mitov::TArduinoPWMSignalGenerator_XY_LPWM3' )]
+  [Name( 'XY-LPWM3 PWM Signal Generator Module' )]
+
+  [ArduinoOptionalVariable( Boolean, 'FWaitingDutyCycle_Response_1', False )]
+  [ArduinoOptionalVariable( Boolean, 'FDutyCycle_Requested_1', False )]
+  [ArduinoOptionalVariable( Unsigned, 7, 'FDutyCycle_1', 0 )]
+
+  [ArduinoOptionalVariable( Boolean, 'FWaitingDutyCycle_Response_2', False )]
+  [ArduinoOptionalVariable( Boolean, 'FDutyCycle_Requested_2', False )]
+  [ArduinoOptionalVariable( Unsigned, 7, 'FDutyCycle_2', 0 )]
+
+  [ArduinoOptionalVariable( Unsigned, 3, 'FSent_Index', 0 )]
+  [ArduinoOptionalVariable( Unsigned, 3, 'FIndex', 0 )]
+  +TArduinoPWMSignalGenerator_XY_LPWM3 : TArduinoPWMSignalGenerator_XY_LPWM_Basic
+  
+    [ArduinoVariableIfPinConnected( 'FInDelay' )]
+    [ArduinoVariableIfPinConnected( 'FIndex' )]
+    [ArduinoVariableIfPinConnected( 'FInWaitingForResponse' )]
+    [ArduinoVariableIfPinConnected( 'FInDown' )]
+    [ArduinoVariableIfPinConnected( 'FSent_Index' )]
+    [ArduinoVariableIfPinConnected_Indexed( 'FDutyCycle_' )]
+    [ArduinoVariableIfPinConnected_Indexed( 'FDutyCycle_Sent_' )]
+    [ArduinoVariableIfPinConnected_Indexed( 'FDutyCycle_Requested_' )]
+    [ArduinoVariableIfPinConnected_Indexed( 'FWaitingDutyCycle_Response_' )]
+    [OWAddPin( TOWArduinoAnalogSinkPin )]
+    [OWAddPin( TOWArduinoAnalogSinkPin )]
+    [OWAddPin( TOWArduinoAnalogSinkPin )]
+    DutyCycleInputPins : TOWArduinoPinList
+    
+    Read : TArduinoPWMSignalGenerator_XY_LPWM3_Read
+    
+  ;
+//---------------------------------------------------------------------------
+;

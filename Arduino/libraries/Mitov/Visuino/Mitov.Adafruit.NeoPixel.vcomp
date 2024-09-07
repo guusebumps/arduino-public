@@ -1,0 +1,69 @@
+Mitov : Namespace
+//---------------------------------------------------------------------------
+  [ArduinoIncludeDefine( '#ifdef __VISUINO_USE_NEO_PIXELS_BUS_LIBRARY__' )]
+  [ArduinoInclude( 'NeoPixelBrightnessBus.h', 'NeoPixelBus by Makuna', 'https://github.com/Makuna/NeoPixelBus' )]
+  [ArduinoIncludeDefine( '#else // __VISUINO_USE_NEO_PIXELS_BUS_LIBRARY__' )]
+  [ArduinoInclude( 'Adafruit_NeoPixel.h', 'Adafruit NeoPixel', 'https://github.com/adafruit/Adafruit_NeoPixel' )]
+  [ArduinoIncludeDefine( '#endif // __VISUINO_USE_NEO_PIXELS_BUS_LIBRARY__' )]
+  [ArduinoInclude( 'Mitov_NeoPixel.h' )]
+  ArduinoNeoPixelIncludesAttribute : TAttributeCollectionAttribute;
+//---------------------------------------------------------------------------
+  [ArduinoExcludeNotConnectedAndDefault]
+  [ArduinoDeclaredClass]
+  [ArduinoNeoPixelIncludes]
+  [ArduinoClass( 'Mitov::NeoPixelSingleLEDModule' )]
+  [ArduinoStart]
+  TArduinoNeoPixelRGBLedBasicLed_Extender : Extender
+
+    [OWPinGroup( TArduinoBasicAnalogInputPinChannel )]
+    [OWPrimaryPin]
+    InputPin : TOWArduinoColorSinkPin
+
+    [ArduinoUseBindingCheckSetter( 'UpdateOutputs' )]
+    Enabled
+
+    [ArduinoUseBindingCheckSetter( 'UpdateBrightness' )]
+    [ValueRange( 0.0, 1.0 )]
+    Brightness : Single = 0.1
+
+    [OWExcludeBindings]
+    [ArduinoFlexibleVariableIfPinConnected( InputPin )]
+    [ExcludeSystemColors]
+    [ArduinoFullColor]
+    InitialValue : TColor = Black
+
+  ;
+//---------------------------------------------------------------------------
+  [Name( 'RGB LED' )]
+  [CreateName( 'RGB LED' )]
+  [CollectionItemAssociation( TArduinoLEDRGB )]
+  [ParentImage( TArduinoFingerprintReaderSetArealLEDElement )]
+  *TArduinoNeoPixelRGBLedBasicLedModule : TArduinoEnabledShield, TArduinoNeoPixelRGBLedBasicLed_Extender;
+//---------------------------------------------------------------------------
+  [ParentImage( TArduinoNeoPixelRGBLedBasicLedModule )]
+  *TArduinoNeoPixelRGBLedBasicLedElement : TArduinoCodeEnabledPersistent, TArduinoNeoPixelRGBLedBasicLed_Extender;
+//---------------------------------------------------------------------------
+  [ArduinoClass( 'Mitov::NeoPixelSinglePowerControlLEDModule' )]
+  TArduinoNeoPixelRGBLedBasicPowerControlLedModule : TArduinoNeoPixelRGBLedBasicLedModule;
+//---------------------------------------------------------------------------
+  [ArduinoTemplateParameter( 'TYPE', 'Mitov::NeoPixelSingleLEDModule_GBRAdapter' )]
+  TArduinoNeoPixelRGBLedBasicGBRLedModule : TArduinoNeoPixelRGBLedBasicLedModule;
+//---------------------------------------------------------------------------
+  [ArduinoTemplateParameter( 'TYPE', 'Mitov::NeoPixelSingleLEDModule_RBGAdapter' )]
+  TArduinoNeoPixelRGBLedBasicRBGLedModule : TArduinoNeoPixelRGBLedBasicLedModule;
+//---------------------------------------------------------------------------
+  [ArduinoTemplateParameter( 'TYPE', 'Mitov::NeoPixelSingleLEDModule_GRBAdapter' )]
+  TArduinoNeoPixelRGBLedBasicGRBLedModule : TArduinoNeoPixelRGBLedBasicLedModule;
+//---------------------------------------------------------------------------
+  [ArduinoDeclaredClass]
+  [ArduinoExcludeNotConnectedAndDefault]
+  [ArduinoStart]
+  [ArduinoClass( 'Mitov::LedPixelSingleLED' )]
+  [ArduinoOwnerTemplateTypeAndReference]
+//  [ArduinoTemplateParameter( '::Declarations::YahboomMicrobit::YahboomMicrobitNeoPixels, ::Declarations::YahboomMicrobit::NeoPixels' )]
+  [ParentImage( TArduinoBasicRGBLEDModule )]
+  TArduinoNeoPixelRGBLedBasicRGBLed : TArduinoBasicColorInitialValueInputPinChannel;
+//---------------------------------------------------------------------------
+  TArduinoNeoPixelRGBLeds : TArduinoFixedPersistentCollection;
+//---------------------------------------------------------------------------
+; // Mitov

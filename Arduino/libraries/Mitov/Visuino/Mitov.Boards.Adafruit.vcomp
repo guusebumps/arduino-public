@@ -1,0 +1,100 @@
+Mitov : Namespace
+//---------------------------------------------------------------------------
+  [Name( 'Adafruit' )]
+  TAdafruitCategory : TClassCategory;
+//---------------------------------------------------------------------------
+  [Name( 'Cortex M0' )]
+  [Category( TAdafruitCategory )]
+  [AlternateCategory( TCortexM0Category )]
+  [ParentImage( TCortexM0Category )]
+  TAdafruitCortexM0Category : TClassCategory;
+//---------------------------------------------------------------------------
+  [Name( 'Cortex M4' )]
+  [Category( TAdafruitCategory )]
+  [AlternateCategory( TCortexM4Category )]
+  [ParentImage( TCortexM4Category )]
+  TAdafruitCortexM4Category : TClassCategory;
+//---------------------------------------------------------------------------
+  [Name( 'ESP32 S2' )]
+  [Category( TAdafruitCategory )]
+  [AlternateCategory( TESP32_S2_Category )]
+  [ParentImage( TESP32_S2_Category )]
+  TAdafruit_ESP32_S2_Category : TClassCategory;
+//---------------------------------------------------------------------------
+  [Name( 'ESP32 S3' )]
+  [Category( TAdafruitCategory )]
+  [AlternateCategory( TESP32_S3_Category )]
+  [ParentImage( TESP32_S3_Category )]
+  TAdafruit_ESP32_S3_Category : TClassCategory;
+//---------------------------------------------------------------------------
+  [Name( 'ESP32 C3' )]
+  [Category( TAdafruitCategory )]
+  [AlternateCategory( TESP32_C3_Category )]
+  [ParentImage( TESP32_C3_Category )]
+  TAdafruit_ESP32_C3_Category : TClassCategory;
+//---------------------------------------------------------------------------
+  [Name( 'Feather' )]
+  [Category( TAdafruitCategory )]
+  TAdafruitFeatherCategory : TClassCategory;
+//---------------------------------------------------------------------------
+  [Name( 'ESP8266' )]
+  [Category( TAdafruitCategory )]
+  [AlternateCategory( TESP8266Category )]
+  [ParentImage( TESP8266Category )]
+  TAdafruitEPS8266Category : TClassCategory;
+//---------------------------------------------------------------------------
+  [Name( 'Nordic' )]
+  [Category( TAdafruitCategory )]
+  [AlternateCategory( TNordicCategory )]
+  [ParentImage( TNordicCategory )]
+  TAdafruitNordicCategory : TClassCategory;
+//---------------------------------------------------------------------------
+  [Name( 'ESP32' )]
+  [Category( TAdafruitCategory )]
+  [AlternateCategory( TESP32Category )]
+  [ParentImage( TESP32Category )]
+  TAdafruitEPS32Category : TClassCategory;
+//---------------------------------------------------------------------------
+  [Name( 'ATmega32U4' )]
+  [Category( TAdafruitCategory )]
+  [AlternateCategory( TATmega32U4Category )]
+  [ParentImage( TATmega32U4Category )]
+  TAdafruitATmega32U4Category : TClassCategory;
+//---------------------------------------------------------------------------
+  [Name( 'RP2040' )]
+  [Category( TAdafruitCategory )]
+  [AlternateCategory( TRP2040Category )]
+  [ParentImage( TRP2040Category )]
+  TAdafruitRP2040Category : TClassCategory;
+//---------------------------------------------------------------------------
+  [ArduinoTemplateParameter( 'C_PIN_DATA', '3' )]
+  [ArduinoTemplateParameter( 'C_PIN_CLOCK', '4' )]
+  +TArduinoAdafruitGemmaM0_RGBLedModule : TArduinoAdafruitNoDefaultDotStarSingleRGBLed_Basic_Module;
+//---------------------------------------------------------------------------
+  [ArduinoTemplateParameter( 'PIN', '13' )]
+  +TArduinoAdafruitGemmaM0_LedModule : TArduinoBasicLEDModule;
+//---------------------------------------------------------------------------
+  [Name( 'Adafruit GEMMA M0' )]
+  [Category( TAdafruitCortexM0Category )]
+  [ArduinoBoardCompileParams( 'adafruit:samd:adafruit_gemma_m0')]
+  [ArduinoDefine( 'VISUINO_GEMMA_M0_BASIC' )]
+  +TArduinoAdafruitGemmaM0Board : TArduinoSamdBasicBoard
+
+    [AddItem( TArduinoAdafruitGemmaM0_LedModule )]
+    [AddItem( TArduinoAdafruitGemmaM0_RGBLedModule )]
+    Modules
+
+    [AddItem( TArduinoSamdUSBSerial )]
+    [AddItem( TArduino_Samd_Standard_UART_Serial )]
+    Serial  
+
+//    [ArduinoBoard_Add_DigitalAnalogChannels( 2,  8, TArduinoAdditionalDigitalPullUpDownPWMInterruptChannel )]
+    [ArduinoBoard_Add_DigitalAnalogChannels( 0, 1, TArduinoAdditionalDigitalPullUpDownPWMInterruptChannel )]
+    [ArduinoBoard_Add_DigitalAnalogChannels( 1, 1, TArduinoCombinedAnalogDigitalAnalogOutputInterruptChannel )]
+    [ArduinoBoard_Add_DigitalAnalogChannels( 2, 1, TArduinoAdditionalDigitalPullUpDownPWMInterruptChannel )]
+    [Name( 'Channels' )]
+    Digital : TArduinoDigitalChannels
+    
+  ;
+//---------------------------------------------------------------------------
+; // Mitov

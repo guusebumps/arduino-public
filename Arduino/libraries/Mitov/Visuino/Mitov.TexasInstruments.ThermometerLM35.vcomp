@@ -1,0 +1,37 @@
+Mitov : Namespace
+//---------------------------------------------------------------------------
+  [ArduinoInclude( 'Mitov_TexasInstruments_Thermometer.h' )]
+  [ArduinoClass( 'Mitov::TexasInstruments_Thermometer' )]
+  [CreateName( 'Thermometer' )]
+  TArduinoThermometerLM35_Extender : Extender
+
+    InFahrenheit : Boolean = False
+
+  ;
+//---------------------------------------------------------------------------
+  TArduinoThermometerLM35Output_Extender : TArduinoThermometerLM35_Extender
+  
+    [ArduinoPinDisconnectedAddCodeEntry( ceLoopBegin )]
+    ClockInputPin : TOWArduinoClockSinkPin
+
+    Enabled : Boolean = True
+    
+    [OWPrimaryPin]
+    OutputPin : TOWArduinoAnalogSourcePin
+    
+  ;
+//---------------------------------------------------------------------------
+  [Name( 'Texas Instruments Thermometer LM35' )]
+  [Category( TArduinoAnalogMeasurementToolbarCategory )]
+  [ArduinoWebKeywords( 'LM35 Thermometer' )]
+  +TArduinoThermometerLM35 : TArduinoCommonAnalogFilter, TArduinoThermometerLM35_Extender;
+//---------------------------------------------------------------------------
+  [ParentImage( TArduinoBasicEnabledThermometer )]
+  [ArduinoExcludeNotConnectedAndDefault]
+  *TArduinoThermometerLM35_BasicModule : TArduinoBasicAnalogSensorModule, TArduinoThermometerLM35_Extender;
+//---------------------------------------------------------------------------
+  [ParentImage( TArduinoBasicEnabledThermometer )]
+  [ArduinoExcludeNotConnectedAndDefault]
+  *TArduinoThermometerLM35_BasicPersistent : TArduinoCodePersistent, TArduinoThermometerLM35Output_Extender;
+//---------------------------------------------------------------------------
+; // Mitov

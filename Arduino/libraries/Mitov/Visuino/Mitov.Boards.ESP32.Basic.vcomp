@@ -1,0 +1,1148 @@
+Mitov : Namespace
+//---------------------------------------------------------------------------
+  [Name( 'UpdateRegister' )]
+  [ArduinoPopulatedCallChainParameter( 'bool &', 'AEnabled' )]
+  TArduinoESP32ProcessorWakeUpByPinUpdateRegisterCallChainAttribute : ArduinoCallChainCompleteAttribute;
+//---------------------------------------------------------------------------
+//  [Name( 'UpdateUnRegister' )]
+//  TArduinoESP32ProcessorWakeUpByPinUpdateUnRegisterCallChainAttribute : ArduinoCallChainCompleteAttribute;
+//---------------------------------------------------------------------------
+  [Name( 'Init' )]
+  [ArduinoPopulatedCallChainParameter( 'bool', 'ADeepSleep' )]
+  TArduinoESP32ProcessorWakeUpByPinInitCallChainAttribute : ArduinoCallChainCompleteAttribute;
+//---------------------------------------------------------------------------
+{
+  [Name( 'HasEnabled' )]
+  [ArduinoPopulatedCallChainParameter( 'bool &', 'AResult' )]
+  TArduinoESP32ProcessorWakeUpByPinsGetHasEnabledCallChainAttribute : ArduinoCallChainCompleteAttribute;
+}
+//---------------------------------------------------------------------------
+  [Name( 'ESP32' )]
+  TESP32Category : TClassCategory;
+//---------------------------------------------------------------------------
+  ArduinoESP32WiFiScanAttribute : TCustomAttribute;
+//---------------------------------------------------------------------------
+  [ArduinoInclude( 'Mitov_ESP32Serial.h' )]
+  [ArduinoClass( 'Mitov::SerialESP32Port' )]
+  [ArduinoTemplateParameter( '0_SERIAL_TYPE', 'HardwareSerial' )]
+  [ArduinoSerialBasicObjectName( 'Serial' )]
+  TArduinoESP32BasicSerial : TArduinoHardwareSerial; // Needed for Mako compatibility!!!
+//---------------------------------------------------------------------------
+//  [ArduinoSerialBasicObjectName( 'Mitov::Serial' )]
+  TArduinoESP32DefinedPinsBasicUnrestrictedSerial : TArduinoESP32BasicSerial, TArduinoBasicPinDefinedSerial_Extender;
+//---------------------------------------------------------------------------
+  TArduinoESP32DefinedPinsBasicSerial : TArduinoESP32DefinedPinsBasicUnrestrictedSerial
+
+    [ValueRange( 0, 39 )]
+    RXPin
+
+    [ValueRange( 0, 39 )]
+    TXPin
+
+  ;
+//---------------------------------------------------------------------------
+  +TArduinoESP32DefinedPinsSerial1 : TArduinoESP32DefinedPinsBasicSerial
+
+    RXPin = 4
+    TXPin = 2
+
+  ;
+//---------------------------------------------------------------------------
+  +TArduinoESP32DefinedPinsSerial2 : TArduinoESP32DefinedPinsBasicSerial
+
+    RXPin = 16
+    TXPin = 17
+
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoInclude( 'Arduino_ESP32_I2C_Class.h' )]
+  [ArduinoClass( 'Mitov::Arduino_ESP32_I2C' )]
+  TArduinoPinMapFrequencyI2C : TArduinoPinMapI2C
+  
+    [ValueRange( 1, 1000000 )]
+    Speed : Unsigned = 1000000
+    
+  ;
+//---------------------------------------------------------------------------
+  +TArduinoESP32_Generic_I2C : TArduinoPinMapFrequencyI2C
+
+    [MaxValue( 39 )]
+    SDA = 21
+
+    [MaxValue( 39 )]
+    SCL = 22
+
+  ;
+//---------------------------------------------------------------------------
+  +TArduinoESP32_Generic_I2C_2 : TArduinoPinMapFrequencyI2C
+
+    [MaxValue( 39 )]
+    SDA = 16
+
+    [MaxValue( 39 )]
+    SCL = 17
+
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoInclude( 'Arduino_ESP32_SPI_Class.h' )]
+  [ArduinoClass( 'Mitov::Arduino_ESP32_SPI' )]
+  +TArduinoESP32_Generic_SPI : TArduinoPinMapSPI
+
+    [MaxValue( 39 )]
+    MOSI = 23
+
+    [MaxValue( 39 )]
+    MISO = 19
+
+    [MaxValue( 39 )]
+    SCK  = 18
+
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoInclude( 'Arduino_ESP32_SPI_Class.h' )]
+  [ArduinoClass( 'Mitov::Arduino_ESP32_SPI' )]
+  TArduinoESP32_Generic_Secondary_SPI : TArduinoPinMapSPI
+
+    [MaxValue( 39 )]
+    MOSI = 15
+
+    [MaxValue( 39 )]
+    MISO = 12
+
+    [MaxValue( 39 )]
+    SCK  = 14
+
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoInclude( 'Mitov_SPI1.h' )]
+  +TArduinoESP32_Generic_SPI1 : TArduinoESP32_Generic_Secondary_SPI;
+//---------------------------------------------------------------------------
+  [ArduinoInclude( 'Mitov_SPI2.h' )]
+  +TArduinoESP32_Generic_SPI2 : TArduinoESP32_Generic_Secondary_SPI;
+//---------------------------------------------------------------------------
+  [ArduinoInclude( 'Mitov_SPI3.h' )]
+  +TArduinoESP32_Generic_SPI3 : TArduinoESP32_Generic_Secondary_SPI;
+//---------------------------------------------------------------------------
+  TArduinoESP32WiFiSockets : TArduinoBasicSockets;
+//---------------------------------------------------------------------------
+  [ArduinoExcludeCollectionItems]
+  [ArduinoTemplateParameterCollectionCount]
+  [TArduinoESP8266WiFiAccessPointElementIsEnabledCallChain]
+  [TArduinoESP8266WiFiAccessPointElementTryConnectCallChain]
+  [TArduinoESP8266WiFiAccessPointElementAssignDNSCallChain]
+  [ArduinoTemplateParameterCollectionPowerConstIfZero( 'FAccessPointIndex', 1, 0 )]
+  *TArduinoESP32WiFiModuleRemoteAccessPoints : TArduinoPersistentCollection;
+//---------------------------------------------------------------------------
+  *TArduinoBasicWiFiModuleAccessPoint : TArduinoCodeEnabledPersistent
+
+    [ArduinoUseBindingCheckSetter_Parent( 'UpdateAccessPoint' )]
+    Enabled
+
+    SSID : String = ''
+    Password : String = ''
+
+    [DesignRange( 1, 13 )]
+    Channel : Unsigned = 1
+
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoClass( 'Mitov::ESP32WiFiModuleAccessPoint' )]
+  *TArduinoESP32WiFiModuleAccessPoint : TArduinoBasicWiFiModuleAccessPoint
+
+    IsHidden : Boolean = False
+    Config : TArduinoESP8266WiFiModuleConfig
+    
+    [ValueRange( 1, 4 )]
+    MaxConnections : Unsigned = 4
+
+  ;
+//---------------------------------------------------------------------------
+  TArduinoESP32WiFiModuleOperations : TArduinoBasicNetworkOperations;
+//---------------------------------------------------------------------------
+  [ArduinoScopedEnum]
+  TArduinoESP32BasicWiFiModuleEthernet_Transducer : Enum
+
+    LAN8720
+    TLK110
+    RTL8201
+    DP83848
+//    DM9051 // - SPI
+    KSZ8041
+//    KSZ8851 // - SPI
+    KSZ8081
+//    W5500 // - SPI
+
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoScopedEnum]
+  TArduinoESP32BasicWiFiModuleEthernet_Clock : Enum
+
+    Input_0
+    Output_0
+    Output_16
+    Output_17
+    
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoClass( 'Mitov::TArduinoESP32WiFiModuleEthernet_PowerPin' )]
+  TArduinoESP32WiFiModuleEthernet_PowerPin : TArduinoCodeDisabledPersistent
+  
+    [MaxValue( 39 )]
+    [OWExcludeBindings]
+    Pin : Unsigned = 16
+    
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoPopulatedCallChainParameter( 'bool &', 'AValue' )]
+  [Name( 'GetIsStarted' )]
+  ArduinoESP32WiFiModuleEthernet_GetIsStarted_CallChainAttribute : ArduinoCallChainCompleteAttribute;
+//---------------------------------------------------------------------------
+  [ArduinoPopulatedCallChainParameter( 'WiFiEvent_t', 'event' )]
+  [Name( 'EthernetCallback' )]
+  ArduinoESP32WiFiModuleEthernet_EthernetCallback_SelfCallChainAttribute : ArduinoSelfCallChainAttribute;
+//---------------------------------------------------------------------------
+  [ArduinoDeclaredClass]
+  [ArduinoIncludeDefine( '#define private public' )]
+  [ArduinoIncludeDefine( '#define protected public' )]
+  [ArduinoInclude( 'ETH.h' )]
+  [ArduinoIncludeDefine( '#undef protected' )]
+  [ArduinoIncludeDefine( '#undef private' )]
+  [ArduinoInclude( 'Mitov_ESP32_Ethernet.h' )]
+  [ArduinoClass( 'Mitov::TArduinoESP32WiFiModuleEthernet' )]
+  [ArduinoOwnerTemplateTypeAndReference]
+  [ArduinoVariable( Boolean, 'FConnected' )]
+  [ArduinoInit]
+  [ArduinoESP32WiFiModuleEthernet_EthernetCallback_SelfCallChain]
+  [ArduinoESP32WiFiModuleEthernet_GetIsStarted_CallChain]
+//  [ArduinoSharedInstancesCallChain( 'EthernetCallback', 'WiFiEvent_t event' )]
+//  [ArduinoSharedInstancesCallChainInstanceCall( 'EthernetCallback( event )' )]
+  [ArduinoExcludeNotConnectedAndDefault]
+  *TArduinoESP32WiFiModuleBasicEthernet : TArduinoCodeDisabledPersistent
+  
+    ConnectedOutputPin : TOWArduinoDigitalSourcePin
+    FullDuplexOutputPin : TOWArduinoDigitalSourcePin
+    LinkUpOutputPin : TOWArduinoDigitalSourcePin
+    
+    [NamePostfix( '(Mbps)' )]
+    SpeedOutputPin : TOWArduinoUnsignedSourcePin
+    
+    [Name( 'MAC Address' )]
+    MACOutputPin : TOWArduinoStringSourcePin
+    
+    AddressOutputPin : TOWArduinoStringSourcePin
+    GatewayIPOutputPin : TOWArduinoStringSourcePin
+    SubnetMaskIPOutputPin : TOWArduinoStringSourcePin
+    
+//    [OWExcludeBindings]
+    [ArduinoUseBindingCheckSetter( 'Update_Enabled' )]
+    Enabled
+  
+//    [OWExcludeBindings]
+//    [Name( 'Use eFuse MAC' )]
+//    UseEFuseMAC : Boolean = False
+    
+    HostName : String = ''
+    
+    Config : TArduinoESP8266WiFiModuleRemoteConfig
+    
+  ;
+//---------------------------------------------------------------------------
+  *TArduinoESP32WiFiModuleEthernet : TArduinoESP32WiFiModuleBasicEthernet
+
+    [OWExcludeBindings]
+    Transducer : TArduinoESP32BasicWiFiModuleEthernet_Transducer = LAN8720
+    
+    [OWExcludeBindings]
+    Clock : TArduinoESP32BasicWiFiModuleEthernet_Clock = Input_0
+    
+    [MaxValue( 15 )]
+    [Name( 'Physical Address (PHY)' )]
+    [OWExcludeBindings]
+    PhysicalAddress : Unsigned = 0
+    
+    PowerPin : TArduinoESP32WiFiModuleEthernet_PowerPin
+    
+    [MaxValue( 39 )]
+    [OWExcludeBindings]
+    MDIOPin : Unsigned = 18
+
+    [MaxValue( 39 )]
+    [OWExcludeBindings]
+    MDCPin : Unsigned = 23
+    
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoDeclaredClass]
+  [ArduinoClass( 'Mitov::No_Module' )]
+  [ArduinoESP32WiFiModuleEthernet_GetIsStarted_CallChain]
+  [ArduinoExcludeNotConnectedAndDefault]
+  TArduinoESP32WiFiModuleNoEthernet : TArduinoCodePersistent;
+//---------------------------------------------------------------------------
+  TArduinoESP32BasicWiFiModuleEthernet_Extender : Extender
+  
+    Ethernet : TArduinoESP32WiFiModuleEthernet
+    
+  ;
+//---------------------------------------------------------------------------
+  TArduinoESP32BasicWiFiModule_NoEthernet_Extender : Extender
+  
+    Ethernet : TArduinoESP32WiFiModuleNoEthernet
+    
+  ;
+//---------------------------------------------------------------------------
+  TArduinoESP32BasicWiFiModule_Extender : Extender
+  
+    [Name( 'ESP-Now' )]
+    ESPNow : TArduino_ESP32_ESPNow
+    
+  ;
+//---------------------------------------------------------------------------
+  [Name( 'WiFi' )]
+  [CreateName( 'WiFi' )]
+  [ArduinoExcludeNotConnectedAndDefault]
+  [ArduinoVariable( Boolean, 'FIsStarted' )]
+  [ArduinoVariable( Boolean, 'FRemoteStarted' )]
+  [ArduinoVariable( Boolean, 'FDNSUpdated' )]
+  [ArduinoStart]
+  [ArduinoLoopBegin]
+  TArduinoBasicSimpleWiFi_Extender : Extender
+
+    AddressOutputPin : TOWArduinoStringSourcePin
+
+    BSSIDOutputPin : TOWArduinoStringSourcePin
+    GatewayIPOutputPin : TOWArduinoStringSourcePin
+    SubnetMaskIPOutputPin : TOWArduinoStringSourcePin
+
+    [Name( 'MAC Address' )]
+    MACOutputPin : TOWArduinoStringSourcePin
+
+    [ArduinoChangeOnlyPin]
+    RemoteConnectedOutputPin : TOWArduinoDigitalSourcePin
+
+    [Name( 'Module As Access Point'  )]
+    AccessPoint
+
+    [Name( 'Connect To Access Points'  )]
+    AccessPoints
+
+    [ArduinoUseBindingCheckSetter( 'UpdateEnabled' )]
+    Enabled
+    
+    [ArduinoExcludeCollectionItems]
+    [ComponentEditorEntryDesign( 'Edit Op&tions ...', True )]
+    Operations
+
+    [ArduinoExcludeCollectionItems]
+    [ArduinoTemplateParameterCollectionCount]
+    Sockets
+    
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoInclude( 'Mitov_ESP32_WiFi.h' )]
+  [ArduinoClass( 'Mitov::ESP32WiFiModule' )]
+  [ParentImage( TArduinoESP32WiFiModuleRemoteAccessPoint )]
+  [ArduinoInit]
+  TArduinoSimpleESP32WiFi_Extender : TArduinoBasicSimpleWiFi_Extender
+  
+    ManualConnections : Boolean = False
+
+    AccessPoint : TArduinoESP32WiFiModuleAccessPoint
+
+    AccessPoints : TArduinoESP32WiFiModuleRemoteAccessPoints
+
+    [ArduinoUseBindingCheckSetter( 'UpdateAutoReconnect' )]
+    AutoReconnect : Boolean = True
+
+    HostName : String = ''
+    
+    [NamePostfix( '(dBm)' )]
+    [ValueRange( -1, 19.5 )]
+    [ArduinoUseBindingCheckSetter( 'Update_TransmitPower' )]
+    TransmitPower : Single = 19.5
+    
+    [ArduinoTemplateParameterCollectionCountOfAttribute( 'COUNT_Scan_Elements', ArduinoESP32WiFiScanAttribute )]
+    Operations
+
+  ;
+//---------------------------------------------------------------------------
+  [CollectionItemSelfAssociation]
+  TArduinoESP32BasicWiFiModule : TArduinoEnabledShield, TArduinoSimpleESP32WiFi_Extender
+
+    Operations : TArduinoESP32WiFiModuleOperations
+
+    Sockets : TArduinoESP32WiFiSockets
+    
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoClass( 'Mitov::TArduinoESP32WiFiLowPower' )]
+  *TArduinoESP32WiFiLowPower : TArduinoCodeDisabledPersistent
+  
+    [ArduinoUseBindingCheckSetter_Parent( 'UpdateLowPower' )]
+    Enabled
+  
+    [ArduinoUseBindingCheckSetter_Parent( 'UpdateLowPower' )]
+    MaxSaving : Boolean = False
+    
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoInclude( 'WiFi.h' )]
+  [RemovedProperty( Boolean, 'LowPower', 'LowPower.Enabled' )]
+  TArduinoESP32WiFiBasicLowPowerModule : TArduinoESP32BasicWiFiModule
+
+    LowPower : TArduinoESP32WiFiLowPower
+
+  ;
+//---------------------------------------------------------------------------
+  TArduinoESP32WiFiBasicEspNowModule : TArduinoESP32WiFiBasicLowPowerModule, TArduinoESP32BasicWiFiModule_Extender
+
+    LongRange : Boolean = False
+
+  ;
+//---------------------------------------------------------------------------
+  +TArduinoESP32WiFiModule : TArduinoESP32WiFiBasicEspNowModule, TArduinoESP32BasicWiFiModuleEthernet_Extender;
+//---------------------------------------------------------------------------
+  +TArduinoESP32WiFi_NoEthernet_Module : TArduinoESP32WiFiBasicEspNowModule, TArduinoESP32BasicWiFiModule_NoEthernet_Extender;
+//---------------------------------------------------------------------------
+{
+  [Name( 'Hall Sensor' )]
+  [CreateName( 'Hall Sensor' )]
+  [ArduinoInclude( 'Mitov_ESP32_HallSensor.h' )]
+  [ArduinoClass( 'Mitov::ESP32HallSensorModule' )]
+  [ArduinoExcludeNotConnected]
+  +TArduinoESP32HallSensorModule : TArduinoEnabledShield
+
+    [ArduinoPinDisconnectedAddCodeEntry( ceStart )]
+    [ArduinoPinDisconnectedAddCodeEntry( ceLoopBegin )]
+    ClockInputPin : TOWArduinoClockSinkPin
+
+    [OWPrimaryPin]
+    [ArduinoChangeOnlyPin]
+    OutputPin : TOWArduinoAnalogSourcePin
+
+  ;
+}
+//---------------------------------------------------------------------------
+  [ArduinoBoardDeclared]
+  [ArduinoDeclarationSectionName( 'BoardDeclarations' )]
+  [ArduinoDeclaredClass]
+  [ArduinoInclude( 'Mitov_ESP32_BLE_Client.h' )]
+  [ArduinoClass( 'Mitov::ESP32BluetoothLEClient' )]
+  [ArduinoExcludeNotConnectedAndDefault]
+  [ArduinoOwnerTemplateTypeAndReference]
+  [ArduinoCallChain( 'TryStart' )]
+  [ArduinoCallChainParameter( 'bool AValue' )]
+  [ArduinoCallChainParameter( 'bool & AResult' )]
+  *TArduinoESP32BluetoothLEClient : TArduinoCodeEnabledPersistent
+
+    OutputPin : TOWArduinoBLEClientSourcePin
+
+    [Name( 'BLE Client Serial' )]
+    Serial : TArduinoBluetoothUartClient
+
+  ;
+//---------------------------------------------------------------------------
+  [ParentImage( TArduinoBasicProcessorModuleOperations )]
+  *TArduinoESP32BasicProcessorModuleOperations : TArduinoPersistentCollection;
+//---------------------------------------------------------------------------
+  *TArduinoESP32ProcessorModuleOperations : TArduinoESP32BasicProcessorModuleOperations;
+//---------------------------------------------------------------------------
+  [Name( 'Processor' )]
+  [CreateName( 'Processor' )]
+  [ParentImage( TArduinoProcessorModule )]
+  *TArduinoESP32BasicProcessorModule : TArduinoShield;
+//---------------------------------------------------------------------------
+  +TArduinoESP32ProcessorModule : TArduinoESP32BasicProcessorModule
+
+    [ArduinoExcludeCollectionItems]
+    [ComponentEditorEntryDesign( 'Add &Operations ...' )]
+    Operations : TArduinoESP32ProcessorModuleOperations
+
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoBoardIndex( 'https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json' )]
+  [ArduinoBoardArchitecture( 'esp32' )]
+  [ArduinoDefine( 'VISUINO_ANY_ESP32' )]
+  ArduinoBoardArchitecture_ESP32Attribute : TAttributeCollectionAttribute;
+//---------------------------------------------------------------------------
+  [ArduinoBoardArchitecture_ESP32]
+  [ArduinoInclude( 'Arduino.h' )]
+  [ArduinoInclude( 'Mitov_ESP32.h' )]
+  TArduinoBasicEssentialESP32Board : TArduinoBoardExtendableImplementation;
+//---------------------------------------------------------------------------
+  [ArduinoDefine( 'VISUINO_ESP32' )]
+  TArduinoEssentialESP32Board : TArduinoBasicEssentialESP32Board;
+//---------------------------------------------------------------------------
+  TArduinoBasicESP32Board_NoWiFi_Modules_Extender : Extender
+
+    [AddItem( TArduinoEEPROMModule )]
+    [AddItem( TArduinoESP32ProcessorModule )]
+//    [AddItem( TArduinoESP32HallSensorModule )]
+    [AddItem( TArduinoESP32BluetoothLEModule )]
+    Modules
+    
+  ;
+//---------------------------------------------------------------------------
+  [Collection( TArduinoESP32BasicProcessorModuleOperations )]
+  [ArduinoHelpPostfix( '(ESP32 Processor Operations)' )]
+  TArduinoESP32ProcessorModuleBasicOperation_Extender : Extender;
+//---------------------------------------------------------------------------
+  [ArduinoDeclaredClass]
+  TArduinoESP32ProcessorModuleBasicOperation : TArduinoBasicEnabledNamedExludePersistent;
+//---------------------------------------------------------------------------
+  [Collection( TArduinoESP32ProcessorModuleOperations )]
+  [ArduinoHelpPostfix( '(ESP32 Processor Operations)' )]
+  TArduinoESP32ModuleOperation_Extender : Extender;
+//---------------------------------------------------------------------------
+  TArduinoESP32BasicProcessorModuleBasicClockedOperation : TArduinoESP32ProcessorModuleBasicOperation
+
+    ClockInputPin : TOWArduinoClockSinkPin
+
+  ;
+//---------------------------------------------------------------------------
+  TArduinoESP32ProcessorModuleBasicClockedOperation : TArduinoESP32BasicProcessorModuleBasicClockedOperation, TArduinoESP32ProcessorModuleBasicOperation_Extender;
+//---------------------------------------------------------------------------
+  +TArduinoESP32ProcessorModuleGetIDOperation : TArduinoProcessorModuleBasicGetIDOperation, TArduinoESP32ProcessorModuleBasicOperation_Extender;
+//---------------------------------------------------------------------------
+  [TArduinoESP32ProcessorWakeUpByPinUpdateRegisterCallChain]
+//  [TArduinoESP32ProcessorWakeUpByPinUpdateUnRegisterCallChain]
+  [TArduinoESP32ProcessorWakeUpByPinInitCallChain]
+  *TArduinoESP32BasicProcessorModuleSleepWakeUpSources : TArduinoPersistentCollection;
+//---------------------------------------------------------------------------
+  *TArduinoESP32ProcessorModuleSleepWakeUpSources : TArduinoESP32BasicProcessorModuleSleepWakeUpSources;
+//---------------------------------------------------------------------------
+  [ArduinoDeclaredClass]
+  [TArduinoESP32ProcessorWakeUpByPinUpdateRegisterCallChain]
+//  [TArduinoESP32ProcessorWakeUpByPinUpdateUnRegisterCallChain]
+  [TArduinoESP32ProcessorWakeUpByPinInitCallChain]
+  TArduinoESP32BasicProcessorWakeUpBasicOperation : TArduinoCodeEnabledPersistent;
+//---------------------------------------------------------------------------
+  [Collection( TArduinoESP32ProcessorModuleSleepWakeUpSources )]
+  TArduinoESP32ProcessorWakeUpBasicOperation : TArduinoESP32BasicProcessorWakeUpBasicOperation;
+//---------------------------------------------------------------------------
+  [TArduinoESP32ProcessorWakeUpByPinUpdateRegisterCallChain]
+  [ParentImage( TArduinoDigitalChannels )]
+  *TArduinoESP32ProcessorWakeUpByBasicOperationPins : TArduinoFixedPersistentCollection;
+//---------------------------------------------------------------------------
+//  [TArduinoESP32ProcessorWakeUpByPinUpdateUnRegisterCallChain]
+  [TArduinoESP32ProcessorWakeUpByPinsGetMaskCallChain]
+  [TArduinoESP32ProcessorWakeUpByPinInitCallChain]
+  *TArduinoESP32ProcessorWakeUpByPinsOperationPins : TArduinoESP32ProcessorWakeUpByBasicOperationPins;
+//---------------------------------------------------------------------------
+//  [TArduinoESP32ProcessorWakeUpByPinsGetHasEnabledCallChain]
+  *TArduinoESP32ProcessorWakeUpByTouchOperationPins : TArduinoESP32ProcessorWakeUpByBasicOperationPins;
+//---------------------------------------------------------------------------
+  [ArduinoDeclaredClass]
+  [ParentImage( IOWArduinoDigitalInputPinStream )]
+  [TArduinoESP32ProcessorWakeUpByPinUpdateRegisterCallChain]
+  [ArduinoExcludeNotConnectedAndDefault]
+  TArduinoESP32BasicProcessorWakeUpByBasicOperationPin : TArduinoCodeDisabledPersistent;
+//---------------------------------------------------------------------------
+  [Collection( TArduinoESP32ProcessorWakeUpByPinsOperationPins )]
+//  [TArduinoESP32ProcessorWakeUpByPinUpdateUnRegisterCallChain]
+  [TArduinoESP32ProcessorWakeUpByPinsGetMaskCallChain]
+  [ArduinoTemplateParameterCollectionItemIndex]
+  TArduinoESP32BasicProcessorWakeUpByPinsOperationPin : TArduinoESP32BasicProcessorWakeUpByBasicOperationPin;
+//---------------------------------------------------------------------------
+  [ArduinoClass( 'Mitov::TArduinoESP32ProcessorWakeUpByPinsOperationPin' )]
+  +TArduinoESP32ProcessorWakeUpByPinsOperationPin : TArduinoESP32BasicProcessorWakeUpByPinsOperationPin
+     
+    Mode : TArduinoESP32ProcessorWakeUpByPinOperationPullMode = None
+    
+  ;
+//---------------------------------------------------------------------------
+  [Collection( TArduinoESP32ProcessorWakeUpByTouchOperationPins )]
+  [ArduinoClass( 'Mitov::TArduinoESP32ProcessorWakeUpByTouchOperationPin' )]
+//  [TArduinoESP32ProcessorWakeUpByPinsGetHasEnabledCallChain]
+  *TArduinoESP32ProcessorWakeUpByTouchBasicOperationPin : TArduinoESP32BasicProcessorWakeUpByBasicOperationPin // TArduinoCodeFixedNamePersistent
+  
+    [ValueRange( 0.0, 1.0 )]
+    Sensitivity : Single = 0.3
+    
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoTemplateParameter( 'C_PIN', '1' )]
+  [Name( 'GPIO 1' )]
+  TArduinoESP32ProcessorWakeUpByTouchOperationPin_1 : TArduinoESP32ProcessorWakeUpByTouchBasicOperationPin;
+//---------------------------------------------------------------------------
+  [ArduinoTemplateParameter( 'C_PIN', '2' )]
+  [Name( 'GPIO 2' )]
+  TArduinoESP32ProcessorWakeUpByTouchOperationPin_2 : TArduinoESP32ProcessorWakeUpByTouchBasicOperationPin;
+//---------------------------------------------------------------------------
+  [ArduinoTemplateParameter( 'C_PIN', '3' )]
+  [Name( 'GPIO 3' )]
+  TArduinoESP32ProcessorWakeUpByTouchOperationPin_3 : TArduinoESP32ProcessorWakeUpByTouchBasicOperationPin;
+//---------------------------------------------------------------------------
+  [ArduinoTemplateParameter( 'C_PIN', '4' )]
+  [Name( 'GPIO 4' )]
+  TArduinoESP32ProcessorWakeUpByTouchOperationPin_4 : TArduinoESP32ProcessorWakeUpByTouchBasicOperationPin;
+//---------------------------------------------------------------------------
+  [ArduinoTemplateParameter( 'C_PIN', '5' )]
+  [Name( 'GPIO 5' )]
+  TArduinoESP32ProcessorWakeUpByTouchOperationPin_5 : TArduinoESP32ProcessorWakeUpByTouchBasicOperationPin;
+//---------------------------------------------------------------------------
+  [ArduinoTemplateParameter( 'C_PIN', '6' )]
+  [Name( 'GPIO 6' )]
+  TArduinoESP32ProcessorWakeUpByTouchOperationPin_6 : TArduinoESP32ProcessorWakeUpByTouchBasicOperationPin;
+//---------------------------------------------------------------------------
+  [ArduinoTemplateParameter( 'C_PIN', '7' )]
+  [Name( 'GPIO 7' )]
+  TArduinoESP32ProcessorWakeUpByTouchOperationPin_7 : TArduinoESP32ProcessorWakeUpByTouchBasicOperationPin;
+//---------------------------------------------------------------------------
+  [ArduinoTemplateParameter( 'C_PIN', '8' )]
+  [Name( 'GPIO 8' )]
+  TArduinoESP32ProcessorWakeUpByTouchOperationPin_8 : TArduinoESP32ProcessorWakeUpByTouchBasicOperationPin;
+//---------------------------------------------------------------------------
+  [ArduinoTemplateParameter( 'C_PIN', '9' )]
+  [Name( 'GPIO 9' )]
+  TArduinoESP32ProcessorWakeUpByTouchOperationPin_9 : TArduinoESP32ProcessorWakeUpByTouchBasicOperationPin;
+//---------------------------------------------------------------------------
+  [ArduinoTemplateParameter( 'C_PIN', '10' )]
+  [Name( 'GPIO 10' )]
+  TArduinoESP32ProcessorWakeUpByTouchOperationPin_10 : TArduinoESP32ProcessorWakeUpByTouchBasicOperationPin;
+//---------------------------------------------------------------------------
+  [ArduinoTemplateParameter( 'C_PIN', '11' )]
+  [Name( 'GPIO 11' )]
+  TArduinoESP32ProcessorWakeUpByTouchOperationPin_11 : TArduinoESP32ProcessorWakeUpByTouchBasicOperationPin;
+//---------------------------------------------------------------------------
+  [ArduinoTemplateParameter( 'C_PIN', '12' )]
+  [Name( 'GPIO 12' )]
+  TArduinoESP32ProcessorWakeUpByTouchOperationPin_12 : TArduinoESP32ProcessorWakeUpByTouchBasicOperationPin;
+//---------------------------------------------------------------------------
+  [ArduinoTemplateParameter( 'C_PIN', '13' )]
+  [Name( 'GPIO 13' )]
+  TArduinoESP32ProcessorWakeUpByTouchOperationPin_13 : TArduinoESP32ProcessorWakeUpByTouchBasicOperationPin;
+//---------------------------------------------------------------------------
+  [ArduinoTemplateParameter( 'C_PIN', '14' )]
+  [Name( 'GPIO 14' )]
+  TArduinoESP32ProcessorWakeUpByTouchOperationPin_14 : TArduinoESP32ProcessorWakeUpByTouchBasicOperationPin;
+//---------------------------------------------------------------------------
+  [ArduinoTemplateParameter( 'C_PIN', '15' )]
+  [Name( 'GPIO 15' )]
+  TArduinoESP32ProcessorWakeUpByTouchOperationPin_15 : TArduinoESP32ProcessorWakeUpByTouchBasicOperationPin;
+//---------------------------------------------------------------------------
+  [ArduinoTemplateParameter( 'C_PIN', '27' )]
+  [Name( 'GPIO 27' )]
+  TArduinoESP32ProcessorWakeUpByTouchOperationPin_27 : TArduinoESP32ProcessorWakeUpByTouchBasicOperationPin;
+//---------------------------------------------------------------------------
+  [ArduinoTemplateParameter( 'C_PIN', '33' )]
+  [Name( 'GPIO 33' )]
+  TArduinoESP32ProcessorWakeUpByTouchOperationPin_33 : TArduinoESP32ProcessorWakeUpByTouchBasicOperationPin;
+//---------------------------------------------------------------------------
+  [ArduinoTemplateParameter( 'C_PIN', '32' )]
+  [Name( 'GPIO 32' )]
+  TArduinoESP32ProcessorWakeUpByTouchOperationPin_32 : TArduinoESP32ProcessorWakeUpByTouchBasicOperationPin;
+//---------------------------------------------------------------------------
+  [Name( 'Wakeup By Touch' )]
+  [CreateName( 'Wakeup By Touch' )]
+  [ArduinoClass( 'Mitov::TArduinoESP32ProcessorWakeUpByTouchOperation' )]
+  [ParentImage( TArduinoTouchToolbarCategory )]
+  TArduinoESP32ProcessorWakeUpByTouchOperation_Extender : Extender;
+//---------------------------------------------------------------------------
+  +TArduinoESP32ProcessorWakeUpByTouchOperation : TArduinoESP32ProcessorWakeUpBasicOperation, TArduinoESP32ProcessorWakeUpByTouchOperation_Extender
+  
+    [AddItem( TArduinoESP32ProcessorWakeUpByTouchOperationPin_2 )]
+    [AddItem( TArduinoESP32ProcessorWakeUpByTouchOperationPin_4 )]
+    [AddItem( TArduinoESP32ProcessorWakeUpByTouchOperationPin_12 )]
+    [AddItem( TArduinoESP32ProcessorWakeUpByTouchOperationPin_13 )]
+    [AddItem( TArduinoESP32ProcessorWakeUpByTouchOperationPin_14 )]
+    [AddItem( TArduinoESP32ProcessorWakeUpByTouchOperationPin_15 )]
+    [AddItem( TArduinoESP32ProcessorWakeUpByTouchOperationPin_27 )]
+    [AddItem( TArduinoESP32ProcessorWakeUpByTouchOperationPin_32 )]
+    [AddItem( TArduinoESP32ProcessorWakeUpByTouchOperationPin_33 )]
+    Pins : TArduinoESP32ProcessorWakeUpByTouchOperationPins
+  
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoScopedEnum]  
+  TArduinoESP32ProcessorWakeUpByPinOperationPullMode : Enum
+  
+    None
+    PullUp
+    PullDown
+    
+  ;
+//---------------------------------------------------------------------------
+  [Name( 'Wakeup By Pin' )]
+  [CreateName( 'Wakeup By Pin' )]
+  [ArduinoClass( 'Mitov::TArduinoESP32ProcessorWakeUpByPinOperation' )]
+  TArduinoESP32ProcessorWakeUpByPinOperation_Extender : Extender
+    
+    Mode : TArduinoESP32ProcessorWakeUpByPinOperationPullMode = None
+    Value : Boolean = True
+        
+  ;
+//---------------------------------------------------------------------------
+  +TArduinoESP32ProcessorWakeUpByPinOperation : TArduinoESP32ProcessorWakeUpBasicOperation, TArduinoESP32ProcessorWakeUpByPinOperation_Extender
+
+    [ValueRange( 0, 39 )]
+    Pin : Unsigned = 0
+    
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoPopulatedCallChainParameter( 'uint64_t &', 'AValue' )]
+  [Name( 'GetMask' )]
+  TArduinoESP32ProcessorWakeUpByPinsGetMaskCallChainAttribute : ArduinoCallChainCompleteAttribute;
+//---------------------------------------------------------------------------
+  [Name( 'Wakeup By Pins' )]
+  [CreateName( 'Wakeup By Pins' )]
+  [ArduinoClass( 'Mitov::TArduinoESP32ProcessorWakeUpByPinsOperation' )]
+//  [ArduinoInit]
+  TArduinoESP32ProcessorWakeUpByPinsOperation_Extender : Extender
+    
+    AnyHigh : Boolean = True
+    
+  ;
+//---------------------------------------------------------------------------
+  +TArduinoESP32ProcessorWakeUpByPinsOperation : TArduinoESP32ProcessorWakeUpBasicOperation, TArduinoESP32ProcessorWakeUpByPinsOperation_Extender
+  
+    [AddItem( TArduinoESP32ProcessorWakeUpByPinsOperationPin, 39 )]
+    Pins : TArduinoESP32ProcessorWakeUpByPinsOperationPins
+    
+  ;
+//---------------------------------------------------------------------------
+  [Name( 'Reset' )]
+  [CreateName( 'Reset' )]
+  [ArduinoInclude( 'Esp.h' )]
+  [ArduinoInclude( 'Mitov_ESP32_Processor.h' )]
+  [ArduinoClass( 'Mitov::ESP32ProcessorReset' )]
+  [ParentImage( TArduinoProcessorModuleResetOperation )]
+  +TArduinoESP32ProcessorModuleResetOperation : TArduinoESP32ProcessorModuleBasicClockedOperation;
+//---------------------------------------------------------------------------
+  [ArduinoInclude( 'Esp.h' )]
+  [ArduinoInclude( 'Mitov_ESP32_Processor.h' )]
+  [Category( TArduinoPowerToolbarCategory )]
+  [ArduinoInit]
+  TArduinoESP32_BasicProcessorModuleBasicSleepOperation : TArduinoESP32BasicProcessorModuleBasicClockedOperation
+
+    [NamePostfix( '(uS)' )]
+    Period : Unsigned = 1000000
+  
+  ;
+//---------------------------------------------------------------------------
+  TArduinoESP32ProcessorModuleBasicSleepOperation : TArduinoESP32_BasicProcessorModuleBasicSleepOperation
+  
+    Wakeup : TArduinoESP32ProcessorModuleSleepWakeUpSources
+  
+  ;
+//---------------------------------------------------------------------------
+  [Name( 'Deep Sleep' )]
+  [CreateName( 'Deep Sleep' )]
+  [ArduinoClass( 'Mitov::ESP32ProcessorDeepSleep' )]
+  TArduinoESP32ProcessorModuleDeepSleepOperation_Extender : Extender;
+//---------------------------------------------------------------------------
+  +TArduinoESP32ProcessorModuleDeepSleepOperation : TArduinoESP32ProcessorModuleBasicSleepOperation, TArduinoESP32ProcessorModuleDeepSleepOperation_Extender, TArduinoESP32ModuleOperation_Extender;
+//---------------------------------------------------------------------------
+  [Name( 'Light Sleep' )]
+  [CreateName( 'Light Sleep' )]
+  [ArduinoClass( 'Mitov::ESP32ProcessorLightSleep' )]
+  TArduinoESP32ProcessorModuleLightSleepOperation_Extender : Extender;
+//---------------------------------------------------------------------------
+  +TArduinoESP32ProcessorModuleLightSleepOperation : TArduinoESP32ProcessorModuleBasicSleepOperation, TArduinoESP32ProcessorModuleLightSleepOperation_Extender, TArduinoESP32ModuleOperation_Extender;
+//---------------------------------------------------------------------------
+  [Name( 'Get Available RAM' )]
+  [CreateName( 'Available RAM' )]
+  [ArduinoInclude( 'Mitov_ESP32_Processor.h' )]
+  [ArduinoClass( 'Mitov::ESP32GetArduinoAvailableRAM' )]
+  [ParentImage( TArduinoProcessorAvailableRAMOperation )]
+  +TArduinoESP32ProcessorAvailableRAMOperation : TArduinoESP32ProcessorModuleBasicClockedOperation
+
+    [ArduinoPinDisconnectedAddCodeEntry( ceLoopBegin )]
+    [ArduinoPinDisconnectedAddCodeEntry( ceStart )]
+    ClockInputPin
+
+    [OWPrimaryPin]
+    [ArduinoChangeOnlyPin]
+    OutputPin : TOWArduinoUnsignedSourcePin
+
+  ;
+//---------------------------------------------------------------------------
+  [Collection( TArduinoESP32WiFiModuleRemoteAccessPoints )]
+  [ArduinoHelpPostfix( '(ESP32 WiFi Module)' )]
+  [ArduinoDeclaredClass]
+  [ArduinoOwnerTemplateTypeAndReference]
+  TArduinoESP32WiFiModuleBasicRemoteAccessPoint : TArduinoBasicRemoteWiFiAccessPoint
+
+    Password : String
+    Channel : TArduinoESP8266WiFiModuleOptionalChannel
+
+    [Name( 'MAC Address(BSSID)' )]
+    MacAddress : TArduinoESP8266WiFiModuleOptionalMacAddress
+
+    Config : TArduinoESP8266WiFiModuleRemoteConfig
+
+  ;
+//---------------------------------------------------------------------------
+  [Name( 'WiFi Access Point' )]
+  [CreateName( 'Access Point' )]
+  [ArduinoClass( 'Mitov::ESP32ModuleRemoteAccessPoint' )]
+//  [ParentImage( TArduinoESP8266BasicModule )]
+  +TArduinoESP32WiFiModuleRemoteAccessPoint : TArduinoESP32WiFiModuleBasicRemoteAccessPoint;
+//---------------------------------------------------------------------------
+  [ArduinoClass( 'Mitov::TArduinoESP32WiFiModuleScanNetworksOperationChannel' )]
+  *TArduinoESP32WiFiModuleScanNetworksOperationChannel : TArduinoCodeDisabledPersistent
+
+    [DesignRange( 1, 13 )]
+    Number : Unsigned = 0
+
+  ;
+//---------------------------------------------------------------------------
+  [Collection( TArduinoESP32WiFiModuleOperations )]
+  [ArduinoHelpPostfix( '(ESP32 WiFi Operations)' )]
+  [ArduinoDeclaredClass]
+  TArduinoESP32WiFiModuleOperation : TArduinoCodeEnabledPersistent;
+//---------------------------------------------------------------------------
+  TArduinoESP32WiFiModuleClockedOperation : TArduinoESP32WiFiModuleOperation
+
+    ClockInputPin : TOWArduinoClockSinkPin
+
+  ;
+//---------------------------------------------------------------------------
+  [Name( 'Scan WiFi Networks' )]
+  [CreateName( 'Scan Networks' )]
+  [ArduinoExcludeNotConnected]
+  TArduinoScanNetworksOperation_Extender : Extender
+
+    [ArduinoPinDisconnectedAddCodeEntry( ceStart )]
+    ScanInputPin : TOWArduinoClockSinkPin
+    
+    [ArduinoChangeOnlyPin]
+    ScanningOutputPin : TOWArduinoDigitalSourcePin
+
+    CountOutputPin : TOWArduinoIntegerSourcePin
+    SignalStrengthOutputPin : TOWArduinoIntegerSourcePin
+    SSIDOutputPin : TOWArduinoStringSourcePin
+
+    [Name( 'MAC Address(BSSID)' )]
+    MACMACAddressOutputPin : TOWArduinoStringSourcePin
+
+    EncryptionOutputPin : TOWArduinoUnsignedSourcePin
+    ChannelOutputPin : TOWArduinoIntegerSourcePin
+    FoundNetworkOutputPin : TOWArduinoClockSourcePin
+
+  ;
+//---------------------------------------------------------------------------
+  TArduinoScanNetworksOperation_Failed_Extender : TArduinoScanNetworksOperation_Extender
+
+    FailedOutputPin : TOWArduinoClockSourcePin
+    
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoClass( 'Mitov::ESP32ModuleScanNetworksOperation' )]
+  [ArduinoLoopBegin]
+  [ArduinoVariable( Boolean, 'FScanRequest' )]
+  [ArduinoESP32WiFiScan]
+  [CollectionItemSelfAssociation]
+  [ArduinoOwnerTemplateTypeAndReference]
+  +TArduinoESP32WiFiModuleScanNetworksOperation : TArduinoESP32WiFiModuleOperation, TArduinoScanNetworksOperation_Failed_Extender
+    
+    ShowHidden : Boolean = False
+    Passive : Boolean = False
+    
+    [NamePostfix( '(mS)' )]
+    MaxTimrPerChannel : Unsigned = 300
+    
+    Channel : TArduinoESP32WiFiModuleScanNetworksOperationChannel
+
+  ;
+//---------------------------------------------------------------------------
+  [CollectionItemSelfAssociation]
+  +TArduinoESP32WiFiModuleSignalStrengthOperation : TArduinoESP32WiFiModuleClockedOperation, TArduinoWiFiSignalStrengthOperation_Extender;
+//---------------------------------------------------------------------------
+  [Name( 'WiFi Reconnect' )]
+  [CreateName( 'Reconnect' )]
+  [ArduinoClass( 'Mitov::ESP32ModuleReconnectOperation' )]
+  [CollectionItemSelfAssociation]
+  +TArduinoESP32WiFiModuleReconnectOperation : TArduinoESP32WiFiModuleClockedOperation;
+//---------------------------------------------------------------------------
+  [Name( 'Program Over WiFi' )]
+  [ArduinoInclude( 'ArduinoOTA.h' )]
+  [ArduinoInclude( 'Mitov_ESP32_ProgramOverWiFi.h' )]
+  [ArduinoClass( 'Mitov::ProgramESP32OverWiFi' )]
+  [ArduinoStart]
+  [ArduinoLoopBegin]
+//  [ArduinoOTAUpload]
+  +TArduinoESP32WiFiModuleProgramOverWiFiOperation : TArduinoESP32WiFiModuleOperation
+
+    UploadingOutputPin : TOWArduinoDigitalSourcePin
+
+    [ArduinoChangeOnlyPin]
+    ProgressOutputPin : TOWArduinoAnalogSourcePin
+
+    ErrorOutputPin : TOWArduinoUnsignedSourcePin
+    
+    [ArduinoUseBindingCheckSetter( 'Update_Enabled' )]
+    Enabled
+    
+    [ValueRange( 0, $FFFF )]
+    [ArduinoOTAUploadPort]
+    Port : Unsigned = 3232
+
+    RebootOnSuccess : Boolean = True
+    
+    [Name( 'Advertise' )]
+    MdnsEnabled : Boolean = True
+    
+    Hostname : String = ''
+    
+    [ArduinoOTAUploadPassword]
+    Password : String = ''
+
+  ;
+//---------------------------------------------------------------------------
+  [Collection( TArduinoESP32BluetoothLEModuleOperations )]
+  [ArduinoHelpPostfix( '(ESP32 BLE Operations)' )]
+  [ArduinoDeclaredClass]
+  TArduinoESP32BluetoothLEModuleOperation : TArduinoCodePersistent;
+//---------------------------------------------------------------------------
+  [Name( 'Search Bluetooth Devices' )]
+  [CreateName( 'Search Devices' )]
+  [ArduinoInclude( 'BLEScan.h' )]
+  [ArduinoInclude( 'BLEAdvertisedDevice.h' )]
+  [ArduinoInclude( 'Mitov_ESP32_BLE_Scan.h' )]
+  [ArduinoClass( 'Mitov::ESP32ModuleScanBLEOperation' )]
+  [ArduinoLoopBegin]
+  [ArduinoExcludeNotConnected]
+  [ArduinoVariable( Boolean, 'FScanRequest' )]
+  TArduinoESP32BluetoothLEModuleScanOperation_Extender : Extender
+
+    [ArduinoPinDisconnectedAddCodeEntry( ceStart )]
+    [ArduinoPinConnectedAddCodeEntry( ceStart, 'SystemStartNoScan' )]
+    ScanInputPin : TOWArduinoClockSinkPin
+
+    [ArduinoChangeOnlyPin]
+    ScanningOutputPin : TOWArduinoDigitalSourcePin
+    CountDevicesOutputPin : TOWArduinoUnsignedSourcePin
+    DeviceNameOutputPin : TOWArduinoStringSourcePin
+
+    [Name( 'MAC Address' )]
+    MACAddressOutputPin : TOWArduinoStringSourcePin
+
+    ServiceUUIDOutputPin : TOWArduinoStringSourcePin
+    ManufacturerDataOutputPin : TOWArduinoStringSourcePin
+    SignalStrengthOutputPin : TOWArduinoIntegerSourcePin
+    TransmitPowerOutputPin : TOWArduinoUnsignedSourcePin
+
+    FoundDeviceOutputPin : TOWArduinoClockSourcePin
+
+    [NamePostfix( '(S)' )]
+    Duration : Unsigned = 5
+
+    [NamePostfix( '(mS)' )]
+    Interval : Unsigned = 100
+
+    [NamePostfix( '(mS)' )]
+    [MaxValue( $FFFF )]
+    ActiveScanWindow : Unsigned = 99
+
+    Active : Boolean = False
+    ClearStored : Boolean = True
+
+  ;
+//---------------------------------------------------------------------------
+  +TArduinoESP32BluetoothLEModuleScanOperation : TArduinoESP32BluetoothLEModuleOperation, TArduinoESP32BluetoothLEModuleScanOperation_Extender
+
+    ServiceDataOutputPin : TOWArduinoStringSourcePin
+    PayloadOutputPin : TOWArduinoByteSourcePin
+    
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoCallChain( 'TryConnect' )]
+  [ArduinoCallChainParameter( 'BLEScanResults *AScanResults' )]
+  TArduinoESP32BluetoothLERemoteDeviceIDs : TArduinoPersistentCollection;
+//---------------------------------------------------------------------------
+  [ArduinoHelpPostfix( '(ESP32 Bluetooth Remote Device IDs)' )]
+  [Collection( TArduinoESP32BluetoothLERemoteDeviceIDs )]
+  [Name( 'Device' )]
+  [CreateName( 'Device' )]
+  [ArduinoClass( 'Mitov::ESP32BluetoothLERemoteDeviceID' )]
+  [ArduinoDeclaredClass]
+  [ArduinoOwnerTemplateTypeAndReference]
+  [ArduinoCallChain( 'TryConnect' )]
+  [ArduinoCallChainParameter( 'AScanResults' )]
+  +TArduinoESP32BluetoothLERemoteDeviceID : TArduinoCodePersistent
+
+    Name : String
+    MACAddress : TArduinoMacAddress
+    ServiceUUID : String
+
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoPopulatedCallChainParameter( 'BLEScanResults *', 'foundDevices' )]
+  [Name( 'ScanCompleteCB' )]
+  ArduinoESP32BluetoothLERemoteDevice_ScanCompleteCB_SelfCallChainAttribute : ArduinoSelfCallChainAttribute;
+//---------------------------------------------------------------------------
+  [ArduinoBoardDeclared]
+  [ArduinoDeclarationSectionName( 'BoardDeclarations' )]
+  [Collection( TArduinoESP32BluetoothLERemoteDevices )]
+  [ArduinoHelpPostfix( '(ESP32 Bluetooth Remote Devices)' )]
+  [ArduinoDeclaredClass]
+  [Name( 'Remote BLE Device' )]
+  [CreateName( 'Remote BLE Device' )]
+  [ArduinoInclude( 'BLEClient.h' )]
+  [ArduinoInclude( 'Mitov_ESP32_BLE_Client.h' )]
+  [ArduinoClass( 'Mitov::ESP32BluetoothLERemoteDevice' )]
+  [ArduinoInit]
+  [ArduinoLoopBegin]
+  [ArduinoVariable( Boolean, 'FScanRequest' )]
+  [ArduinoESP32BluetoothLERemoteDevice_ScanCompleteCB_SelfCallChain]
+  [ParentImage( TArduinoESP32BluetoothLERemoteDevices )]
+  +TArduinoESP32BluetoothLERemoteDevice : TArduinoBasicNamedExludePersistent
+
+    DeviceNameOutputPin : TOWArduinoStringSourcePin
+
+    [Name( 'MAC Address' )]
+    MACAddressOutputPin : TOWArduinoStringSourcePin
+
+    [ArduinoTemplateParameterCollectionCount]
+    DeviceIDs : TArduinoESP32BluetoothLERemoteDeviceIDs
+
+    Client : TArduinoESP32BluetoothLEClient
+
+  ;
+//---------------------------------------------------------------------------
+  [Collection( TArduinoESP32WiFiSockets )]
+  [ArduinoHelpPostfix( '(ESP32 Socket)' )]
+  [ArduinoOwnerTemplateTypeAndReference]
+  TArduinoESP32WiFiSocket_Extender : Extender;
+//---------------------------------------------------------------------------
+  [ArduinoClass( 'Mitov::TCPClientSocket' )]
+  [ArduinoTemplateParameter( '0_IMPLEMENTATION', 'Mitov::BasicTCPClientSocket_Implementation' )]
+  [ArduinoTemplateParameter( '0_IMPLEMENTATION.0_CLIENT', 'WiFiClient' )]
+  +TArduinoESP32WiFiTCPClientSocket : TArduinoBasicTCPClientSocket, TArduinoESP32WiFiSocket_Extender;
+//---------------------------------------------------------------------------
+  [ArduinoIncludeDefine( '#define protected public' )]
+  [ArduinoIncludeDefine( '#define private public' )]
+  [ArduinoInclude( 'WiFiClientSecure.h' )]
+  [ArduinoIncludeDefine( '#undef private' )]
+  [ArduinoIncludeDefine( '#undef protected' )]
+  [ArduinoClass( 'Mitov::TCPCACertSecureClientSocket' )]
+  [ArduinoTemplateParameter( 'CLIENT', 'WiFiClientSecure' )]
+//  [ArduinoVariable( Boolean, 'FConnecting' )]
+  +TArduinoESP32WiFiTCPSecureClientSocket : TArduinoBasicTCPSecureClientCACertSocket, TArduinoESP32WiFiSocket_Extender
+  
+//    [ArduinoUseBindingSetter]
+    Insecure : Boolean = False
+    
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoClass( 'Mitov::TCPServerSocket' )]
+  [ArduinoTemplateParameter( 'SERVER', 'WiFiServer' )]
+  [ArduinoTemplateParameter( 'CLIENT', 'WiFiClient' )]
+  +TArduinoESP32WiFiTCPServerSocket : TArduinoBasicTCPServerSocket, TArduinoESP32WiFiSocket_Extender
+
+    [ArduinoUseBindingCheckSetter( 'Update_NoDelay' )]
+    NoDelay : Boolean = True
+
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoInclude( 'WiFiUDP.h' )]
+  [ArduinoClass( 'Mitov::UDPSocket' )]
+  [ArduinoTemplateParameter( 'CLIENT', 'WiFiUDP' )]
+  +TArduinoESP32WiFiUDPSocket : TArduinoBasicUDPSocket, TArduinoESP32WiFiSocket_Extender;
+//---------------------------------------------------------------------------
+  [ParentImage( TArduinoBasicProcessorModuleOperations )]
+  TArduinoESP32BluetoothLEModuleOperations : TArduinoPersistentCollection;
+//---------------------------------------------------------------------------
+  [ArduinoBoardDeclared]
+  [ArduinoDeclarationSectionName( 'BoardDeclarations' )]
+  [ArduinoDeclaredClass]
+  [ArduinoInclude( 'Mitov_ESP32_BLE_Server.h' )]
+  [ArduinoClass( 'Mitov::ESP32BluetoothLEServer' )]
+  [ArduinoExcludeNotConnectedAndDefault]
+  [ArduinoInit]
+  [ArduinoStart]
+//  [ArduinoLoopBegin]
+  [ArduinoOwnerTemplateTypeAndReference]
+  *TArduinoESP32BluetoothLEServer : TArduinoCodeEnabledPersistent
+
+    InputPin : TOWArduinoBLEServerMultiSinkPin
+
+    [Name( 'BLE Server Serial' )]
+    Serial : TArduinoBluetoothUartService
+
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoScopedEnum]
+  TArduinoESP32BluetoothLESecurity : Enum
+  
+    Default
+    Encrypt
+    Encrypt_No_MITM
+    Encrypt_MITM
+    
+  ;
+//---------------------------------------------------------------------------
+  *TArduinoESP32BluetoothLERemoteDevices : TArduinoPersistentCollection;
+//---------------------------------------------------------------------------
+  [ArduinoBoardDeclared]
+  [ArduinoDeclarationSectionName( 'BoardDeclarations' )]
+  [Name( 'Bluetooth LE' )]
+  [CreateName( 'Bluetooth LE' )]
+  [ArduinoDeclaredClass]
+  [ArduinoIncludeDefine( '#define private public' )]
+  [ArduinoIncludeDefine( '#ifdef SEEEDUINO_WIO_TERMINAL' )]
+  [ArduinoInclude( 'rpcBLEDevice.h' )]
+  [ArduinoIncludeDefine( '#else' )]
+  [ArduinoInclude( 'BLEDevice.h' )]
+  [ArduinoInclude( 'BLEUtils.h' )]
+  [ArduinoIncludeDefine( '#endif' )]
+  [ArduinoIncludeDefine( '#undef private' )]
+  [ArduinoInclude( 'Mitov_ESP32_BLE.h' )]
+  [ArduinoClass( 'Mitov::ESP32BluetoothLE' )]
+  [ArduinoExcludeNotConnectedAndDefault]
+  [ArduinoInit]
+  [ArduinoStart]
+  [CollectionItemAssociation( TOWArduinoBLEServerMultiSinkPin )]
+  [ArduinoRemoveLibrary( 'ArduinoBLE', 'https://github.com/arduino-libraries/ArduinoBLE' )]
+  *TArduinoESP32BluetoothLEBasicModule : TArduinoShield
+
+    [Name( 'MAC Address' )]
+    MACAddressOutputPin : TOWArduinoStringSourcePin
+
+    [ArduinoChangeOnlyPin]
+    [ArduinoPinConnectedAddCodeEntry( ceLoopBegin, 'SystemLoopBeginConnectionCount' )]
+    ConnectedCountOutputPin : TOWArduinoIntegerSourcePin
+
+    DeviceName : String = ''
+
+    [Name('Maximum Transmission Unit (MTU)')]
+    [ValueRange( 23, 517 )]
+    MaximumTransmissionUnit : Unsigned = 23
+
+    [ArduinoInstanceIncluded( 'Mitov::ESP32ServerImp', 'Mitov::ESP32ServerImp_NoServer' )]
+    Server : TArduinoESP32BluetoothLEServer
+
+    [ComponentEditorEntryDesign( 'Add Remote Devices ...' )]
+    RemoteDevices : TArduinoESP32BluetoothLERemoteDevices
+
+  ;
+//---------------------------------------------------------------------------
+  +TArduinoESP32BluetoothLEModule : TArduinoESP32BluetoothLEBasicModule
+
+    [ValueRange( 0, 7 )]
+    TransmitPower : Unsigned = 5
+
+    Security : TArduinoESP32BluetoothLESecurity = Default
+
+    [ArduinoExcludeCollectionItems]
+    [ComponentEditorEntryDesign( 'Add BLE Operations ...' )]
+    Operations : TArduinoESP32BluetoothLEModuleOperations
+    
+  ;
+//---------------------------------------------------------------------------
+//  [ArduinoTemplateParameterBoardChannel( 'ChipSelectOutputPin', 'BUILTIN_SDCARD' )]
+//  [ArduinoInclude( 'FS.h' )]
+  [ArduinoInclude( 'SD_MMC.h' )]
+  [ArduinoInclude( 'Mitov_MMC_MicroSDCard.h' )]
+  [ArduinoClass( 'Mitov::MicroSD_MMCCard' )]
+  [ArduinoExcludeNotConnectedAndDefault]
+//  [ArduinoTemplateParameter( 'TYPE', 'SD_MMC' )]
+  +TArduinoESP32Board_MMC_MicroSDModule : TArduinoBasicCommonBoardMicroSDModule, TArduinoMicroSDCard_BasicExtender
+  
+    Size : TArduinoMicroSDSize
+    
+//  TODO: Add MicroSD Caed Type Pin
+    
+  ;
+//---------------------------------------------------------------------------
+; // Mitov

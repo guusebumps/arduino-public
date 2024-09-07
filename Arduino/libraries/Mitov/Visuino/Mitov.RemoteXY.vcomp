@@ -1,0 +1,142 @@
+Mitov : Namespace
+//---------------------------------------------------------------------------
+  [ArduinoDeclaredClass]
+  [Collection( TArduinoRemoteXYProtocols )]
+  [ArduinoHelpPostfix( '(RemoteXY Protocols)' )]
+  [ArduinoInclude( 'Mitov_RemoteXY.h' )]
+  [ArduinoDeclaredClass]
+  [ArduinoOwnerTemplateTypeAndReference]
+  [ArduinoTemplateParameterCollectionItemIndexAttribute]
+  [ArduinoClass( 'Mitov::MitovRemoteXYProtpcol' )]
+  [ArduinoStart]
+  [ArduinoLoopBegin]
+  TArduinoRemoteXYProtocolBasic : TArduinoBasicNamedExludePersistent
+
+    ConnectedOutputPin : TOWArduinoDigitalSourcePin
+
+    Password : String = ''
+
+  ;
+//---------------------------------------------------------------------------
+  [Name( 'Serial' )]
+  [CreateName( 'Serial' )]
+  [ParentImage( TArduinoBasicSerial )]
+  [OldName( 'TOWArduinoRemoteXYProtocolSerial' )]
+  [ArduinoTemplateParameter( '0_INTERFACE', '::Mitov::RemoteXY_Serial' )]
+  +TArduinoRemoteXYProtocolSerial : TArduinoRemoteXYProtocolBasic
+
+    [OWPrimaryPin]
+    [ArduinoAddToTemplate( '0_INTERFACE' )]
+    OutputPin : TOWArduinoSharedSerialSourcePin
+
+  ;
+//---------------------------------------------------------------------------
+  TArduinoRemoteXYProtocolSocketBasic : TArduinoRemoteXYProtocolBasic
+
+    [ArduinoAddToTemplate( '0_INTERFACE' )]
+    [OldName( 'ConfugureSocket' )]
+    ConfigureSocket : Boolean = True
+
+    [ValueRange( 16, 1024 )]
+    [OWExcludeBindings]
+    [ArduinoTemplateParameterConst]
+    [ArduinoAddPowerVariable( '0_INTERFACE.FSendBufferCount' )]
+    [ArduinoAddToTemplate( '0_INTERFACE' )]
+    MaxPacketSize : Unsigned = 255
+
+  ;
+//---------------------------------------------------------------------------
+  [Name( 'TCP Server' )]
+  [CreateName( 'TCP Server' )]
+  [ParentImage( TArduinoBasicTCPServerSocket )]
+  [OldName( 'TOWArduinoRemoteXYProtocolTCPServer' )]
+  [ArduinoInit]
+  [ArduinoTemplateParameter( '0_INTERFACE', '::Mitov::RemoteXY_TCP' )]
+  [ArduinoVariable( Boolean, '0_INTERFACE.FWasConnected' )]
+  +TArduinoRemoteXYProtocolTCPServer : TArduinoRemoteXYProtocolSocketBasic
+
+    [OWPrimaryPin]
+//    [ArduinoExclude]
+//    [ArduinoExcludeOwner]
+//    [ArduinoSerialInstanceTemplate]
+    [ArduinoAddToTemplate( '0_INTERFACE' )]
+    [ArduinoPopulateSocket( ConfigureSocket, 'Port' )]
+    OutputPin : TOWArduinoTCPServerSocketSourcePin
+
+    [NamePostfix( '(mS)' )]
+    [ArduinoAddToTemplate( '0_INTERFACE' )]
+    Timeout : Unsigned = 7000
+
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoClass( 'Mitov::TArduinoRemoteXYProtocolCloudTimeout' )]
+  [ParentImage( TArduinoTimeoutTimer )]
+  *TArduinoRemoteXYProtocolCloudTimeout : TArduinoCodePersistent
+
+    [NamePostfix( 'mS' )]
+    Connect : Unsigned = 10000
+
+    [NamePostfix( 'mS' )]
+    Reconnect : Unsigned = 30000
+
+    [NamePostfix( 'mS' )]
+    Echo : Unsigned = 60000
+
+  ;
+//---------------------------------------------------------------------------
+  [Name( 'Cloud' )]
+  [CreateName( 'Cloud' )]
+  [OldName( 'TOWArduinoRemoteXYProtocolCloud' )]
+  [ArduinoTemplateParameter( '0_INTERFACE', '::Mitov::RemoteXY_Cloud' )]
+  [ArduinoVariable( Unsigned, 3, '0_INTERFACE.FCloudState' )]
+  +TArduinoRemoteXYProtocolCloud : TArduinoRemoteXYProtocolSocketBasic
+
+    [OWPrimaryPin]
+    [ArduinoExclude]
+//    [ArduinoExcludeOwner]
+    [ArduinoAddToTemplate( '0_INTERFACE' )]
+    [ArduinoPopulateSocket( ConfigureSocket, 'Port' )]
+    [ArduinoPopulateSocket( ConfigureSocket, 'Host' )]
+    OutputPin : TOWArduinoTCPClientSocketSourcePin
+
+    [ArduinoAddToTemplate( '0_INTERFACE' )]
+    Token : String = ''
+
+    [ArduinoAddToTemplate( '0_INTERFACE' )]
+    Timeout : TArduinoRemoteXYProtocolCloudTimeout
+
+  ;
+//---------------------------------------------------------------------------
+  [Name( 'Button' )]
+  [CreateName( 'Button' )]
+  [OldName( 'TOWArduinoRemoteXYButtonElement' )]
+  [RemoteXYControl( 'Button' )]
+  +TArduinoRemoteXYButtonElement : TOWArduinoRemoteXYElementBasicDigitalOutput;
+//---------------------------------------------------------------------------
+  [Name( 'Switch' )]
+  [CreateName( 'Switch' )]
+  [OldName( 'TOWArduinoRemoteXYSwitchElement' )]
+  [RemoteXYControl( 'Switch' )]
+  +TArduinoRemoteXYSwitchElement : TOWArduinoRemoteXYElementBasicDigitalOutput;
+//---------------------------------------------------------------------------
+  [Name( 'Push Switch' )]
+  [CreateName( 'Push Switch' )]
+  [RemoteXYControl( 'PushSwitch' )]
+  +TArduinoRemoteXY_Push_Switch_Element : TOWArduinoRemoteXYElementBasicDigitalOutput;
+//---------------------------------------------------------------------------
+  [Name( 'Display Page' )]
+  [CreateName( 'Display Page' )]
+  [RemoteXYControl( 'DisplayPage' )]
+  +TArduinoRemoteXY_DisplayPage_Element : TOWArduinoRemoteXYElementBasicDigitalOutput;
+//---------------------------------------------------------------------------
+  [Name( 'Circular Bar' )]
+  [CreateName( 'Circular Bar' )]
+  [RemoteXYControl( 'CircularBar' )]
+  +TArduinoRemoteXY_CircularBar_Element : TArduinoRemoteXY_DataFormat_Analog_Element;
+//---------------------------------------------------------------------------
+  [Name( 'Instrument' )]
+  [CreateName( 'Instrument' )]
+  [RemoteXYControl( 'Instrument' )]
+  +TArduinoRemoteXY_Instrument_Element : TArduinoRemoteXY_DataFormat_Analog_Element;
+//---------------------------------------------------------------------------
+; // Mitov

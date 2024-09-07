@@ -1,0 +1,184 @@
+Mitov : Namespace
+//---------------------------------------------------------------------------
+  TArduinoAnalogArrayMultiInputSource : TArduinoCommonAnalogArraySource
+
+    [OWPrimaryPin]
+    [ArduinoTemplatePinListSize]
+    [OWPinListPrimaryPinType( TOWArduinoAnalogArraySinkPin  )]
+    [OWAutoManagePinListOwner( TOWArduinoAnalogArraySinkPin, 2, 2, 200 )]
+    InputPins : TOWPinListOwner
+
+  ;
+//---------------------------------------------------------------------------
+  TArduinoComplexArrayMultiInputSource : TArduinoCommonComplexArraySource
+
+    [OWPrimaryPin]
+    [ArduinoTemplatePinListSize]
+    [OWPinListPrimaryPinType( TOWArduinoComplexArraySinkPin  )]
+    [OWAutoManagePinListOwner( TOWArduinoComplexArraySinkPin, 2, 2, 200 )]
+    InputPins : TOWPinListOwner
+
+  ;
+//---------------------------------------------------------------------------
+  [CreateName( 'ComplexToComplexArray' )]
+  [Name( 'Complex To Complex Array' )]
+  [ArduinoTemplateParameter( 'TYPE', 'Mitov::TComplex' )]
+  [Category( TArduinoComplexConvertersToolbarCategory )]
+  +TArduinoComplexToComplexArray : TArduinoCommonClockedComplexArraySource, TArduinoItemToItemArray_Extender
+
+    [TOWArduinoComplexComplexArraySinkPinGetValueCallChain]
+    [OWPinListPrimaryPinType( TOWArduinoComplexComplexArraySinkPin )]
+    [OWAutoManagePinListOwner( TOWArduinoComplexComplexArraySinkPin, 8, 1, 255 )]
+    InputPins : TOWPinListOwner
+
+  ;
+//---------------------------------------------------------------------------
+  [Name( 'Analog Array Change Only' )]
+  [Category( TArduinoAnalogFiltersToolbarCategory )]
+  [ArduinoTemplateParameter( 'DATA', 'float' )]
+  +TArduinoAnalogArrayChangeOnly : TArduinoCommonAnalogArrayFilter, TArduinoChangeOnlyArray_Extender;
+//---------------------------------------------------------------------------
+  [Name( 'Analog Array Multi Source' )]
+  [Category( TSynchronizationToolbarCategory )]
+  [Category( TArduinoAnalogToolbarCategory )]
+  +TArduinoAnalogArrayMultiSource : TArduinoCommonAnalogArraySink, TArduinoMultiSource_Extender
+
+    [OWPinListPrimaryPinType( TOWArduinoAnalogArraySourcePin )]
+    [OWAutoManagePinListOwner( TOWArduinoAnalogArraySourcePin, 2, 2, 100 )]
+    OutputPins : TOWPinListOwner
+
+  ;
+//---------------------------------------------------------------------------
+  [Name( 'Complex Array Change Only' )]
+  [Category( TArduinoComplexFiltersToolbarCategory )]
+  [ArduinoTemplateParameter( 'DATA', 'float' )]
+  +TArduinoComplexArrayChangeOnly : TArduinoCommonComplexArrayFilter, TArduinoChangeOnlyArray_Extender;
+//---------------------------------------------------------------------------
+  [Name( 'Complex Array Multi Source' )]
+  [Category( TSynchronizationToolbarCategory )]
+  [Category( TArduinoComplexToolbarCategory )]
+  +TArduinoComplexArrayMultiSource : TArduinoCommonComplexArraySink, TArduinoMultiSource_Extender
+
+    [OWPinListPrimaryPinType( TOWArduinoComplexArraySourcePin )]
+    [OWAutoManagePinListOwner( TOWArduinoComplexArraySourcePin, 2, 2, 100 )]
+    OutputPins : TOWPinListOwner
+
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoTemplateParameter( 'TYPE', 'Mitov::TValueArray<float>' )]
+  [Name( 'Analog Array Mux(Multi channel Switch)' )]
+  [CreateName( 'AnalogArrayMux' )]
+  [Category( TArduinoAnalogToolbarCategory )]
+  +TArduinoAnalogArrayMux : TArduinoAnalogArrayMultiInputSource, TArduinoMux_Object_Extender;
+//---------------------------------------------------------------------------
+  [ArduinoTemplateParameter( 'TYPE', '::Mitov::TValueArray<float>' )]
+  [Name( 'Analog Array On/Off Switch' )]
+  [Category( TArduinoAnalogToolbarCategory )]
+  [ArduinoTemplateParameter( '0_IMPLEMENTATION_OUTPUT_VALUE', '::Mitov::CommonSwitch_Value', '0, ::Mitov::TValueArray<float>' )]
+  [ArduinoTemplateParameter( '0_IMPLEMENTATION_VALUE', '::Mitov::CommonSwitch_Value', '1, ::Mitov::TValueArray<float>' )]
+  +TArduinoAnalogArraySwitch : TArduinoCommonAnalogArraySource, TArduinoObjectSwitch_Extender
+
+    [OWPrimaryPin]
+    InputPin : TOWArduinoAnalogArraySinkPin
+
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoTemplateParameter( 'TYPE', '::Mitov::TValueArray<float>' )]
+  [Name( 'Analog Array Toggle Switch' )]
+  [Category( TArduinoAnalogToolbarCategory )]
+  +TArduinoAnalogArrayToggleSwitch : TArduinoCommonAnalogArraySource, TArduinoToggleSwitch_Extender
+
+    [OWPrimaryPin]
+    TrueInputPin : TOWArduinoAnalogArraySinkPin
+
+    [OWPrimaryPin]
+    FalseInputPin : TOWArduinoAnalogArraySinkPin
+
+  ;
+//---------------------------------------------------------------------------
+  [Name( 'Analog Array Toggle Demux' )]
+  [Category( TArduinoAnalogToolbarCategory )]
+  +TArduinoAnalogArrayToggleDemux : TArduinoCommonAnalogArraySink, TArduinoToggleDemux_Extender
+
+    [OWPrimaryPin]
+    TrueOutputPin : TOWArduinoAnalogArraySourcePin
+
+    [OWPrimaryPin]
+    FalseOutputPin  : TOWArduinoAnalogArraySourcePin
+
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoTemplateParameter( 'TYPE', '::Mitov::TValueArray<float>' )]
+  [Name( 'Analog Array Demux(Multiple Output channel Switch)' )]
+  [Category( TArduinoAnalogToolbarCategory )]
+  +TArduinoAnalogArrayDemux : TArduinoCommonAnalogArraySink, TArduinoObjectDemux_Extender
+
+    [OWPinListPrimaryPinType( TOWArduinoAnalogArraySourcePin )]
+    [OWAutoManagePinListOwner( TOWArduinoAnalogArraySourcePin, 2, 2, 4000 )]
+    OutputPins : TOWPinListOwner
+
+  ;
+//---------------------------------------------------------------------------
+  [Name( 'Repeat Analog Array' )]
+  [Category( TArduinoAnalogToolbarCategory )]
+  +TArduinoRepeatAnalogArray : TArduinoCommonAnalogArrayFilter, TArduinoRepeat_Extender;
+//---------------------------------------------------------------------------
+  [ArduinoTemplateParameter( 'TYPE', 'Mitov::TValueArray<Mitov::TComplex>' )]
+  [Name( 'Complex Array Mux(Multi channel Switch)' )]
+  [CreateName( 'ComplexArrayMux' )]
+  [Category( TArduinoComplexToolbarCategory )]
+  +TArduinoComplexArrayMux : TArduinoComplexArrayMultiInputSource, TArduinoMux_Object_Extender;
+//---------------------------------------------------------------------------
+  [ArduinoTemplateParameter( 'TYPE', '::Mitov::TValueArray<Mitov::TComplex>' )]
+  [Name( 'Complex Array On/Off Switch' )]
+  [Category( TArduinoComplexToolbarCategory )]
+  [ArduinoTemplateParameter( '0_IMPLEMENTATION_OUTPUT_VALUE', '::Mitov::CommonSwitch_Value', '0, ::Mitov::TValueArray<Mitov::TComplex>' )]
+  [ArduinoTemplateParameter( '0_IMPLEMENTATION_VALUE', '::Mitov::CommonSwitch_Value', '1, ::Mitov::TValueArray<Mitov::TComplex>' )]
+  +TArduinoComplexArraySwitch : TArduinoCommonComplexArraySource, TArduinoObjectSwitch_Extender
+
+    [OWPrimaryPin]
+    InputPin : TOWArduinoComplexArraySinkPin
+
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoTemplateParameter( 'TYPE', '::Mitov::TValueArray<Mitov::TComplex>' )]
+  [Name( 'Complex Array Toggle Switch' )]
+  [Category( TArduinoComplexToolbarCategory )]
+  +TArduinoComplexArrayToggleSwitch : TArduinoCommonComplexArraySource, TArduinoToggleSwitch_Extender
+
+    [OWPrimaryPin]
+    TrueInputPin : TOWArduinoComplexArraySinkPin
+
+    [OWPrimaryPin]
+    FalseInputPin : TOWArduinoComplexArraySinkPin
+
+  ;
+//---------------------------------------------------------------------------
+  [Name( 'Complex Array Toggle Demux' )]
+  [Category( TArduinoComplexToolbarCategory )]
+  +TArduinoComplexArrayToggleDemux : TArduinoCommonComplexArraySink, TArduinoToggleDemux_Extender
+
+    [OWPrimaryPin]
+    TrueOutputPin : TOWArduinoComplexArraySourcePin
+
+    [OWPrimaryPin]
+    FalseOutputPin  : TOWArduinoComplexArraySourcePin
+
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoTemplateParameter( 'TYPE', '::Mitov::TValueArray<Mitov::TComplex>' )]
+  [Name( 'Complex Array Demux(Multiple Output channel Switch)' )]
+  [Category( TArduinoComplexToolbarCategory )]
+  +TArduinoComplexArrayDemux : TArduinoCommonComplexArraySink, TArduinoObjectDemux_Extender
+
+    [OWPinListPrimaryPinType( TOWArduinoComplexArraySourcePin )]
+    [OWAutoManagePinListOwner( TOWArduinoComplexArraySourcePin, 2, 2, 4000 )]
+    OutputPins : TOWPinListOwner
+
+  ;
+//---------------------------------------------------------------------------
+  [Name( 'Repeat Complex Array' )]
+  [Category( TArduinoComplexToolbarCategory )]
+  +TArduinoRepeatComplexArray : TArduinoCommonComplexArrayFilter, TArduinoRepeat_Extender;
+//---------------------------------------------------------------------------
+; // Mitov

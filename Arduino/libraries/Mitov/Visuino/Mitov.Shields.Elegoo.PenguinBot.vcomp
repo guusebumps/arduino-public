@@ -1,0 +1,60 @@
+Mitov : Namespace
+//---------------------------------------------------------------------------
+  [ArduinoTemplateParameter( 'PIN_PING', '5' )]
+  [ArduinoTemplateParameter( 'PIN_ECHO', '4' )]
+  [ArduinoShieldPin( '5',  'Ping' )]
+  [ArduinoShieldPin( '4',  'Echo' )]
+  TArduinoElegooPenguinBotShieldUltrasonicRanger : TArduinoUltrasonicRangerShieldElement;
+//---------------------------------------------------------------------------
+  [ArduinoTemplateParameter( 'PIN', '19' )] // A5
+  [ArduinoShieldPin( '19',  'LED' )]
+  TArduinoElegooPenguinBotShield_LED : TArduinoBasicDigitalLED;
+//---------------------------------------------------------------------------
+  [ArduinoInclude( 'Mitov_Elegoo_PenguinBot.h' )]
+  [ArduinoClass( 'Mitov::ElegooPenguinBotBatterySensor' )]
+  [ArduinoDeclaredClass]
+  [ArduinoExcludeNotConnectedAndDefault]
+  [ArduinoShieldPin( '18',  'Battery' )]
+  +TArduinoElegooPenguinBotShield_BatterySensor : TArduinoBasicBatteryAnalogSensorPersistent;
+//---------------------------------------------------------------------------
+  [ArduinoShieldPin( '14',  'Left Distance' )]
+  [ArduinoShieldPin( '15',  'Right Distance' )]
+  +TArduinoElegooPenguinBotShield_InfraredDistanceSensors : TArduinoCodePersistent, TElegooPenguinBotInfraredDistance_Extender;
+//---------------------------------------------------------------------------
+  [ArduinoDeclaredClass]
+  +TArduinoElegooPenguinBotShield_MP3Player : TArduinoCodeEnabledPersistent, TArduinoMaiyoutMP3Player_Extender, TElegooPenguinBotMP3PlayerModule_Extender
+
+    [ArduinoInitParam]
+    Enabled
+    
+  ;
+//---------------------------------------------------------------------------
+  [Name( 'Elegoo Penguin Bot V2 Shield' )]
+  [CreateName( 'Penguin Bot Shield' )]
+  [Collection( TArduinoShields )]
+  [Category( TArduinoElegooToolbarCategory )]
+  [Category( TArduinoRobotsToolbarCategory )]
+  [ParentImage( TElegooPenguinBotBoard )]
+  [ArduinoDefine( 'VISUINO_ELEGOO_PENGUIN_BOT_V2' )]
+  +TArduinoElegooPenguinBotShield : TArduinoShield, INanoShield
+
+    [Name( 'Ultrasonic Ranger' )]
+    UltrasonicRanger : TArduinoElegooPenguinBotShieldUltrasonicRanger
+
+    [AddItem( TElegooPenguinBotLeftLegItem )]
+    [AddItem( TElegooPenguinBotRightLegItem )]
+    Legs : TElegooPenguinBotLegItems
+
+    LED : TArduinoElegooPenguinBotShield_LED
+    
+    Battery : TArduinoElegooPenguinBotShield_BatterySensor
+
+    [Name( 'IR Distance Senosrs' )]
+    IRDistanceSenosrs : TArduinoElegooPenguinBotShield_InfraredDistanceSensors
+  
+    [Name( 'MP3 Player' )]
+    MP3Player : TArduinoElegooPenguinBotShield_MP3Player
+
+  ;
+//---------------------------------------------------------------------------
+; // Mitov

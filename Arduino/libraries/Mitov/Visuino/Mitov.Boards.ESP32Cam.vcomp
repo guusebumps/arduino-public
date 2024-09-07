@@ -1,0 +1,277 @@
+Mitov : Namespace
+//---------------------------------------------------------------------------
+  [ArduinoTemplateParameter( 'C_PIN', '33' )]
+  +TArduinoESP32Cam_LEDModule : TArduinoBasicPWM_LEDModule;
+//---------------------------------------------------------------------------
+  [ArduinoTemplateParameter( 'C_PIN', '4' )]
+  [Name( 'Flashlight' )]
+  [CreateName( 'Flashlight' )]
+  +TArduinoESP32Cam_FlashlightModule : TArduinoBasicPWM_LEDModule;
+//---------------------------------------------------------------------------
+  [ArduinoScopedEnum]
+  TArduinoESP32CamImageFormat : TImageFormat
+    
+    -RGB24
+    -RGBA32
+    -Gray16
+    -Gray4
+    JPEG
+        
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoScopedEnum]
+  TArduinoESP32CamImageSize_640 : Enum
+
+    Size_96x96
+    Size_160x120
+    Size_176x144
+    Size_240x176
+    Size_240x240
+    Size_320x240
+    Size_400x296
+    Size_480x320
+    Size_640x480
+
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoScopedEnum]
+  TArduinoESP32CamImageSize : TArduinoESP32CamImageSize_640
+    
+    Size_800x600
+    Size_1024x768
+    Size_1280x720
+    Size_1280x1024
+    Size_1600x1200
+    
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoScopedEnum]
+  TArduinoESP32CamGrabMode : Enum
+  
+    WhenEmpty
+    Latest
+    
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoScopedEnum]
+  TArduinoESP32_Camera_SpecialEffect : Enum
+  
+    None
+    Negative
+    Grayscale
+    RedTint
+    GreenTint
+    BlueTint
+    Sepia
+        
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoScopedEnum]
+  TArduinoESP32_Camera_WhiteBalanceEnum : Enum
+  
+    Auto
+    Sunny
+    Cloudy
+    Office
+    Home
+    
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoClass( 'Mitov::TArduinoESP32_Camera_WhiteBalance' )]
+  TArduinoESP32_Camera_WhiteBalance : TArduinoCodeEnabledPersistent
+  
+    [ArduinoUseBindingCheckSetter_Parent( 'Update_Whitebal' )]
+    Enabled
+    
+    [ArduinoUseBindingCheckSetter_Parent( 'Update_WhiteBalance' )]
+    Value : TArduinoESP32_Camera_WhiteBalanceEnum = Auto
+    
+    [ArduinoUseBindingCheckSetter_Parent( 'Update_awb_gain' )]
+    Gain : Boolean = True
+    
+  ;
+//---------------------------------------------------------------------------
+  TArduinoESP32_Camera_Mirror : TArduinoGraphicsMirror
+  
+    [ArduinoUseBindingCheckSetter_Parent( 'Update_Mirror_Horizontal' )]
+    Horizontal
+
+    [ArduinoUseBindingCheckSetter_Parent( 'Update_Mirror_Vertical' )]
+    Vertical
+    
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoClass( 'Mitov::TArduinoESP32_Camera_AutomaticExposure' )]
+  TArduinoESP32_Camera_AutomaticExposure : TArduinoCodeEnabledPersistent
+  
+    [ArduinoUseBindingCheckSetter_Parent( 'Update_exposure_ctrl' )]
+    Enabled
+    
+    [ArduinoUseBindingCheckSetter_Parent( 'Update_ae_level' )]
+    [ValueRange( 0.0, 1.0 )]
+    Level : Single = 0.5
+    
+    [ArduinoUseBindingCheckSetter_Parent( 'Update_aec_value' )]
+    [ValueRange( 0.0, 1.0 )]
+    CorrectionValue : Single = 0.0
+
+    [ArduinoUseBindingCheckSetter_Parent( 'Update_aec2' )]
+    DSP : Boolean = False
+
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoClass( 'Mitov::TArduinoESP32_Camera_GainControl' )]
+  TArduinoESP32_Camera_GainControl : TArduinoCodeEnabledPersistent
+
+    [ArduinoUseBindingCheckSetter_Parent( 'Update_gain_ctrl' )]
+    Enabled
+
+    [ArduinoUseBindingCheckSetter_Parent( 'Update_agc_gain' )]
+    [ValueRange( 0.0, 1.0 )] // 0 - 30
+    Value : Single = 0.066
+    
+    [ArduinoUseBindingCheckSetter_Parent( 'Update_gainceiling' )]
+    [ValueRange( 0.0, 1.0 )]
+    Ceiling : Single = 0
+    
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoClass( 'Mitov::TArduinoESP32_Camera_PixelCorrection' )]
+  TArduinoESP32_Camera_PixelCorrection : TArduinoCodePersistent
+
+    [ArduinoUseBindingCheckSetter_Parent( 'Update_BlackPixelCorrection' )]
+    Black : Boolean = False
+    
+    [ArduinoUseBindingCheckSetter_Parent( 'Update_WhitePixelCorrection' )]
+    White : Boolean = False
+    
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoInclude( 'esp_camera.h' )]
+  [ArduinoInclude( 'Mitov_ESP32Camera.h' )]
+  [Name( 'Camera' )]
+  [CreateName( 'Camera' )]
+  [ArduinoExcludeNotConnectedAndDefault]
+  [ArduinoStart]
+  *TArduinoESP32_BasicCameraModule : TArduinoEnableUpdateShield
+
+    [ArduinoPinDisconnectedAddCodeEntry( ceLoopBegin )]
+//    [ArduinoPinDisconnectedAddCodeEntry( ceStart )]
+    ClockInputPin : TOWArduinoClockSinkPin
+    
+    [OWPrimaryPin]
+    OutputPin : TOWArduinoImageSourcePin
+    
+//    [OWPrimaryPin]
+//    JPEGOutputPin : TOWArduinoJPEGImageSourcePin
+    
+    GrabMode : TArduinoESP32CamGrabMode = WhenEmpty
+    
+    [MinValue( 1 )]
+    CountBuffers : Unsigned = 2
+    
+    [ArduinoUseBindingCheckSetter( 'Update_SpecialEffect' )]
+    SpecialEffect : TArduinoESP32_Camera_SpecialEffect = None
+    
+    [ArduinoUseBindingCheckSetter( 'Update_Contrast' )]
+    [ValueRange( 0.0, 1.0 )]
+    Contrast : Single = 0.5
+    
+    [ArduinoUseBindingCheckSetter( 'Update_ColorBar' )]
+    ColorBar : Boolean = False
+    
+    Mirror : TArduinoESP32_Camera_Mirror
+       
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoClass( 'Mitov::ESP32Camera' )]
+  *TArduinoESP32_CommonCameraModule_OV2640 : TArduinoESP32_BasicCameraModule
+
+    [ArduinoUseBindingCheckSetter( 'Update_Brightness' )]
+    [ValueRange( 0.0, 1.0 )]
+    Brightness : Single = 0.5
+    
+    [ArduinoUseBindingCheckSetter( 'Update_Saturation' )]
+    [ValueRange( 0.0, 1.0 )]
+    Saturation : Single = 0.5
+    
+    Gain : TArduinoESP32_Camera_GainControl
+    
+    PixelCorrection : TArduinoESP32_Camera_PixelCorrection
+    
+    [ArduinoUseBindingCheckSetter( 'Update_LensCorrection' )]
+    LensCorrection : Boolean = False
+    
+    Exposure : TArduinoESP32_Camera_AutomaticExposure
+    
+    [ArduinoUseBindingCheckSetter( 'Update_WhiteBalance' )]
+    WhiteBalance : TArduinoESP32_Camera_WhiteBalance
+    
+    [ArduinoUseBindingCheckSetter( 'Update_Quality' )]
+    [ValueRange( 0.0, 1.0 )]
+    Quality : Single = 0.19
+    
+    [ArduinoUseBindingCheckSetter( 'Update_EnableDownsize' )]
+    EnableDownsize : Boolean = True
+    
+    [ArduinoUseBindingCheckSetter( 'Update_raw_gma' )]
+    GammaCorrection : Boolean = True
+    
+  ;
+//---------------------------------------------------------------------------
+  TArduinoESP32_BasicJpegCameraModule : TArduinoESP32_CommonCameraModule_OV2640
+
+    PixelFormat : TArduinoESP32CamImageFormat = JPEG
+    ImageSize : TArduinoESP32CamImageSize = Size_1600x1200
+    UsePSRAM : Boolean = True
+
+    [MaxValue( 63 )]
+    JpegQuality : Unsigned = 12
+    
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoTemplateParameter( 'C_PIN_POWER_DOWN', '32' )]
+  [ArduinoTemplateParameter( 'C_PIN_RESET', '-1' )]
+  [ArduinoTemplateParameter( 'C_PIN_XCLK', '0' )]
+  [ArduinoTemplateParameter( 'C_PIN_SIOD', '26' )]
+  [ArduinoTemplateParameter( 'C_PIN_SIOC', '27' )]
+  [ArduinoTemplateParameter( 'C_PIN_Y2', '5' )]
+  [ArduinoTemplateParameter( 'C_PIN_Y3', '18' )]
+  [ArduinoTemplateParameter( 'C_PIN_Y4', '19' )]
+  [ArduinoTemplateParameter( 'C_PIN_Y5', '21' )]
+  [ArduinoTemplateParameter( 'C_PIN_Y6', '36' )]
+  [ArduinoTemplateParameter( 'C_PIN_Y7', '39' )]
+  [ArduinoTemplateParameter( 'C_PIN_Y8', '34' )]
+  [ArduinoTemplateParameter( 'C_PIN_Y9', '35' )]
+  [ArduinoTemplateParameter( 'C_PIN_VSYNC', '25' )]
+  [ArduinoTemplateParameter( 'C_PIN_HREF', '23' )]
+  [ArduinoTemplateParameter( 'C_PIN_PCLK', '22' )]
+  [ArduinoTemplateParameter( 'C_I2C_CHANNEL', '0' )]
+  [CollectionItemSelfAssociation]
+  +TArduinoESP32CamBoard_CameraModule : TArduinoESP32_BasicJpegCameraModule;
+//---------------------------------------------------------------------------
+  [Category( TESP32Category )]
+  [ArduinoBoardCompileParams( 'esp32:esp32:esp32cam' )]
+  [Name( 'ESP32-Camera' )]
+  +TArduinoESP32CamBoard : TArduinoBasicESP32Digital_SPI_I2C_ChannelsBoard
+  
+    [AddItem( TArduinoESP32Cam_LEDModule )]
+    [AddItem( TArduinoESP32Cam_FlashlightModule )]
+    [AddItem( TArduinoESP32Board_MMC_MicroSDModule )]
+    [AddItem( TArduinoESP32CamBoard_CameraModule )]
+    Modules
+    
+    [ArduinoBoard_Add_ReservedChannels( 0, 1 )]
+    [ArduinoBoard_Add_ReservedChannel( 2, 'MicroSD(D0)' )]
+    [ArduinoBoard_Add_ReservedChannel( 3 )]
+    [ArduinoBoard_Add_ReservedChannel( 4, 'MicroSD' )]
+    [ArduinoBoard_Add_ReservedChannel( 12, 'MicroSD(D2)' )]
+    [ArduinoBoard_Add_ReservedChannel( 13, 'MicroSD(D3)' )]
+    [ArduinoBoard_Add_ReservedChannel( 14, 'MicroSD(CLK)' )]
+    [ArduinoBoard_Add_ReservedChannel( 15, 'MicroSD(CMD)' )]
+    [ArduinoBoard_Add_ReservedChannel( 16 )]
+    Digital
+    
+  ;
+//---------------------------------------------------------------------------
+; // Mitov

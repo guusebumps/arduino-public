@@ -1,0 +1,37 @@
+Mitov : Namespace
+//---------------------------------------------------------------------------
+  [ArduinoInclude( 'Mitov_Adafruit_DotStar.h' )]
+  [ArduinoInclude( 'Adafruit_DotStar.h', 'Adafruit DotStar', 'https://github.com/adafruit/Adafruit_DotStar' )]
+  ArduinoAdafruitDotStarIncludeAttribute : TAttributeCollectionAttribute;
+//---------------------------------------------------------------------------
+  [ArduinoAdafruitDotStarInclude]
+  [CollectionItemAssociation( TArduinoLEDRGB )]
+  [ArduinoClass( 'Mitov::ArduinoAdafruitDotStar_SingleRGBLedModule' )]
+  [Name( 'RGB LED' )]
+  [CreateName( 'RGB LED' )]
+  [ArduinoInit]
+  [ParentImage( TArduinoLEDRGB )]
+  [ArduinoVariable( Boolean, 'FModified' )]
+  TArduinoAdafruitNoDefaultDotStarSingleRGBLed_Basic_Module : TArduinoShield
+
+    [OWPrimaryPin]
+    ColorInputPin : TOWArduinoColorSinkPin
+
+    [ArduinoPinDisconnectedAddCodeEntry( ceLoopEnd )]
+    ClockInputPin : TOWArduinoClockSinkPin
+
+    [OWExcludeBindings]
+    [ExcludeSystemColors]
+    [ArduinoFullColor]
+    InitialValue : TColor = Black
+
+    [ArduinoUseBindingCheckSetter( 'UpdateBrightness' )]
+    [ValueRange( 0.0, 1.0 )]
+    Brightness : Single = 1.0
+
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoExcludeNotConnectedAndDefault]
+  TArduinoAdafruitDotStarSingleRGBLed_Basic_Module : TArduinoAdafruitNoDefaultDotStarSingleRGBLed_Basic_Module;
+//---------------------------------------------------------------------------
+; // Mitov

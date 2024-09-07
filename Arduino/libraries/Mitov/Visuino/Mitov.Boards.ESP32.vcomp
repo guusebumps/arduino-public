@@ -1,0 +1,464 @@
+Mitov : Namespace
+//---------------------------------------------------------------------------
+  [ArduinoClass( 'Mitov::InvertedDigitalPullUpInput' )]
+  +TArduinoESP_NoName_BootButtonModule : TArduinoBasicInterruptButtonModule;
+//---------------------------------------------------------------------------
+  [ArduinoTemplateParameter( 'C_PIN', '0' )]
+  +TArduinoESP_NoName_Boot0ButtonModule : TArduinoESP_NoName_BootButtonModule;
+//---------------------------------------------------------------------------
+  [ArduinoShieldPin( '0',  'BOOT Button' )]
+  +TArduinoESP_BootButtonModule : TArduinoESP_NoName_Boot0ButtonModule;
+//---------------------------------------------------------------------------
+  [ArduinoInclude( 'USB.h' )]
+  [ArduinoInclude( 'USBHIDMouse.h' )]
+  TArduinoBasicESP32_MouseModule : TArduinoEnabledMouseModule;
+  
+//---------------------------------------------------------------------------
+  [ArduinoInclude( 'USB.h' )]
+  [ArduinoInclude( 'USBHIDKeyboard.h' )]
+  TArduinoBasicESP32_KeyboardModule : TArduinoElementsKeyboardModule;
+//---------------------------------------------------------------------------
+  TArduinoBasicI2S_BasicAutoConfig : TArduinoCodePersistent
+  
+    AutoConfig : Boolean = True
+    
+  ;
+//--------------------------------------------------------------------------- 
+  [ArduinoClass( 'Mitov::TArduinoBasicI2S_SampleRate' )]
+  TArduinoBasicI2S_SampleRate : TArduinoBasicI2S_BasicAutoConfig
+
+    [ValueRange( 8000, 192000 )]
+    [PropertyListDesignValue( '8000' )]
+    [PropertyListDesignValue( '11025' )]
+    [PropertyListDesignValue( '16000' )]
+    [PropertyListDesignValue( '22050' )]
+    [PropertyListDesignValue( '32000' )]
+    [PropertyListDesignValue( '44100' )]
+    [PropertyListDesignValue( '48000' )]
+    [PropertyListDesignValue( '96000' )]
+    [PropertyListDesignValue( '192000' )]
+    Rate : Unsigned = 44100
+    
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoClass( 'Mitov::TArduinoBasicI2S_Bits' )]
+  TArduinoBasicI2S_Bits : TArduinoBasicI2S_BasicAutoConfig
+
+    [PropertyFixedListDesign]
+    [PropertyListDesignValue( '16' )]
+    [PropertyListDesignValue( '24' )]
+    [PropertyListDesignValue( '32' )]
+    [ValueRange( 8, 32 )]
+    Count : Unsigned = 16
+
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoScopedEnum]
+  TI2SMode : Enum
+  
+    Standard    // Phillips
+    MSB
+    ShortPCM
+    LongPCM
+    PDM         // Pulse Density Modulation
+    TDM         // Multichannel
+    
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoScopedEnum]
+  TArduinoBasicI2S_ModeEnum : Enum
+
+    Standard    // Phillips
+    MSB
+    ShortPCM
+    LongPCM
+    PDM         // Pulse Density Modulation
+    
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoClass( 'Mitov::TArduinoBasicI2S_Mode' )]
+  TArduinoBasicI2S_Mode : TArduinoBasicI2S_BasicAutoConfig
+  
+    Mode : TArduinoBasicI2S_ModeEnum = Standard
+    
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoClass( 'Mitov::TArduinoBasicI2S_Buffers' )]
+  TArduinoBasicI2S_Buffers : TArduinoCodePersistent
+    
+    [ValueRange( 1, 32 )]
+    Count : Unsigned = 2
+    
+    [ValueRange( 1, $7FFF )]
+    Size : Unsigned = 128
+    
+  ;
+//---------------------------------------------------------------------------
+//  [ArduinoClass( 'Mitov::TArduinoBasicI2S_Direction' )]
+  TArduinoBasicI2S_Direction_Extender : Extender
+  
+    [ValueRange( 1, 6 )]
+    InterruptLevel : Unsigned = 1
+    
+    Buffers : TArduinoBasicI2S_Buffers
+    
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoClass( 'Mitov::TArduino_ESP32_I2S_ExternalClocking' )]
+  TArduino_ESP32_I2S_ExternalClocking : TArduinoCodeDisabledPersistent
+  
+    [PropertyFixedListDesign]
+    [PropertyListDesignValue( '0' )]
+    [PropertyListDesignValue( '1' )]
+    [PropertyListDesignValue( '3' )]
+    PinNumber : Unsigned = 3
+    
+  ;  
+//---------------------------------------------------------------------------
+  [Name( 'DmaTransferComplete' )]
+  ArduinoESP32WiFiModule_I2S_DmaTransferComplete_SelfCallChainAttribute : ArduinoSelfCallChainAttribute;
+//---------------------------------------------------------------------------
+//  [Name( 'DmaInputTransferComplete' )]
+//  ArduinoESP32WiFiModule_I2S_DmaInputTransferComplete_SelfCallChainAttribute : ArduinoSelfCallChainAttribute;
+//---------------------------------------------------------------------------
+//  [Name( 'DmaOutputTransferComplete' )]
+//  ArduinoESP32WiFiModule_I2S_DmaOutputTransferComplete_SelfCallChainAttribute : ArduinoSelfCallChainAttribute;
+//---------------------------------------------------------------------------
+  [ArduinoClass( 'Mitov::TArduinoESP32_I2S_InputChannel' )]
+  TArduinoESP32_I2S_InputChannel : TArduinoBasicI2SPDMInputChannel, TArduinoBasicI2S_Direction_Extender
+
+    [ArduinoPinIsConnectedFlag]
+    DataInputPin
+    
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoClass( 'Mitov::TArduinoESP32_I2S_OutputChannel' )]
+  TArduinoESP32_I2S_OutputChannel : TArduinoBasicI2SPDMOutputChannel, TArduinoBasicI2S_Direction_Extender;
+//---------------------------------------------------------------------------
+  [ArduinoDeclaredClass]
+  [ArduinoInclude( 'Mitov_ESP32_I2S.h' )]
+  [ArduinoClass( 'Mitov::TArduino_ESP32_I2S' )]
+  [ArduinoExcludeNotConnectedAndDefault]
+  [ArduinoInit]
+  [ArduinoLoopBegin]
+  [ArduinoTemplateParameterCollectionItemIndex]
+  [ArduinoESP32WiFiModule_I2S_DmaTransferComplete_SelfCallChain]
+//  [ArduinoESP32WiFiModule_I2S_DmaInputTransferComplete_SelfCallChain]
+//  [ArduinoESP32WiFiModule_I2S_DmaOutputTransferComplete_SelfCallChain]
+  [ArduinoVariable( Boolean, 'FIsSecondChannel' )]
+  [ArduinoVariable( Unsigned, 2, 'FBytesPerSample' )]
+  [ArduinoVariable( Unsigned, 5, 'FCountChannels' )]
+  [ArduinoVariable( Unsigned, 5, 'FInputBuffersCount' )]
+  [ArduinoVariable( Unsigned, 5, 'FOutputBuffersCount' )]
+  [ArduinoBoardDeclared]
+  [ArduinoBoardChannelType( IArduinoI2SChannel )]
+  +TArduino_ESP32_I2SPDM : TArduinoBasicI2SPDMControl
+
+//    [ArduinoPinIsConnectedFlag]
+//    DataInputPin
+
+    Input : TArduinoESP32_I2S_InputChannel
+    Output : TArduinoESP32_I2S_OutputChannel
+    
+    IsSlave : Boolean = False
+   
+    ExternalClocking : TArduino_ESP32_I2S_ExternalClocking
+  
+    [MaxValue( 39 )]
+    ClockPin : Unsigned = 14
+    
+    [MaxValue( 39 )]
+    WordSelectPin : Unsigned = 25
+    
+    [MaxValue( 39 )]
+    DataIn : Unsigned = 35
+    
+    [MaxValue( 39 )]
+    DataOut : Unsigned = 26
+    
+    Mode : TArduinoBasicI2S_Mode
+    
+    Bits : TArduinoBasicI2S_Bits
+
+    SampleRate : TArduinoBasicI2S_SampleRate
+    
+//    [Name( 'Input' )]
+//    InputDirection : TArduinoBasicI2S_Direction
+    
+//    [Name( 'Output' )]
+//    OutputDirection : TArduinoBasicI2S_Direction
+    
+  ;
+//---------------------------------------------------------------------------
+  TArduinoBasicESP32_NoI2S_Board : TArduinoEssentialESP32Board, TArduinoBasicESP32Board_NoWiFi_Modules_Extender
+
+    [AddItem( TArduinoESP32WiFiModule )]
+    Modules : TArduinoModules
+
+    [Name( 'Audio Channels' )]
+    I2SChannels : TArduinoI2SChannels
+
+  ;
+//---------------------------------------------------------------------------
+  TArduinoBasicESP32Board : TArduinoBasicESP32_NoI2S_Board
+
+    [AddItem( TArduino_ESP32_I2SPDM, 2 )]
+    I2SChannels
+    
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoSerial( 0 )]
+  +TArduinoCombinedPullDownAnalogDigitalSerial0Channel : TArduinoCombinedPullDownAnalogDigitalChannel;
+//---------------------------------------------------------------------------
+  [ArduinoInterruptPin]
+  +TArduinoESP32CombinedPullDownAnalogDigitalDACChannel : TArduinoCombinedPullDownAnalogDigitalDACBasicChannel;
+//---------------------------------------------------------------------------
+  [ArduinoBoardDefaultChannelName( 'GPIO' )]
+  [ArduinoBoard_Reserve_DigitalAnalogChannels( 0,   1, TArduinoCombinedTouchPullDownAnalogDigitalInterruptChannel )]
+  [ArduinoBoard_Reserve_DigitalAnalogChannels( 1,   1, TArduinoCombinedPullDownAnalogDigitalSerial0Channel, 'GPIO(TX0)' )]
+  [ArduinoBoard_Reserve_DigitalAnalogChannels( 2,   1, TArduinoCombinedTouchPullDownAnalogDigitalInterruptChannel )]
+  [ArduinoBoard_Reserve_DigitalAnalogChannels( 3,   1, TArduinoCombinedPullDownAnalogDigitalSerial0Channel, 'GPIO(RX0)' )]
+  [ArduinoBoard_Reserve_DigitalAnalogChannels( 4,   1, TArduinoCombinedTouchPullDownAnalogDigitalInterruptChannel )]
+  [ArduinoBoard_Reserve_DigitalAnalogChannels( 5,   7, TArduinoCombinedPullDownAnalogDigitalChannel )]
+  [ArduinoBoard_Reserve_DigitalAnalogChannels( 12,  4, TArduinoCombinedTouchPullDownAnalogDigitalInterruptChannel )]
+  [ArduinoBoard_Reserve_DigitalAnalogChannels( 16,  2, TArduinoCombinedPullDownAnalogDigitalChannel )]
+  [ArduinoBoard_Reserve_DigitalAnalogChannels( 18,  2, TArduinoCombinedTouchPullDownAnalogDigitalInterruptChannel )]
+  [ArduinoBoard_Reserve_DigitalAnalogChannels( 21,  2, TArduinoCombinedPullDownAnalogDigitalChannel )]
+  [ArduinoBoard_Reserve_DigitalAnalogChannels( 23,  1, TArduinoCombinedTouchPullDownAnalogDigitalInterruptChannel )]
+  [ArduinoBoard_Reserve_DigitalAnalogChannels( 25,  2, TArduinoESP32CombinedPullDownAnalogDigitalDACChannel, 'GPIO(DAC)' )]
+  [ArduinoBoard_Reserve_DigitalAnalogChannels( 27,  1, TArduinoCombinedTouchPullDownAnalogDigitalInterruptChannel )]
+  [ArduinoBoard_Reserve_DigitalAnalogChannels( 32,  2, TArduinoCombinedTouchPullDownAnalogDigitalInterruptChannel )]
+  [ArduinoBoard_Reserve_DigitalAnalogChannels( 34,  6, TArduinoPullDownTouchAnalogInputOnlyChannel )]
+  ESP32_DigitalChannelsAttribute : TAttributeCollectionAttribute;
+//---------------------------------------------------------------------------
+  [ArduinoClass( 'Mitov::TArduinoESP32CanBusModulePins' )]
+  *TArduinoESP32CanBusModule_BasicPins : TArduinoCodePersistent
+  
+    [MaxValue( 39 )]
+    RX : Unsigned = 21
+
+    [MaxValue( 39 )]
+    TX : Unsigned = 22
+    
+    [ValueRange( -1, 39 )]
+    Clock : Integer = -1
+    
+  ;
+//---------------------------------------------------------------------------
+  *TArduinoESP32CanBusModulePins : TArduinoESP32CanBusModule_BasicPins
+
+    [MaxValue( 39 )]
+    RX
+
+    [MaxValue( 39 )]
+    TX
+    
+    [ValueRange( -1, 39 )]
+    Clock
+    
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoDeclaredClass]
+  [ArduinoExcludeNotConnectedAndDefault]
+  [ArduinoClass( 'Mitov::TArduinoESP32CanBusModuleQueueCount' )]
+  *TArduinoESP32CanBusModuleQueueCount : TArduinoCodeEnabledPersistent
+
+    OutputPin : TOWArduinoUnsignedSourcePin  
+
+    [ArduinoPinDisconnectedAddCodeEntry( ceStart )]
+    [ArduinoPinDisconnectedAddCodeEntry( ceLoopBegin )]
+    ClockInputPin : TOWArduinoClockSinkPin  
+    
+    ClearInputPin : TOWArduinoClockSinkPin  
+    
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoClass( 'Mitov::TArduinoESP32CanBusModuleTransmitQueueCount' )]
+  TArduinoESP32CanBusModuleTransmitQueueCount : TArduinoESP32CanBusModuleQueueCount;
+//---------------------------------------------------------------------------
+  [ArduinoClass( 'Mitov::TArduinoESP32CanBusModuleQueue' )]
+  TArduinoESP32CanBusModuleBasicQueue : TArduinoCodePersistent
+    
+    Size : Unsigned = 5
+    
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoClass( 'Mitov::TArduinoESP32CanBusModuleQueue' )]
+  [ParentImage( TArduinoCanBusReceiveMessageElement )]
+  *TArduinoESP32CanBusModuleQueue : TArduinoESP32CanBusModuleBasicQueue
+  
+    Count : TArduinoESP32CanBusModuleQueueCount
+    
+  ;
+//---------------------------------------------------------------------------
+  [ParentImage( TArduinoCanBusBasicSendMessageElement )]
+  *TArduinoESP32CanBusModuleTransmitQueue : TArduinoESP32CanBusModuleBasicQueue
+  
+    Count : TArduinoESP32CanBusModuleTransmitQueueCount
+    
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoClass( 'Mitov::TArduinoESP32CanBusModuleQueues' )]
+  *TArduinoESP32CanBusModuleQueues : TArduinoCodePersistent
+  
+    Transmit : TArduinoESP32CanBusModuleTransmitQueue
+    Receive : TArduinoESP32CanBusModuleQueue
+    
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoPopulatedCallChainParameter( 'bool', 'ASuccess' )]
+  [Name( 'MessageSendCompeled' )]
+  ArduinoCanBus_ESP32_MessageMessageSendCompeledCallChainAttribute : ArduinoCallChainCompleteAttribute;
+//---------------------------------------------------------------------------
+  [ArduinoCanBus_ESP32_MessageMessageSendCompeledCallChain]
+  TArduino_ESP32_CanBus_Elements : TArduinoCanBusElements;
+//---------------------------------------------------------------------------
+  [ArduinoHelpPostfix( '(ESP32 CAN bus)' )]
+  [Collection( TArduino_ESP32_CanBus_Elements )]
+  [ArduinoLoopBegin]
+  [ArduinoTemplateParameterCollectionItemIndex]
+  [ArduinoCanBus_ESP32_MessageMessageSendCompeledCallChain]
+  [ArduinoVariable( Boolean, 'FSending' )]
+  TArduinoCanBusSendMessage_ESP32_Element_Extender : Extender
+  
+    Retry : Boolean = True
+    
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoClass( 'Mitov::TArduinoCanBusSendMessage_ESP32_Element' )]
+  +TArduinoCanBusSendMessage_ESP32_Element : TArduinoCanBusBasicSendMessageElement, TArduinoCanBusSendMessage_ESP32_Element_Extender;
+//---------------------------------------------------------------------------
+  [ArduinoClass( 'Mitov::Microchip_ESP32_CanBus_RequestMessage' )]
+  +TArduinoCanBusRequestMessage_ESP32_Element : TArduinoBasicCanBusRequestMessageElement, TArduinoCanBusSendMessage_ESP32_Element_Extender;
+//---------------------------------------------------------------------------
+  [Name( 'DoTransmit' )]
+  TArduinoESP32CanBusModule_DoTransmit_SelfCallChainAttribute : ArduinoSelfCallChainAttribute;
+//---------------------------------------------------------------------------
+  [ArduinoClass( 'Mitov::TArduinoESP32CanBus_BasicModule_Sending' )]
+  [ParentImage( TArduinoCanBusBasicSendMessageElement )]
+  TArduinoESP32CanBus_BasicModule_Sending : TArduinoCodePersistent
+  
+    Retry : Boolean = True
+    
+    [NamePostfix( '(mS)' )]
+    Timeout : Unsigned = 500
+
+  ;
+//---------------------------------------------------------------------------
+  [Name( 'CANbus' )]
+  [ArduinoDeclaredClass]
+  [ArduinoExcludeNotConnectedAndDefault]
+  [ArduinoInclude( 'Mitov_Arduino_ESP32_CANBus.h' )]
+  [ArduinoClass( 'Mitov::TArduino_ESP32_CANBus_Module' )]
+  [ParentImage( IOWCanBusStream )]
+  [ArduinoInit]
+  [ArduinoLoopBegin]
+  [TArduinoESP32CanBusModule_DoTransmit_SelfCallChain]
+  *TArduinoESP32CanBus_BasicModule : TArduinoEnabledShield, TArduinoCanBus_Extender
+  
+    [ArduinoUseBindingCheckSetter( 'UpdateEnabled' )]
+    Enabled
+
+    [ArduinoUseBindingCheckSetter( 'UpdateRate' )]
+    [NamePostfix( '(kBPS)' )]
+    [PropertyListDesignValue( '25' ) ]
+    [PropertyListDesignValue( '50' ) ]
+    [PropertyListDesignValue( '100' ) ]
+    [PropertyListDesignValue( '125' ) ]
+    [PropertyListDesignValue( '250' ) ]
+    [PropertyListDesignValue( '500' ) ]
+    [PropertyListDesignValue( '800' ) ]
+    [PropertyListDesignValue( '1000' ) ]
+    BusSpeed : Unsigned = 500
+    
+    [ArduinoUseBindingCheckSetter( 'UpdateMode' )]
+    ListenOnly : Boolean = False
+    
+    [ArduinoUseBindingCheckSetter( 'UpdateMode' )]
+    Testing : Boolean = False
+    
+    Sending : TArduinoESP32CanBus_BasicModule_Sending
+    
+    Queues : TArduinoESP32CanBusModuleQueues
+    
+    Elements : TArduino_ESP32_CanBus_Elements
+
+  ;
+//---------------------------------------------------------------------------
+  +TArduinoESP32CanBusModule : TArduinoESP32CanBus_BasicModule
+    
+    Pins : TArduinoESP32CanBusModulePins
+    
+  ;
+//---------------------------------------------------------------------------
+  TArduinoBasicESP32DigitalChannelsBoard : TArduinoBasicESP32Board
+  
+    Serial : TArduinoSerials
+        
+    [AddItem( TArduinoESP32CanBusModule )]
+    Modules
+
+    [Name( 'I2C Channels' )]
+    I2CChannels : TArduinoI2CChannels
+
+    [Name( 'SPI Channels' )]
+    SPIChannels : TArduinoSPIChannels
+
+    [Name( 'Channels' )]
+    [ESP32_DigitalChannelsAttribute]
+    Digital : TArduinoDigitalChannels
+    
+  ;
+//---------------------------------------------------------------------------
+  TArduinoBasicESP32Digital_Serial_ChannelsBoard : TArduinoBasicESP32DigitalChannelsBoard
+
+    [AddItem( TArduinoBreakHardwareSerial0 )]
+    [AddItem( TArduinoESP32DefinedPinsSerial1 )]
+    [AddItem( TArduinoESP32DefinedPinsSerial2 )]
+    Serial
+
+  ;
+//---------------------------------------------------------------------------
+  TArduinoBasicESP32Digital_SPI_I2C_ChannelsBoard : TArduinoBasicESP32Digital_Serial_ChannelsBoard
+
+    [AddItem( TArduinoESP32_Generic_I2C )]
+    [AddItem( TArduinoESP32_Generic_I2C_2 )]
+    I2CChannels
+
+    [AddItem( TArduinoESP32_Generic_SPI )]
+    [AddItem( TArduinoESP32_Generic_SPI1 )]
+    [AddItem( TArduinoESP32_Generic_SPI2 )]
+    [AddItem( TArduinoESP32_Generic_SPI3 )]
+    SPIChannels
+
+  ;
+//---------------------------------------------------------------------------
+  [ParentImage( TESP32Category )]
+  [Category( TESP32Category )]
+  [Name( 'Generic ESP32' )]
+  [ArduinoBoardCompileParams( 'esp32:esp32:esp32' )]
+  +TArduinoESP32_Generic_Board : TArduinoBasicESP32Digital_SPI_I2C_ChannelsBoard
+  
+    [ArduinoBoard_Add_AllChannels]
+    Digital
+    
+  ;
+//---------------------------------------------------------------------------
+  [Category( TESP32Category )]
+  [Name( 'ESP32 Development Board' )]
+  [ArduinoBoardCompileParams( 'esp32:esp32:esp32' )]
+  +TArduinoESP32_Development_Board : TArduinoBasicESP32Digital_SPI_I2C_ChannelsBoard
+
+    [AddItem( TArduinoESP_BootButtonModule )]
+    Modules
+  
+    [ArduinoBoard_Add_ReservedChannels( 0, 20 )]
+    [ArduinoBoard_Add_ReservedChannels( 21, 3 )]
+    [ArduinoBoard_Add_ReservedChannels( 25, 3 )]
+    [ArduinoBoard_Add_ReservedChannels( 32, 5 )]
+    [ArduinoBoard_Add_ReservedChannel( 39 )]
+    Digital
+    
+  ;
+//---------------------------------------------------------------------------
+; // Mitov

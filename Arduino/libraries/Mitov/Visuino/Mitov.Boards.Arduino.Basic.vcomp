@@ -1,0 +1,122 @@
+Mitov : Namespace
+//---------------------------------------------------------------------------
+  [ArduinoDeclaredClass]
+  TArduinoProcessorModuleBasicOperation : TArduinoBasicEnabledNamedExludePersistent;
+//---------------------------------------------------------------------------
+  TArduinoProcessorModuleBasicCommonClockedOperation : TArduinoProcessorModuleBasicOperation
+
+    ClockInputPin : TOWArduinoClockSinkPin
+
+  ;
+//---------------------------------------------------------------------------
+  [Collection( TArduinoBasicProcessorModuleOperations )]
+  [ArduinoHelpPostfix( '(Arduino Processor Operations)' )]
+  TArduinoProcessorModuleBasicClockedOperation : TArduinoProcessorModuleBasicCommonClockedOperation;
+//---------------------------------------------------------------------------
+  [Name( 'Reset' )]
+  [CreateName( 'Reset' )]
+  [ArduinoInclude( 'Mitov_Arduino_Processor.h' )]
+  [ArduinoClass( 'Mitov::ArduinoProcessorReset' )]
+  +TArduinoProcessorModuleResetOperation : TArduinoProcessorModuleBasicClockedOperation;
+//---------------------------------------------------------------------------
+  [Name( 'Get Available RAM' )]
+  [CreateName( 'Available RAM' )]
+  [ArduinoInclude( 'Mitov_GetArduinoAvailableRAM.h' )]
+  [ArduinoClass( 'Mitov::GetArduinoAvailableRAM' )]
+  +TArduinoProcessorAvailableRAMOperation : TArduinoProcessorModuleBasicClockedOperation
+
+    [ArduinoPinDisconnectedAddCodeEntry( ceLoopBegin )]
+    [ArduinoPinDisconnectedAddCodeEntry( ceStart )]
+    ClockInputPin
+
+    [OWPrimaryPin]
+//    [ArduinoChangeOnlyPin]
+    OutputPin : TOWArduinoUnsignedSourcePin
+
+  ;
+//---------------------------------------------------------------------------
+  [Name( 'Get Unique ID' )]
+  [CreateName( 'Get Unique ID' )]
+  [ArduinoInclude( 'ArduinoUniqueID.h', 'ArduinoUniqueID', 'https://github.com/ricaun/ArduinoUniqueID' )]
+  [ArduinoInclude( 'Mitov_ProcessorModuleGetIDOperation.h' )]
+  [ArduinoClass( 'Mitov::TArduinoProcessorModuleGetIDOperation' )]
+  [ArduinoExcludeNotConnectedAndDefault]
+  [ParentImage( TArduinoESP32BluetoothLERemoteDeviceID )]
+  *TArduinoProcessorModuleBasicGetIDOperation : TArduinoProcessorModuleBasicCommonClockedOperation
+  
+    [ArduinoPinDisconnectedAddCodeEntry( ceStart )]
+    ClockInputPin
+
+    OutputPin : TOWArduinoByteSourcePin
+    
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoClass( '::Mitov::ArduinoPinMapI2C' )]
+  TArduinoPinMapI2C : TArduinoI2C
+  
+    [OWExcludeBindings]
+    [ArduinoBoardIndexChannel( 'SDA' )]
+    [ArduinoBoardRemapPin]
+    SDA : Unsigned = 0
+
+    [OWExcludeBindings]
+    [ArduinoBoardIndexChannel( 'SCL' )]
+    [ArduinoBoardRemapPin]
+    SCL : Unsigned = 0
+
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoClass( '::Mitov::ArduinoPinMapI2C' )]
+  TArduinoStringPinMapI2C : TArduinoI2C
+  
+    [OWExcludeBindings]
+    [ArduinoBoardIndexChannel( 'SDA' )]
+    [ArduinoAsIntegerDefine]
+    SDA : String = ''
+
+    [OWExcludeBindings]
+    [ArduinoBoardIndexChannel( 'SCL' )]
+    [ArduinoAsIntegerDefine]
+    SCL : String = ''
+
+  ;
+//---------------------------------------------------------------------------
+  TArduinoPinMapSPI : TArduinoSPI
+  
+    [OWExcludeBindings]
+    [ArduinoBoardIndexChannel( 'MOSI' )]
+    [ArduinoBoardRemapPin]
+    MOSI : Unsigned = 0
+
+    [OWExcludeBindings]
+    [ArduinoBoardIndexChannel( 'MISO' )]
+    [ArduinoBoardRemapPin]
+    MISO : Unsigned = 0
+
+    [OWExcludeBindings]
+    [ArduinoBoardIndexChannel( 'SCK' )]
+    [ArduinoBoardRemapPin]
+    SCK : Unsigned = 0
+
+  ;
+//---------------------------------------------------------------------------
+  TArduinoStringPinMapSPI : TArduinoSPI
+  
+    [OWExcludeBindings]
+    [ArduinoBoardIndexChannel( 'MOSI' )]
+    [ArduinoAsIntegerDefine]
+    MOSI : String = ''
+
+    [OWExcludeBindings]
+    [ArduinoBoardIndexChannel( 'MISO' )]
+    [ArduinoAsIntegerDefine]
+    MISO : String = ''
+
+    [OWExcludeBindings]
+    [ArduinoBoardIndexChannel( 'SCK' )]
+    [ArduinoAsIntegerDefine]
+    SCK : String = ''
+
+  ;
+//---------------------------------------------------------------------------
+; // Mitov

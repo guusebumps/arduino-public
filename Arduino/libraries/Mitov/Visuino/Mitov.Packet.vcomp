@@ -1,0 +1,102 @@
+Mitov : Namespace
+//---------------------------------------------------------------------------
+//  [ArduinoInclude( 'JPEGDEC.h', 'JPEGDEC', 'https://github.com/bitbank2/JPEGDEC' )]
+  [ArduinoInclude( 'Mitov_Packet_Image.h' )]
+  [ArduinoClass( 'Mitov::PacketImageBinaryElement' )]
+  [CreateName( 'Image' )]
+  [Name( 'Image' )]
+  [ArduinoOpenWireStudioMatch( TVLImageBufferSplitStructureElement )]
+  [CollectionItemAssociation( TVLImageBufferMakeStructureElement )]
+  +TArduinoImageBinaryPacketElement : TArduinoBasicPacketElement
+
+    [OWPrimaryPin]
+    [OWPinGroup( TArduinoImageBinaryPacketElement )]
+    [ArduinoVariableIfPinConnected( 'FPopulated' )]
+    InputPin : TOWArduinoImageSinkPin
+
+    [OWExcludeBindings]
+    [ArduinoExclude]
+    [ArduinoTemplateIfDefault( 'T_CONVERT', '::Mitov::TImageJPEGConvert', '::Mitov::TImageJPEGConvert_Null' )]
+    [ArduinoIfNotDefaultInclude( 'Mitov_JPEGDEC.h' )]
+    [ArduinoIfNotDefaultInclude( 'Mitov_ImageBuffer_JPEG.h' )]
+    IncludeJpeg : Boolean = False
+    
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoClass( 'Mitov::PacketAudioBinaryElement' )]
+  [CreateName( 'Audio' )]
+  [Name( 'Audio' )]
+//  [ArduinoOpenWireStudioMatch( TALArduinoAudioBufferSplitStructureElement )]
+  [ArduinoOpenWireStudioMatch( TALAudioBufferSplitStructureElement )]
+  [ArduinoOpenWireStudioProperty( 'UseChannelMap', True )]
+//  [ArduinoOpenWireStudioProperty( 'SamplesPerSecond.IncludedInPacket', False )]
+  [ParentImage( IOWArduinoAudioStream )]
+  [CollectionItemAssociation( TALAudioBufferMakeStructureElement )]
+  +TArduinoAudioBinaryPacketElement : TArduinoBasicPacketElement
+
+    [OWPrimaryPin]
+    [OWPinGroup( TArduinoAudioBinaryPacketElement )]
+    [ArduinoVariableIfPinConnected( 'FPopulated' )]
+    InputPin : TOWArduinoAudioSinkPin
+
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoClass( 'Mitov::UnpacketImageBinaryElement' )]
+  [CreateName( 'Image' )]
+  [Name( 'Image' )]
+  [ArduinoOpenWireStudioMatch( TVLImageBufferMakeStructureElement )]
+  [ParentImage( TArduinoImageBinaryPacketElement )]
+  [CollectionItemAssociation( TVLImageBufferMakeStructureElement )]
+  +TArduinoImageBinaryUnpacketElement : TArduinoBasicUnpacketElement
+
+    [OWPrimaryPin]
+    [OWPinGroup( TArduinoImageBinaryUnpacketElement )]
+    OutputPin : TOWArduinoImageSourcePin
+
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoClass( 'Mitov::UnpacketAudioBinaryElement' )]
+  [CreateName( 'Audio' )]
+  [Name( 'Audio' )]
+  [ArduinoOpenWireStudioMatch( TALAudioBufferMakeStructureElement )]
+  [ParentImage( TArduinoAudioBinaryPacketElement )]
+  [CollectionItemAssociation( TALAudioBufferMakeStructureElement )]
+  +TArduinoAudioBinaryUnpacketElement : TArduinoBasicUnpacketElement
+
+    [OWPrimaryPin]
+    [OWPinGroup( TArduinoAudioBinaryUnpacketElement )]
+    OutputPin : TOWArduinoAudioSourcePin
+
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoClass( 'Mitov::PacketArrayBinaryElement' )]
+  [CreateName( 'Unsigned Array' )]
+  [Name( 'Unsigned Array' )]
+  [ArduinoTemplateParameter( 'TYPE', 'uint32_t' )]
+  [ArduinoOpenWireStudioMatch( TSLUnsignedBufferSplitStructureElement )]
+  [CollectionItemAssociation( TSLUnsignedBufferMakeStructureElement )]
+  [ParentImage( TArduinoUnsignedArrayMakeStructureElement )]
+  +TArduinoUnsignedArrayBinaryPacketElement : TArduinoBasicPacketElement
+
+    [OWPrimaryPin]
+    [OWPinGroup( TArduinoUnsignedArrayBinaryPacketElement )]
+    [ArduinoVariableIfPinConnected( 'FPopulated' )]
+    InputPin : TOWArduinoUnsignedArraySinkPin
+
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoClass( 'Mitov::UnpacketArrayBinaryElement' )]
+  [CreateName( 'Unsigned Array' )]
+  [Name( 'Unsigned Array' )]
+  [ArduinoTemplateParameter( 'TYPE', 'uint32_t' )]
+  [ParentImage( TArduinoUnsignedArrayBinaryPacketElement )]
+  [CollectionItemAssociation( TSLUnsignedBufferMakeStructureElement )]
+  +TArduinoUnsignedArrayBinaryUnpacketElement : TArduinoBasicUnpacketElement
+
+    [OWPrimaryPin]
+    [OWPinGroup( TArduinoAnalogArrayBinaryUnpacketElement )]
+    OutputPin : TOWArduinoAnalogArraySourcePin
+
+  ;
+//---------------------------------------------------------------------------
+; // Mitov

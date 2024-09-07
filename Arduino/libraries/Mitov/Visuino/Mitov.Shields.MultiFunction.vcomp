@@ -1,0 +1,124 @@
+Mitov : Namespace
+//---------------------------------------------------------------------------
+  [Name( 'Multi Function' )]
+  TArduinoMultiFunctionToolbarCategory : TClassCategory;
+//---------------------------------------------------------------------------
+  [ArduinoTemplateParameter( 'ClockOutputPin', 'Mitov::DigitalPin_DirectBoardPinImplementation<7 >' )]
+  [ArduinoTemplateParameter( 'CountDigits_0_CONST', '4' )]
+  [ArduinoTemplateParameter( 'DataOutputPin', 'Mitov::DigitalPin_DirectBoardPinImplementation<8 >' )]
+  [ArduinoTemplateParameter( 'InvertedDigits', 'Mitov::ConstantProperty<119, bool, false >' )]
+  [ArduinoTemplateParameter( 'InvertedSegments', 'Mitov::ConstantProperty<112, bool, true >' )]
+  [ArduinoTemplateParameter( 'LatchOutputPin', 'Mitov::DigitalPin_DirectBoardPinImplementation<4 >' )]
+  [ArduinoTemplateParameter( 'RefreshInterval', 'Mitov::ConstantProperty<117, uint32_t, 1000 >' )]
+  [ArduinoTemplateParameter( 'ReversedDigits', 'Mitov::ConstantProperty<110, bool, true >' )]
+  [ArduinoTemplateParameter( 'ReversedSegments', 'Mitov::ConstantProperty<113, bool, false >' )]
+  [ArduinoTemplateParameter( 'RightAllignedDigits', 'Mitov::ConstantProperty<111, bool, true >' )]
+  [ArduinoShieldPin( '7', 'Clock' )]
+  [ArduinoShieldPin( '8', 'Data' )]
+  [ArduinoShieldPin( '4', 'Latch' )]
+  TArduinoMultiFunctionShield_DisplayPotentiometerBuzzerThermometer_Display : TArduinoBasic74HC595Display7Segments4DigitsElement;
+//---------------------------------------------------------------------------
+  [Name( 'Buttons' )]
+  [CreateName( 'Buttons' )]
+  [ArduinoDeclaredClass]
+  [ArduinoClass( 'Mitov::InvertedTypedInputPins3' )]
+  [ArduinoTemplateParameter( 'Button1', 'Mitov::TDefinedDigitalInputPin<A1>' )]
+  [ArduinoTemplateParameter( 'Button2', 'Mitov::TDefinedDigitalInputPin<A2>' )]
+  [ArduinoTemplateParameter( 'Button3', 'Mitov::TDefinedDigitalInputPin<A3>' )]
+  [ArduinoExcludeNotConnected]
+  [ParentImage( TArduinoEVIVEButtonsModule )]
+  [ArduinoStart]
+  [ArduinoLoopBegin]
+  [OldName( 'TArduinoCirquitPlaygroundButtonsModule' )]
+  [ArduinoShieldPin( 'A1', 'Button 1' )]
+  [ArduinoShieldPin( 'A2', 'Button 2' )]
+  [ArduinoShieldPin( 'A3', 'Button 3' )]
+  +TArduinoMultiFunctionShield_DisplayPotentiometerBuzzerThermometer_Buttons : TArduinoCodePersistent
+
+    [OWPrimaryPin]
+    [OWPinListPrimaryPinType( TOWArduinoDigitalSourcePin )]
+    [ArduinoPinListGetterDirect]
+    [OWAddArduinoBoardDigitalPin( 'Button 1', TOWArduinoDigitalInputSourcePin, 'A1' )]
+    [OWAddArduinoBoardDigitalPin( 'Button 2', TOWArduinoDigitalInputSourcePin, 'A2' )]
+    [OWAddArduinoBoardDigitalPin( 'Button 3', TOWArduinoDigitalInputSourcePin, 'A3' )]
+    OutputPins : TOWArduinoPinList
+
+  ;
+//---------------------------------------------------------------------------
+  [Name( 'Potentiometer' )]
+  [ArduinoTemplateParameter( 'PIN', '0' )]
+  [ArduinoShieldPin( 'A0', 'Potentiometer' )]
+  +TArduinoMultiFunctionShield_DisplayPotentiometerBuzzerThermometer_Potentiometer : TArduinoSinoning4PotentiometersServosModule_Potentiometer_Basic;
+//---------------------------------------------------------------------------
+  [Name( 'LED 1' )]
+  [ArduinoShieldPin( '13', 'LED 1' )]
+  [ArduinoTemplateParameter( 'C_PIN', '13' )]
+  +TArduinoMultiFunctionShield_DisplayPotentiometerBuzzerThermometer_LED1 : TArduinoBasicInvertedDigitalLED;
+//---------------------------------------------------------------------------
+  [Name( 'LED 2' )]
+  [ArduinoShieldPin( '12', 'LED 2' )]
+  [ArduinoTemplateParameter( 'C_PIN', '12' )]
+  +TArduinoMultiFunctionShield_DisplayPotentiometerBuzzerThermometer_LED2 : TArduinoBasicInvertedDigitalLED;
+//---------------------------------------------------------------------------
+  [Name( 'LED 3' )]
+  [ArduinoShieldPin( '11', 'LED 3' )]
+  [ArduinoTemplateParameter( 'C_PIN', '11' )]
+  +TArduinoMultiFunctionShield_DisplayPotentiometerBuzzerThermometer_LED3 : TArduinoAnalogDigitalSingleLED;
+//---------------------------------------------------------------------------
+  [Name( 'LED 4' )]
+  [ArduinoShieldPin( '10', 'LED 4' )]
+  [ArduinoTemplateParameter( 'C_PIN', '10' )]
+  +TArduinoMultiFunctionShield_DisplayPotentiometerBuzzerThermometer_LED4 : TArduinoAnalogDigitalSingleLED;
+//---------------------------------------------------------------------------
+  [ArduinoClass( 'Mitov::DirectInvertedOuputPin' )]
+  [ArduinoShieldPin( '3', 'Buzzer' )]
+  [ArduinoTemplateParameter( 'PIN', '3' )]
+  TArduinoMultiFunctionShield_DisplayPotentiometerBuzzerThermometer_Buzzer : TArduinoBasicBuzzerShieldElement;
+//---------------------------------------------------------------------------
+  [ArduinoShieldPin( '2', 'Infrared Remote' )]
+  [ArduinoTemplateParameter( 'SensorInputPin', '2' )]
+  TArduinoMultiFunctionShield_DisplayPotentiometerBuzzerThermometer_InfraredRemote : TArduinoInfraredRemoteReceiverShieldElement;
+//---------------------------------------------------------------------------
+  [DynamicElement]
+  [ArduinoDeclaredClass]
+  TArduinoMultiFunctionShield_DisplayPotentiometerBuzzerThermometer_Thermometer : TArduinoCodePersistent;
+//---------------------------------------------------------------------------
+  [Default]
+  [Name( 'DS1820' )]
+  [ArduinoShieldPin( 'A4', 'Thermometer' )]
+  [ArduinoTemplateParameter( 'PIN_NUMBER', 'A4' )]
+  [ParentImage( TArduinoMaximOneWireThermometer )]
+  [ArduinoExcludeNotConnectedAndDefault]
+  +TArduinoMultiFunctionShield_DisplayPotentiometerBuzzerThermometer_Thermometer_18B20 : TArduinoMultiFunctionShield_DisplayPotentiometerBuzzerThermometer_Thermometer, TArduinoMaximOneWireThermometer_Extender;
+//---------------------------------------------------------------------------
+  [Name( 'LM35' )]
+  [ArduinoTemplateParameter( 'C_PIN', 'A4' )]
+  [ArduinoShieldPin( 'A4', 'Thermometer' )]
+  [ParentImage( TArduinoThermometerLM35 )]
+  [ArduinoExcludeNotConnectedAndDefault]
+  [ArduinoClass( 'Mitov::TexasInstruments_LM35_Thermometer_Module' )]
+  +TArduinoMultiFunctionShield_DisplayPotentiometerBuzzerThermometer_Thermometer_LM35 : TArduinoMultiFunctionShield_DisplayPotentiometerBuzzerThermometer_Thermometer, TArduinoThermometerLM35Output_Extender;
+//---------------------------------------------------------------------------
+  [Name( 'Multi Function Shield' )]
+  [CreateName( 'Multi Function Shield' )]
+  [Collection( TArduinoBasicShields )]
+  [Category( TArduinoMultiFunctionToolbarCategory )]
+  +TArduinoMultiFunctionShield_DisplayPotentiometerBuzzerThermometer : TArduinoShield, IStandardShield
+  
+    Display : TArduinoMultiFunctionShield_DisplayPotentiometerBuzzerThermometer_Display
+    Buttons : TArduinoMultiFunctionShield_DisplayPotentiometerBuzzerThermometer_Buttons
+    Potentiometer : TArduinoMultiFunctionShield_DisplayPotentiometerBuzzerThermometer_Potentiometer
+    
+    [AddItem( TArduinoMultiFunctionShield_DisplayPotentiometerBuzzerThermometer_LED1 )]
+    [AddItem( TArduinoMultiFunctionShield_DisplayPotentiometerBuzzerThermometer_LED2 )]
+    [AddItem( TArduinoMultiFunctionShield_DisplayPotentiometerBuzzerThermometer_LED3 )]
+    [AddItem( TArduinoMultiFunctionShield_DisplayPotentiometerBuzzerThermometer_LED4 )]
+    LEDs : TArduinoFixedPersistentCollection
+    
+    Buzzer : TArduinoMultiFunctionShield_DisplayPotentiometerBuzzerThermometer_Buzzer
+    InfraredRemote : TArduinoMultiFunctionShield_DisplayPotentiometerBuzzerThermometer_InfraredRemote
+    Thermometer : TArduinoMultiFunctionShield_DisplayPotentiometerBuzzerThermometer_Thermometer
+   
+  ;
+//---------------------------------------------------------------------------
+; // Mitov

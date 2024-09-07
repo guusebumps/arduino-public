@@ -1,0 +1,43 @@
+Mitov : Namespace
+//---------------------------------------------------------------------------
+  [CreateName( 'Display' )]
+  [Category( TArduinoDisplaysToolbarCategory )]
+  [ArduinoInclude( 'Mitov_Display_GC9A01.h' )]
+  [ArduinoClass( 'Mitov::DisplayGC9A01' )]
+  [ArduinoOptionalVariable( Unsigned, 8, 'FCursorX', 0 )]
+  [ArduinoOptionalVariable( Unsigned, 8, 'FCursorY', 0 )]
+  TArduinoBasicDisplayGC9A01 : TArduinoComponent, TArduinoDisplay_Basic_Invertable_Mirror_565_Color_Extender;
+//---------------------------------------------------------------------------
+  TArduinoTFTDisplay_SPI_Extender : Extender
+
+    [OWPrimaryPin]
+    [ArduinoAddToTemplate( '0_IMPLEMENTATION' )]
+    ControlOutputPin : TOWArduinoSPISourcePin
+
+    [ArduinoAddToTemplate( '0_IMPLEMENTATION' )]
+    ChipSelectOutputPin : TOWArduinoDigitalSourcePin
+
+    [OWRequiredPin]
+    [ArduinoAddToTemplate( '0_IMPLEMENTATION' )]
+    DataCommandOutputPin : TOWArduinoDigitalSourcePin
+
+    [ArduinoResetPinImplementation_AddToImplementation]
+    [ArduinoAddToTemplate( '0_IMPLEMENTATION' )]
+    ResetOutputPin : TOWArduinoDigitalSourcePin
+    
+//    SPI3Wire : Boolean = True
+    
+  ;
+//---------------------------------------------------------------------------
+  [Name( 'TFT Color Display Galaxycore GC9A01 SPI' )]
+  [ArduinoInclude( 'Mitov_Display_GC9A01_SPI.h' )]
+  [ArduinoTemplateParameter( '0_IMPLEMENTATION', 'Mitov::Mitov_Display_GC9A01_SPI' )]
+  [ArduinoTemplateParameter( '0_ORIENTATION_IMPLEMENTATION', 'Mitov::DisplayOrientationUp' )]
+  +TArduinoDisplayGC9A01_SPI : TArduinoBasicDisplayGC9A01, TArduinoTFTDisplay_SPI_Extender
+
+    [ArduinoAddToTemplate( '0_IMPLEMENTATION' )]
+    SPISpeed : Unsigned = 8000000
+    
+  ;
+//---------------------------------------------------------------------------
+; // Mitov

@@ -1,0 +1,81 @@
+// Developed by Swellington Santos
+Mitov : Namespace
+//---------------------------------------------------------------------------
+  [ArduinoClass( 'Mitov::TArduinoMPL3115A2Pressure' )]
+  *TArduinoMPL3115A2Pressure : TArduinoCodeEnabledPersistent
+
+    [OWPrimaryPin]
+    [NamePostfix( ' (Pa)' )]
+    OutputPin : TOWArduinoAnalogSourcePin
+    
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoClass( 'Mitov::TArduinoMPL3115A2Temperature' )]
+  [ParentImage( TArduinoMPU9250Thermometer )]
+  *TArduinoMPL3115A2Temperature : TArduinoCodeEnabledPersistent
+
+    [OWPrimaryPin]
+    OutputPin : TOWArduinoAnalogSourcePin
+
+    InFahrenheit : Boolean = False
+
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoClass( 'Mitov::TArduinoMPL3115A2Altitude' )]
+  [ParentImage( TArduinoPressureToAltitude )]
+  *TArduinoMPL3115A2Altitude : TArduinoCodeEnabledPersistent
+
+    [OWPrimaryPin]
+    OutputPin : TOWArduinoAnalogSourcePin
+
+    InFeet : Boolean = False
+    
+    [NamePostfix( '(mb)(hPa)' )]
+    [ArduinoUseBindingCheckSetter_Parent( 'Update_BaseLinePressure' )]
+    BaseLinePressure : Single = 1013.26
+    
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoInclude ('Mitov_MPL3115A2.h')]
+  [ArduinoClass( 'Mitov::MPL3115A2_Sensor' )]
+  [ArduinoInit]
+  [CreateName( 'SensorMPL3115A2' )]
+  [Name( 'Pressure Temperature Altimeter MPL3115A2 I2C' )]
+  [Category( TArduinoAnalogMeasurementToolbarCategory )]
+  +TArduinoMPL3115A2 : TArduinoClockedEnableI2CComponent
+
+    [DesignRange( $60, $60 )]
+    Address = $60
+
+    [ArduinoPinDisconnectedAddCodeEntry( ceLoopBegin )]
+    ClockInputPin
+    
+    ResetInputPin : TOWArduinoClockSinkPin
+
+    Pressure : TArduinoMPL3115A2Pressure
+    Temperature : TArduinoMPL3115A2Temperature
+    Altitude : TArduinoMPL3115A2Altitude
+
+    //[OWPrimaryPin]
+    //ErrorOutputPin: TOWArduinoDigitalSourcePin
+
+    //[Name('Sea Level Pressure (hPa)')]
+    //SeaLevelPressure: Single = 1013.25
+
+    [PropertyFixedListDesign]
+    [PropertyListDesignValue( '0' )]
+    [PropertyListDesignValue( '1' )]
+    [PropertyListDesignValue( '2' )]
+    [PropertyListDesignValue( '4' )]
+    [PropertyListDesignValue( '8' )]
+    [PropertyListDesignValue( '16' )]
+    [PropertyListDesignValue( '32' )]
+    [PropertyListDesignValue( '64' )]
+    [PropertyListDesignValue( '128' )]
+    [OWExcludeBindings]
+    [ArduinoUseBindingCheckSetter( 'Update_BaseLinePressure' )]
+    Oversampling : Unsigned = 128
+
+  ;
+//---------------------------------------------------------------------------
+; // Mitov

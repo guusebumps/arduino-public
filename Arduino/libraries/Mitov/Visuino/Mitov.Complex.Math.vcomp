@@ -1,0 +1,96 @@
+Mitov : Namespace
+//---------------------------------------------------------------------------
+  [ArduinoInclude( 'Mitov_Math.h' )]
+  [Category( TArduinoComplexMathFilterToolbarCategory )]
+  TArduinoCommonMathComplexFilter : TArduinoCommonComplexFilter;
+//---------------------------------------------------------------------------
+  [ArduinoClass( 'Mitov::UnaryOperation' )]
+  TArduinoBasicComplexUnaryOperation : TArduinoCommonMathComplexFilter;
+//---------------------------------------------------------------------------
+  TArduinoCommonValueOneMathComplexFilter : TArduinoCommonMathComplexFilter
+
+    Value : TArduinoComplex
+
+  ;
+//---------------------------------------------------------------------------
+  TArduinoCommonValueZeroMathComplexFilter : TArduinoCommonMathComplexFilter
+
+    Value : TArduinoComplexOne
+
+  ;
+//---------------------------------------------------------------------------
+  TArduinoCommonAnalogValueOneMathComplexFilter : TArduinoCommonMathComplexFilter
+
+    Value : Single = 1.0
+
+  ;
+//---------------------------------------------------------------------------
+  [Category( TArduinoComplexMathFilterToolbarCategory )]
+  TArduinoMathComplexMultiInput : TArduinoCommonClockedComplexSource, TArduinoMathMultiInput_Extender
+
+    [OWPinListPrimaryPinType( TOWArduinoComplexSinkPin  )]
+    [OWAutoManagePinListOwner( TOWArduinoComplexSinkPin, 2, 2, 200 )]
+    InputPins : TOWPinListOwner
+
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoTemplateParameter( 'BASE', 'Mitov::Add<Mitov::TComplex>' )]
+  [ArduinoTemplateParameter( 'TYPE', 'Mitov::TComplex' )]
+  [Name( 'Add Complex' )]
+  [CreateName( 'Add' )]
+  [ParentImage( TArduinoComplexAddValueElement )]
+  +TArduinoAddComplex : TArduinoMathComplexMultiInput;
+//---------------------------------------------------------------------------
+  [ArduinoClass( 'Mitov::UnaryOperation_Param1' )]
+  [ArduinoTemplateParameter( 'BASE', 'Mitov::AddValue<Mitov::TComplex>' )]
+  [ArduinoTemplateParameter( 'TYPE', 'Mitov::TComplex' )]
+  [Name( 'Add Complex Value' )]
+  [CreateName( 'AddValue' )]
+  +TArduinoComplexAddValue : TArduinoCommonValueZeroMathComplexFilter;
+//---------------------------------------------------------------------------
+  [ArduinoClass( 'Mitov::UnaryOperation_Param1' )]
+  [ArduinoTemplateParameter( 'BASE', 'Mitov::SubtractValue<Mitov::TComplex>' )]
+  [ArduinoTemplateParameter( 'TYPE', 'Mitov::TComplex' )]
+  [Name( 'Subtract Complex Value' )]
+  [CreateName( 'SubtractValue' )]
+  +TArduinoComplexSubtractValue : TArduinoCommonValueOneMathComplexFilter;
+//---------------------------------------------------------------------------
+  [ArduinoClass( 'Mitov::UnaryOperation_Param1' )]
+  [ArduinoTemplateParameter( 'BASE', 'Mitov::SubtractFromValue<Mitov::TComplex>' )]
+  [ArduinoTemplateParameter( 'TYPE', 'Mitov::TComplex' )]
+  [Name( 'Subtract From Complex Value' )]
+  [CreateName( 'SubtractFromValue' )]
+  +TArduinoComplexSubtractFromValue : TArduinoCommonValueZeroMathComplexFilter;
+//---------------------------------------------------------------------------
+  [ArduinoClass( 'Mitov::TArduinoComplexMultiplyByValue' )]
+  [Name( 'Multiply Complex By Analog Value' )]
+  [CreateName( 'MultiplyByAnalogValue' )]
+  +TArduinoComplexMultiplyByAnalogValue : TArduinoCommonAnalogValueOneMathComplexFilter;
+//---------------------------------------------------------------------------
+  [ArduinoClass( 'Mitov::TArduinoComplexMultiplyByValue' )]
+  [Name( 'Multiply Analog By Complex Value' )]
+  [CreateName( 'MultiplyByComplexValue' )]
+  +TArduinoComplexMultiplyByComplexValue : TArduinoCommonValueOneMathComplexFilter;
+//---------------------------------------------------------------------------
+  [ArduinoClass( 'Mitov::TArduinoComplexDivideValue' )]
+  [Name( 'Divide Analog Value by Complex' )]
+  [CreateName( 'DivideAnalogByComplexValue' )]
+  +TArduinoComplexDivideAnalogValue : TArduinoCommonAnalogValueOneMathComplexFilter;
+//---------------------------------------------------------------------------
+  [ArduinoClass( 'Mitov::TArduinoComplexDivideValue' )]
+  [Name( 'Divide Complex by Complex Value' )]
+  [CreateName( 'DivideByComplexValue' )]
+  +TArduinoComplexDivideByComplexValue : TArduinoCommonAnalogValueOneMathComplexFilter;
+//---------------------------------------------------------------------------
+  [ArduinoClass( 'Mitov::TArduinoComplexDivideByValue' )]
+  [Name( 'Divide Complex Value' )]
+  [CreateName( 'DivideComplexValue' )]
+  +TArduinoComplexDivideComplexValue : TArduinoCommonAnalogValueOneMathComplexFilter;
+//---------------------------------------------------------------------------
+  [ArduinoTemplateParameter( 'BASE', 'Mitov::Conjugate' )]
+  [ArduinoTemplateParameter( 'TYPE', 'Mitov::TComplex' )]
+  [Name( 'Conjugate Complex' )]
+  [CreateName( 'Conjugate' )]
+  +TArduinoComplexConjugate : TArduinoBasicComplexUnaryOperation;
+//---------------------------------------------------------------------------
+; // Mitov

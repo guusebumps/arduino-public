@@ -1,0 +1,182 @@
+Mitov : Namespace
+//---------------------------------------------------------------------------
+  ['{F668365E-5BC7-4B6A-B0D9-371CC5E2A64B}']
+  IArduinoGigaShield : IArduinoMegaShield;
+//---------------------------------------------------------------------------
+  [ArduinoShieldsType( IArduinoGigaShield )]
+  TArduinoGigaShields : TArduinoShields;
+//---------------------------------------------------------------------------
+  [ArduinoTemplateParameter( 'TXPin', 'Mitov::ConstantProperty<87, uint32_t, 18 >' )]
+  +TArduinoGiga_Serial2 : TArduinoPortenta_BasicHardwareSerial;
+//---------------------------------------------------------------------------
+  [ArduinoTemplateParameter( 'TXPin', 'Mitov::ConstantProperty<87, uint32_t, 16 >' )]
+  +TArduinoGiga_Serial3 : TArduinoPortenta_BasicHardwareSerial;
+//---------------------------------------------------------------------------
+  [ArduinoTemplateParameter( 'TXPin', 'Mitov::ConstantProperty<87, uint32_t, 14 >' )]
+  +TArduinoGiga_Serial4 : TArduinoPortenta_BasicHardwareSerial;
+//---------------------------------------------------------------------------
+  [ArduinoI2C( 2 )]
+  +TArduinoAdditionalDigitalPullUpDownPWMI2C2InterruptChannel : TArduinoAdditionalDigitalPullUpDownPWMInterruptChannel;
+//---------------------------------------------------------------------------
+  [ArduinoSPI( 1 )]
+  +TArduinoAdditionalDigitalPullUpDownPWMSPI1InterruptChannel : TArduinoAdditionalDigitalPullUpDownPWMInterruptChannel;
+//---------------------------------------------------------------------------
+  [ArduinoTemplateParameter( 'C_PIN', '100' )]
+  [ArduinoClass( '::Mitov::DigitalInput_Flexible' )]
+  +TArduino_Giga_Boot_Button : TArduinoBasicInterruptButtonModule;
+//---------------------------------------------------------------------------
+  [ArduinoScopedEnum]
+  TArduino_Giga_CanBus_TestMode : Enum
+    
+    None
+    Listen
+    ExternalLoopback
+    InternalLoopback
+    
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoCanBus_UNO_R4_MessageSendCompeledCallChain]
+//  [ArduinoCanBus_UNO_R4_MessageIsSendingCallChain]
+  TArduino_Giga_CanBus_Elements : TArduinoCanBusElements;
+//---------------------------------------------------------------------------
+  [ArduinoHelpPostfix( '(Arduino GIGA CAN bus)' )]
+  [Collection( TArduino_Giga_CanBus_Elements )]
+  [ArduinoLoopBegin]
+  [ArduinoCanBus_UNO_R4_MessageSendCompeledCallChain]
+//  [ArduinoCanBus_UNO_R4_MessageIsSendingCallChain]
+  [ArduinoVariable( Unsigned, 32, 'FSendTime' )]
+  [ArduinoOptionalVariable( Unsigned, 32, 'FSendingID', 0 )]
+  TArduinoCanBusSendMessage_Giga_Element_Extender : Extender;
+//---------------------------------------------------------------------------
+  [ArduinoClass( 'Mitov::TArduinoCanBusSendMessage_Giga_Element' )]
+  +TArduinoCanBusSendMessage_Giga_Element : TArduinoCanBusBasicSendMessageElement, TArduinoCanBusSendMessage_Giga_Element_Extender;
+//---------------------------------------------------------------------------
+  [ArduinoClass( 'Mitov::Microchip_Giga_CanBus_RequestMessage' )]
+  +TArduinoCanBusRequestMessage_Giga_Element : TArduinoBasicCanBusRequestMessageElement, TArduinoCanBusSendMessage_Giga_Element_Extender;
+//---------------------------------------------------------------------------
+//  [Name( 'CANbus' )]
+  [ArduinoDeclaredClass]
+  [ArduinoExcludeNotConnectedAndDefault]
+  [ArduinoInclude( 'Mitov_Arduino_GIGA_CANBus.h' )]
+  [ArduinoClass( 'Mitov::TArduino_GIGA_CANBus_Module' )]
+  [ParentImage( IOWCanBusStream )]
+  [ArduinoInit]
+  [ArduinoLoopBegin]
+  *TArduino_Giga_CanBus_Basic : TArduinoBasicCANBus, TArduinoCanBus_Extender
+  
+    [ArduinoUseBindingCheckSetter( 'UpdateEnabled' )]
+    Enabled : Boolean = True
+
+    [NamePostfix( '(BPS)' )]
+    [ValueRange( 125000, 1000000 )]
+    BusSpeed : Unsigned = 250000
+    
+    [ArduinoUseBindingCheckSetter( 'UpdateTestMode' )]
+    TestMode : TArduino_Giga_CanBus_TestMode = None
+    
+    Elements : TArduino_Giga_CanBus_Elements
+    
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoTemplateParameter( 'C_PIN_RX', 'PIN_CAN0_RX' )]
+  [ArduinoTemplateParameter( 'C_PIN_TX', 'PIN_CAN0_TX' )]
+  +TArduino_Giga_CanBus_0 : TArduino_Giga_CanBus_Basic;
+//---------------------------------------------------------------------------
+  [ArduinoTemplateParameter( 'C_PIN_RX', 'PIN_CAN1_RX' )]
+  [ArduinoTemplateParameter( 'C_PIN_TX', 'PIN_CAN1_TX' )]
+  +TArduino_Giga_CanBus_1 : TArduino_Giga_CanBus_Basic;
+//---------------------------------------------------------------------------
+  [ArduinoDefine( 'VISUINO_ARDUINO_PORTENTA' )]
+  [ArduinoDefine( 'VISUINO_ARDUINO_GIGA' )]
+  [ArduinoBoardNeedsReset]
+  [ArduinoBoardIndex( '' )]
+  [ArduinoBoardArchitecture( 'mbed_giga' )]
+  [Category( TArduinoARMCategory )]
+  TArduino_Giga_Board_Basic : TArduinoBoardExtendableImplementation
+  
+    [AddItem( TArduinoPortenta_RTCModule )]
+    [AddItem( TArduinoPortenta_H7_LED_RGB )]
+    [AddItem( TArduinoPortenta_WiFi )]
+    [AddItem( TArduinoPortenta_BluetoothModule )]
+    [AddItem( TArduino_Giga_Boot_Button )]
+    [AddItem( TArduino_Portenta_KeyboardModule )]
+    [AddItem( TArduino_Portenta_MouseModule )]
+    Modules : TArduinoModules
+    
+    [ComponentEditorEntryDesign( 'Add S&hields ...' )]
+    Shields : TArduinoGigaShields    
+
+    [AddItem( TArduinoPortenta_Serial )]
+    [AddItem( TArduinoPortenta_Serial2 )]
+    [AddItem( TArduinoGiga_Serial2 )]
+    [AddItem( TArduinoGiga_Serial3 )]
+    [AddItem( TArduinoGiga_Serial4 )]
+    Serial : TArduinoSerials
+
+    [Name( 'I2C Channels' )]
+    [AddItem( TArduinoI2C, 3 )]
+    I2CChannels : TArduinoI2CChannels
+    
+    [AddItem( TArduino_Giga_CanBus_0 )]
+    [AddItem( TArduino_Giga_CanBus_1 )]
+    [Name( 'CANBus Channels' )]
+    CANBusChannels : TArduinoCANBusChannels
+
+    [ArduinoBoard_Add_DigitalAnalogChannels(   0,  1, TArduinoAdditionalDigitalPullUpDownSerial1InterruptChannel, 'Digital(RX1)' )]
+    [ArduinoBoard_Add_DigitalAnalogChannels(   1,  1, TArduinoAdditionalDigitalPullUpDownSerial1InterruptChannel, 'Digital(TX1)' )]
+    [ArduinoBoard_Add_DigitalAnalogChannels(   2,  6, TArduinoAdditionalDigitalPullUpDownPWMInterruptChannel )]
+    [ArduinoBoard_Add_DigitalAnalogChannels(   8,  1, TArduinoAdditionalDigitalPullUpDownPWMI2C2InterruptChannel, 'Digital(I2C2-SCL)' )]
+    [ArduinoBoard_Add_DigitalAnalogChannels(   9,  1, TArduinoAdditionalDigitalPullUpDownPWMI2C2InterruptChannel, 'Digital(I2C2-SDA)' )]
+    [ArduinoBoard_Add_DigitalAnalogChannels(  10,  1, TArduinoAdditionalDigitalPullUpDownPWMInterruptChannel )]
+    [ArduinoBoard_Add_DigitalAnalogChannels(  11,  1, TArduinoAdditionalDigitalPullUpDownPWMSPI1InterruptChannel, 'Digital(SPI1-MISO)' )]
+    [ArduinoBoard_Add_DigitalAnalogChannels(  12,  1, TArduinoAdditionalDigitalPullUpDownPWMSPI1InterruptChannel, 'Digital(SPI1-MOSI)' )]
+    [ArduinoBoard_Add_DigitalAnalogChannels(  13,  1, TArduinoAdditionalDigitalPullUpDownPWMSPI1InterruptChannel, 'Digital(SPI1-SCK)' )]    
+    [ArduinoBoard_Add_DigitalAnalogChannels(  14,  1, TArduinoAdditionalDigitalPullUpDownSerial4InterruptChannel, 'Digital(RX4)' )]
+    [ArduinoBoard_Add_DigitalAnalogChannels(  15,  1, TArduinoAdditionalDigitalPullUpDownSerial4InterruptChannel, 'Digital(TX4)' )]
+    [ArduinoBoard_Add_DigitalAnalogChannels(  16,  1, TArduinoAdditionalDigitalPullUpDownSerial3InterruptChannel, 'Digital(RX3)' )]
+    [ArduinoBoard_Add_DigitalAnalogChannels(  17,  1, TArduinoAdditionalDigitalPullUpDownSerial3InterruptChannel, 'Digital(TX3)' )]
+    [ArduinoBoard_Add_DigitalAnalogChannels(  18,  1, TArduinoAdditionalDigitalPullUpDownSerial2InterruptChannel, 'Digital(RX2)' )]
+    [ArduinoBoard_Add_DigitalAnalogChannels(  19,  1, TArduinoAdditionalDigitalPullUpDownSerial2InterruptChannel, 'Digital(TX2)' )]
+    [ArduinoBoard_Add_DigitalAnalogChannels(  20,  1, TArduinoAdditionalDigitalPullUpDownPWMI2C0InterruptChannel, 'Digital(I2C2-SDA)' )]
+    [ArduinoBoard_Add_DigitalAnalogChannels(  21,  1, TArduinoAdditionalDigitalPullUpDownPWMI2C0InterruptChannel, 'Digital(I2C2-SCL)' )]
+    [ArduinoBoard_Add_DigitalAnalogChannels(  22, 54, TArduinoAdditionalDigitalPullUpDownInterruptChannel )]
+    
+    [ArduinoBoard_Add_DigitalNamedAnalogChannels(  76, 0, 8, TArduinoCombinedAnalogDigitalPullUpDownInterruptChannel )]
+//    [ArduinoBoard_Add_DigitalNamedAnalogChannels( 76, 0, 12, TArduinoCombinedAnalogDigitalPullUpDownInterruptChannel )]
+//    [ArduinoBoard_Add_AnalogInputChannels( 9, 4, TArduinoAnalogOptionalAsDigitalInputChannel )]
+    [ArduinoBoard_Add_AnalogInputChannel(   8, TArduinoAnalogOptionalAsDigitalInputChannel, 'Analog Input[ 8 ]',  '8', 'A8' )]
+    [ArduinoBoard_Add_AnalogInputChannel(   9, TArduinoAnalogOptionalAsDigitalInputChannel, 'Analog Input[ 9 ]',  '9', 'A9' )]
+    [ArduinoBoard_Add_AnalogInputChannel(  10, TArduinoAnalogOptionalAsDigitalInputChannel, 'Analog Input[ 10 ]', '10', 'A10' )]
+    [ArduinoBoard_Add_AnalogInputChannel(  11, TArduinoAnalogOptionalAsDigitalInputChannel, 'Analog Input[ 11 ]', '11', 'A11' )]
+    [ArduinoBoard_Add_DigitalNamedAnalogChannels( 84, 12, 2, TArduinoCombinedAnalogDigitalPullUpDownAnalogOutputInterruptChannel, 'Digital(DAC)' )]
+    [ArduinoBoard_Add_DigitalAnalogChannels(  89,  1, TArduinoAdditionalDigitalPullUpDownSPI0InterruptChannel, 'Digital(SPI0-MISO)' )]
+    [ArduinoBoard_Add_DigitalAnalogChannels(  90,  1, TArduinoAdditionalDigitalPullUpDownSPI0InterruptChannel, 'Digital(SPI0-MOSI)' )]
+    [ArduinoBoard_Add_DigitalAnalogChannels(  91,  1, TArduinoAdditionalDigitalPullUpDownSPI0InterruptChannel, 'Digital(SPI0-SCK)' )]
+    [ArduinoBoard_Add_DigitalAnalogChannels(  93,  2, TArduinoAdditionalDigitalPullUpDownInterruptChannel )]
+
+    [ArduinoBoard_Add_DigitalAnalogChannels( 101,  1, TArduinoAdditionalDigitalPullUpDownI2C1InterruptChannel, 'Digital(I2C1-SCL)' )]
+    [ArduinoBoard_Add_DigitalAnalogChannels( 102,  1, TArduinoAdditionalDigitalPullUpDownI2C1InterruptChannel, 'Digital(I2C1-SDA)' )]
+    [Name( 'Channels' )]
+    Digital : TArduinoDigitalChannels
+    
+  ;
+//---------------------------------------------------------------------------
+  [Name( 'Arduino GIGA R1 WiFi M7 Core' )]
+  [ArduinoBoardCompileParams( 'Arduino:mbed_giga:giga:target_core=cm7' )]
+  +TArduino_Giga_M7_Board : TArduino_Giga_Board_Basic
+  
+    [AddItem( TArduinoPortenta_H7_M4_Module )]
+    Modules
+
+  ;
+//---------------------------------------------------------------------------
+  [Name( 'Arduino GIGA R1 WiFi M4 Core' )]
+  [ArduinoBoardCompileParams( 'Arduino:mbed_giga:giga:target_core=cm4' )]
+  +TArduino_Giga_M4_Board : TArduino_Giga_Board_Basic
+
+    [AddItem( TArduinoPortenta_H7_M7_Module )]
+    Modules
+
+  ;
+//---------------------------------------------------------------------------
+; // Mitov

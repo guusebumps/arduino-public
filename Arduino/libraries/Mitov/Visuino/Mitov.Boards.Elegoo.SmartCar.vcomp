@@ -1,0 +1,64 @@
+Mitov : Namespace
+//---------------------------------------------------------------------------
+  [Name( 'ESP32' )]
+  [Category( TElegooCategory )]
+  [AlternateCategory( TESP32Category )]
+  [ParentImage( TESP32Category )]
+  TElegooESP32Category : TClassCategory;
+//---------------------------------------------------------------------------
+  [ArduinoTemplateParameter( 'C_PIN_POWER_DOWN', '-1' )]
+  [ArduinoTemplateParameter( 'C_PIN_RESET', '15' )]
+  [ArduinoTemplateParameter( 'C_PIN_XCLK', '27' )]
+  [ArduinoTemplateParameter( 'C_PIN_SIOD', '22' )]
+  [ArduinoTemplateParameter( 'C_PIN_SIOC', '23' )]
+  [ArduinoTemplateParameter( 'C_PIN_Y2', '32' )]
+  [ArduinoTemplateParameter( 'C_PIN_Y3', '35' )]
+  [ArduinoTemplateParameter( 'C_PIN_Y4', '34' )]
+  [ArduinoTemplateParameter( 'C_PIN_Y5', '5' )]
+  [ArduinoTemplateParameter( 'C_PIN_Y6', '39' )]
+  [ArduinoTemplateParameter( 'C_PIN_Y7', '18' )]
+  [ArduinoTemplateParameter( 'C_PIN_Y8', '36' )]
+  [ArduinoTemplateParameter( 'C_PIN_Y9', '19' )]
+  [ArduinoTemplateParameter( 'C_PIN_VSYNC', '25' )]
+  [ArduinoTemplateParameter( 'C_PIN_HREF', '26' )]
+  [ArduinoTemplateParameter( 'C_PIN_PCLK', '21' )]
+  [ArduinoTemplateParameter( 'C_I2C_CHANNEL', '0' )]
+  [CollectionItemAssociation( TArduinoESP32CamBoard_CameraModule )]
+  +TArduinoElegooSmartCarESP32CamBoard_CameraModule : TArduinoESP32_BasicJpegCameraModule;
+//---------------------------------------------------------------------------
+  +TArduinoElegooSmartCarESP32CamBoardSerial1 : TArduinoESP32DefinedPinsBasicSerial
+
+    RXPin = 33
+    TXPin = 4
+
+  ;
+//---------------------------------------------------------------------------
+  [Category( TElegooESP32Category )]
+  [ArduinoBoardCompileParams( 'esp32:esp32:esp32cam' )]
+  [Name( 'Elegoo Robot V4 ESP32-Camera' )]
+  +TArduinoElegooSmartCarESP32CamBoard : TArduinoBasicESP32DigitalChannelsBoard
+
+//    [ReplaceItem( TArduinoESP32WiFiModule, TArduinoESP32WiFi_NoEthernet_Module )]
+    [AddItem( TArduinoElegooSmartCarESP32CamBoard_CameraModule )]
+    Modules
+
+    [AddItem( TArduinoBreakHardwareSerial0 )]
+    [AddItem( TArduinoElegooSmartCarESP32CamBoardSerial1 )]
+    Serial
+    
+    [AddItem( TArduinoESP32_Generic_I2C )]
+    [AddItem( TArduinoESP32_Generic_I2C_2 )]
+    I2CChannels
+
+    [AddItem( TArduinoESP32_Generic_SPI )]
+    SPIChannels
+    
+    [ArduinoBoard_Add_ReservedChannel( 4 )]
+    [ArduinoBoard_Add_ReservedChannel( 33 )]
+    [ArduinoBoard_Add_ReservedChannel( 0, 'Pad)(Boot' )]
+    [ArduinoBoard_Add_ReservedChannel( 13, 'Pad)(Link' )]
+    Digital
+    
+  ;
+//---------------------------------------------------------------------------
+; // Mitov

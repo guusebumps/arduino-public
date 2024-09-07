@@ -1,0 +1,385 @@
+Mitov : Namespace
+//---------------------------------------------------------------------------
+  [Name( 'Get_ALS_CONTR' )]
+  [ArduinoPopulatedCallChainParameter( 'uint8_t &', 'AValue' )]
+  TArduinoLightProximitySensor_LTR_553ALS_WA_Light_Get_ALS_CONTR_CallChainAttribute : ArduinoCallChainCompleteAttribute;
+//---------------------------------------------------------------------------
+  [Name( 'Get_PS_CONTR' )]
+  [ArduinoPopulatedCallChainParameter( 'uint8_t &', 'AValue' )]
+  TArduinoLightProximitySensor_LTR_553ALS_WA_Proximity_Get_PS_CONTR_CallChainAttribute : ArduinoCallChainCompleteAttribute;
+//---------------------------------------------------------------------------  
+  [Name( 'Get_PS_MEAS_RATE' )]
+  [ArduinoPopulatedCallChainParameter( 'uint8_t &', 'AValue' )]
+  TArduinoLightProximitySensor_LTR_553ALS_WA_Proximity_Get_PS_MEAS_RATE_CallChainAttribute : ArduinoCallChainCompleteAttribute;
+//---------------------------------------------------------------------------
+  [Name( 'Get_PS_LED' )]
+  [ArduinoPopulatedCallChainParameter( 'uint8_t &', 'AValue' )]
+  TArduinoLightProximitySensor_LTR_553ALS_WA_Proximity_Get_PS_LED_CallChainAttribute : ArduinoCallChainCompleteAttribute;
+//---------------------------------------------------------------------------  
+  [Name( 'Get_PS_N_Pulses' )]
+  [ArduinoPopulatedCallChainParameter( 'uint8_t &', 'AValue' )]
+  TArduinoLightProximitySensor_LTR_553ALS_WA_Proximity_Get_PS_N_Pulses_CallChainAttribute : ArduinoCallChainCompleteAttribute;
+//---------------------------------------------------------------------------
+  [Name( 'Get_PS_OFFSET' )]
+  [ArduinoPopulatedCallChainParameter( 'uint16_t &', 'AValue' )]
+  TArduinoLightProximitySensor_LTR_553ALS_WA_Proximity_Get_PS_OFFSET_CallChainAttribute : ArduinoCallChainCompleteAttribute;
+//---------------------------------------------------------------------------
+  [Name( 'Get_ALS_MEAS_RATE' )]
+  [ArduinoPopulatedCallChainParameter( 'uint8_t &', 'AValue' )]
+  TArduinoLightProximitySensor_LTR_553ALS_WA_Light_Get_ALS_MEAS_RATE_CallChainAttribute : ArduinoCallChainCompleteAttribute;
+//---------------------------------------------------------------------------  
+{
+  [Name( 'Set_InvalidOutputPin' )]
+  [ArduinoPopulatedCallChainParameter( 'bool', 'AValue' )]
+  TArduinoLightProximitySensor_LTR_553ALS_WA_Light_Set_InvalidOutputPin_CallChainAttribute : ArduinoCallChainCompleteAttribute;
+}
+//---------------------------------------------------------------------------  
+  [Name( 'SendOutputs' )]
+  [ArduinoPopulatedCallChainParameter( 'uint8_t', 'AValue' )]
+  TArduinoLightProximitySensor_LTR_553ALS_WA_Light_SendOutputs_CallChainAttribute : ArduinoCallChainCompleteAttribute;
+//---------------------------------------------------------------------------  
+  [Name( 'SendOutputs' )]
+  TArduinoLightProximitySensor_LTR_553ALS_WA_Proximity_SendOutputs_CallChainAttribute : ArduinoCallChainCompleteAttribute;
+//---------------------------------------------------------------------------  
+  [Name( 'Get_IsClocked' )]
+  [ArduinoPopulatedCallChainParameter( 'bool &', 'AValue' )]
+  TArduinoLightProximitySensor_LTR_553ALS_WA_Get_IsClocked_CallChainAttribute : ArduinoCallChainCompleteAttribute;
+//---------------------------------------------------------------------------  
+  [ArduinoDeclaredClass]
+  [ArduinoExcludeNotConnectedAndDefault]
+  [ArduinoOwnerTemplateTypeAndReference]
+  [TArduinoLightProximitySensor_LTR_553ALS_WA_Get_IsClocked_CallChain]
+  TArduinoLightProximitySensor_LTR_553ALS_WA_Property : TArduinoCodeEnabledClockedPersistent
+    
+    [ArduinoPinIsConnectedFlag]
+	ClockInputPin
+    
+    OutputPin : TOWArduinoAnalogSourcePin
+    
+    Standby : Boolean = False
+    
+  ;
+//---------------------------------------------------------------------------
+  [ParentImage( TArduinoBasicLightSensorPersistent )]
+  [TArduinoLightProximitySensor_LTR_553ALS_WA_Light_Get_ALS_CONTR_CallChain]
+  [TArduinoLightProximitySensor_LTR_553ALS_WA_Light_Get_ALS_MEAS_RATE_CallChain]
+  [TArduinoLightProximitySensor_LTR_553ALS_WA_Light_SendOutputs_CallChain]
+  *TArduinoLightProximitySensor_LTR_5XXALS_WA_Light_Basic : TArduinoLightProximitySensor_LTR_553ALS_WA_Property
+  
+    [NamePostfix( ' (lux)' )]
+    OutputPin
+  
+    [OWAddPin( 'Visible + IR (lux)', TOWArduinoAnalogSourcePin )]
+    [OWAddPin( 'IR (lux)', TOWArduinoAnalogSourcePin )]
+    ChannelsOutputPins : TOWArduinoPinList
+    
+    [NamePostfix( ' (lux)' )]
+    [ArduinoUseBindingCheckSetter_Parent( 'Update_ALS_CONTR' )]
+    Range : Unsigned = 64000
+    
+    [ArduinoUseBindingCheckSetter_Parent( 'Update_ALS_CONTR' )]
+    Standby
+    
+    [NamePostfix( ' (ms)' )]
+    [ArduinoUseBindingCheckSetter_Parent( 'Update_ALS_MEAS_RATE' )]
+    RepeatPeriod : Unsigned = 500
+    
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoClass( 'Mitov::TArduinoLightProximitySensor_LTR_553ALS_WA_Light' )]
+  TArduinoLightProximitySensor_LTR_553ALS_WA_Light : TArduinoLightProximitySensor_LTR_5XXALS_WA_Light_Basic
+
+    InvalidOutputPin : TOWArduinoDigitalSourcePin
+    
+    [ValueRange( 600, 64000 )]
+    [PropertyListDesignValue( '600' )]
+    [PropertyListDesignValue( '1300' )]
+    [PropertyListDesignValue( '8000' )]
+    [PropertyListDesignValue( '16000' )]
+    [PropertyListDesignValue( '32000' )]
+    [PropertyListDesignValue( '64000' )]
+    Range
+    
+    [ValueRange( 50, 2000 )]
+    [PropertyListDesignValue( '50' )]
+    [PropertyListDesignValue( '100' )]
+    [PropertyListDesignValue( '200' )]
+    [PropertyListDesignValue( '500' )]
+    [PropertyListDesignValue( '1000' )]
+    [PropertyListDesignValue( '2000' )]
+    RepeatPeriod
+    
+    [ValueRange( 50, 400 )]
+    [NamePostfix( ' (ms)' )]
+    [ArduinoUseBindingCheckSetter_Parent( 'Update_ALS_MEAS_RATE' )]
+    [PropertyListDesignValue( '50' )]
+    [PropertyListDesignValue( '100' )]
+    [PropertyListDesignValue( '150' )]
+    [PropertyListDesignValue( '200' )]
+    [PropertyListDesignValue( '250' )]
+    [PropertyListDesignValue( '300' )]
+    [PropertyListDesignValue( '350' )]
+    [PropertyListDesignValue( '400' )]
+    IntegrationTime : Unsigned = 100
+    
+  ;
+//---------------------------------------------------------------------------
+{
+  [ArduinoClass( 'Mitov::TArduinoLightProximitySensor_LTR_553ALS_WA_Light' )]
+  TArduinoLightProximitySensor_LTR_507ALS_WA_Light : TArduinoLightProximitySensor_LTR_5XXALS_WA_Light_Basic
+  
+    [ValueRange( 320, 64000 )]
+    [PropertyListDesignValue( '320' )]
+    [PropertyListDesignValue( '640' )]
+    [PropertyListDesignValue( '32000' )]
+    [PropertyListDesignValue( '64000' )]
+    Range
+    
+    [ValueRange( 100, 2000 )]
+    [PropertyListDesignValue( '100' )]
+    [PropertyListDesignValue( '200' )]
+    [PropertyListDesignValue( '500' )]
+    [PropertyListDesignValue( '1000' )]
+    [PropertyListDesignValue( '2000' )]
+    RepeatPeriod
+    
+    [ValueRange( 4, 20 )]
+    [PropertyListDesignValue( '4' )]
+    [PropertyListDesignValue( '8' )]
+    [PropertyListDesignValue( '12' )]
+    [PropertyListDesignValue( '16' )]
+    [PropertyListDesignValue( '17' )]
+    [PropertyListDesignValue( '18' )]
+    [PropertyListDesignValue( '19' )]
+    [PropertyListDesignValue( '20' )]
+    [NamePostfix( ' (bits)' )]
+    Resolution : Unsigned = 16
+    
+  ;
+}
+//---------------------------------------------------------------------------
+  [ArduinoClass( 'Mitov::TArduinoLightProximitySensor_LTR_553ALS_WA_Proximity_Saturation' )]
+  *TArduinoLightProximitySensor_LTR_553ALS_WA_Proximity_Saturation : TArduinoCodeEnabledPersistent
+  
+    OutputPin : TOWArduinoDigitalSourcePin
+    
+    [ArduinoUseBindingCheckSetter_Parent( 'Update_PS_CONTR' )]
+    Enabled
+    
+  ;
+//---------------------------------------------------------------------------
+  [ParentImage( TArduinoLED )]
+  *TArduinoLightProximitySensor_LTR_5XXALS_WA_LED_Basic : TArduinoCodeEnabledPersistent
+  
+    [ValueRange( 30, 100 )]
+    [NamePostfix( ' (kHz)' )]
+    [PropertyListDesignValue( '30' )]
+    [PropertyListDesignValue( '40' )]
+    [PropertyListDesignValue( '50' )]
+    [PropertyListDesignValue( '60' )]
+    [PropertyListDesignValue( '70' )]
+    [PropertyListDesignValue( '80' )]
+    [PropertyListDesignValue( '90' )]
+    [PropertyListDesignValue( '100' )]
+    [ArduinoUseBindingCheckSetter_Parent( 'Update_PS_LED' )]
+    Frequency : Unsigned = 60
+        
+    [ValueRange( 5, 100 )]
+    [NamePostfix( ' (mA)' )]
+    [PropertyListDesignValue( '5' )]
+    [PropertyListDesignValue( '10' )]
+    [PropertyListDesignValue( '20' )]
+    [PropertyListDesignValue( '50' )]
+    [PropertyListDesignValue( '100' )]
+    [ArduinoUseBindingCheckSetter_Parent( 'Update_PS_LED' )]
+    Current : Unsigned = 100
+    
+    [ArduinoUseBindingCheckSetter_Parent( 'Update_PS_N_Pulses' )]
+    NumberPulses : Unsigned = 1
+    
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoClass( 'Mitov::TArduinoLightProximitySensor_LTR_553ALS_WA_LED' )]
+  *TArduinoLightProximitySensor_LTR_553ALS_WA_LED : TArduinoLightProximitySensor_LTR_5XXALS_WA_LED_Basic
+  
+    [ValueRange( 25, 100 )]
+    [NamePostfix( ' (%)' )]
+    [PropertyListDesignValue( '25' )]
+    [PropertyListDesignValue( '50' )]
+    [PropertyListDesignValue( '75' )]
+    [PropertyListDesignValue( '100' )]
+    [ArduinoUseBindingCheckSetter_Parent( 'Update_PS_LED' )]
+    DutyCycle : Unsigned = 100
+    
+    [ValueRange( 1, 15 )]
+    NumberPulses
+    
+  ;
+//---------------------------------------------------------------------------
+{
+  *TArduinoLightProximitySensor_LTR_507ALS_WA_LED : TArduinoLightProximitySensor_LTR_5XXALS_WA_LED_Basic
+  
+    [MaxValue( 255 )]
+    NumberPulses = 127
+    
+  ;
+}
+//---------------------------------------------------------------------------
+  [TArduinoLightProximitySensor_LTR_553ALS_WA_Proximity_Get_PS_CONTR_CallChain]
+  [TArduinoLightProximitySensor_LTR_553ALS_WA_Proximity_Get_PS_LED_CallChain]
+  [TArduinoLightProximitySensor_LTR_553ALS_WA_Proximity_Get_PS_N_Pulses_CallChain]
+  [TArduinoLightProximitySensor_LTR_553ALS_WA_Proximity_Get_PS_MEAS_RATE_CallChain]
+  [TArduinoLightProximitySensor_LTR_553ALS_WA_Proximity_SendOutputs_CallChain]
+  *TArduinoLightProximitySensor_LTR_5XXALS_WA_Proximity_Basic : TArduinoLightProximitySensor_LTR_553ALS_WA_Property
+
+    [ArduinoUseBindingCheckSetter_Parent( 'Update_PS_CONTR' )]
+    Standby
+
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoClass( 'Mitov::TArduinoLightProximitySensor_LTR_553ALS_WA_Proximity' )]
+  [TArduinoLightProximitySensor_LTR_553ALS_WA_Proximity_Get_PS_OFFSET_CallChain]
+  TArduinoLightProximitySensor_LTR_553ALS_WA_Proximity : TArduinoLightProximitySensor_LTR_5XXALS_WA_Proximity_Basic
+  
+    LED : TArduinoLightProximitySensor_LTR_553ALS_WA_LED
+  
+    Saturation : TArduinoLightProximitySensor_LTR_553ALS_WA_Proximity_Saturation
+    
+    [ValueRange( 16, 64 )]
+    [PropertyListDesignValue( '16' )]
+    [PropertyListDesignValue( '32' )]
+    [PropertyListDesignValue( '64' )]
+    [ArduinoUseBindingCheckSetter_Parent( 'Update_PS_CONTR' )]
+    Gain : Unsigned = 16
+        
+    [ValueRange( 10, 2000 )]
+    [NamePostfix( ' (ms)' )]
+    [PropertyListDesignValue( '10' )]
+    [PropertyListDesignValue( '50' )]
+    [PropertyListDesignValue( '70' )]
+    [PropertyListDesignValue( '100' )]
+    [PropertyListDesignValue( '200' )]
+    [PropertyListDesignValue( '500' )]
+    [PropertyListDesignValue( '1000' )]
+    [PropertyListDesignValue( '2000' )]
+    [ArduinoUseBindingCheckSetter_Parent( 'Update_PS_MEAS_RATE' )]
+    RepeatPeriod : Unsigned = 100
+    
+    [ValueRange( 0.0, 1.0 )]
+    Offset : Single = 0.0
+    
+  ;
+//---------------------------------------------------------------------------
+{
+  TArduinoLightProximitySensor_LTR_507ALS_WA_Proximity : TArduinoLightProximitySensor_LTR_5XXALS_WA_Proximity_Basic
+    
+    OverflowOutputPin : TOWArduinoDigitalSourcePin
+  
+    LED : TArduinoLightProximitySensor_LTR_507ALS_WA_LED
+    
+  ;
+}
+//---------------------------------------------------------------------------
+  [ArduinoClass( 'Mitov::TArduinoLightProximitySensor_LTR_553ALS_WA_Interrupt_Item' )]
+  TArduinoLightProximitySensor_LTR_553ALS_WA_Interrupt_Item : TArduinoCodeDisabledPersistent
+
+    [ArduinoUseBindingCheckSetter_Parent( 'Update_INTERRUPT' )]
+    Enabled
+    
+    [ValueRange( 0.0, 1.0 )]
+    Min : Single = 0.0
+
+    [ValueRange( 0.0, 1.0 )]
+    Max : Single = 1.0
+    
+    [ValueRange( 0, 15 )]
+    CountIgnored : Unsigned = 0
+    
+  ;
+//---------------------------------------------------------------------------
+  [ParentImage( TArduinoLightProximitySensor_LTR_553ALS_WA_Light )]
+  *TArduinoLightProximitySensor_LTR_553ALS_WA_Interrupt_Light : TArduinoLightProximitySensor_LTR_553ALS_WA_Interrupt_Item
+  
+    [ArduinoUseBindingCheckSetter_Parent( 'Update_Interrupt_Light_MinThreshold' )]
+    Min
+    
+    [ArduinoUseBindingCheckSetter_Parent( 'Update_Interrupt_Light_MaxThreshold' )]
+    Max
+    
+  ;
+//---------------------------------------------------------------------------
+  [ParentImage( TArduinoLightProximitySensor_LTR_553ALS_WA_Proximity )]
+  *TArduinoLightProximitySensor_LTR_553ALS_WA_Interrupt_Proximity : TArduinoLightProximitySensor_LTR_553ALS_WA_Interrupt_Item
+  
+    [ArduinoUseBindingCheckSetter_Parent( 'Update_Interrupt_Proximity_MinThreshold' )]
+    Min
+    
+    [ArduinoUseBindingCheckSetter_Parent( 'Update_Interrupt_Proximity_MaxThreshold' )]
+    Max
+    
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoClass( 'Mitov::TArduinoLightProximitySensor_LTR_553ALS_WA_Interrupt' )]
+  [ParentImage( TArduinoMPUInterrupt )]
+  *TArduinoLightProximitySensor_LTR_553ALS_WA_Interrupt : TArduinoCodePersistent
+  
+    [ArduinoUseBindingCheckSetter_Parent( 'Update_INTERRUPT' )]
+    ActiveLow : Boolean = True
+    
+    Light : TArduinoLightProximitySensor_LTR_553ALS_WA_Interrupt_Light
+    Proximity : TArduinoLightProximitySensor_LTR_553ALS_WA_Interrupt_Proximity
+    
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoInclude( 'Mitov_LiteOn_LightProximitySensor.h' )]
+  [CreateName( 'LightProximity' )]
+  [Category( TArduinoAnalogMeasurementToolbarCategory )]
+  [ArduinoInit]
+  [ArduinoLoopBegin]
+  TArduinoLightProximitySensor_LTR_5XXALS_WA_Extender : Extender
+  
+    ResetInputPin : TOWArduinoClockSinkPin
+  
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoClass( 'Mitov::TArduinoLightProximitySensor_LTR_553ALS_WA' )]
+  TArduinoLightProximitySensor_LTR_553ALS_WA_Extender : TArduinoLightProximitySensor_LTR_5XXALS_WA_Extender
+    
+    Light : TArduinoLightProximitySensor_LTR_553ALS_WA_Light
+    Proximity : TArduinoLightProximitySensor_LTR_553ALS_WA_Proximity
+    Interrupt : TArduinoLightProximitySensor_LTR_553ALS_WA_Interrupt
+    
+  ;
+//---------------------------------------------------------------------------
+  [Name( 'LITE-ON Light and Proximity Sensor LTR-553ALS-WA/LTR-556ALS-WA(I2C)' )]
+  [ArduinoWebKeywords( 'LTR-553ALS-WA Light and Proximity Sensor' )]
+  [ArduinoWebKeywords( 'LTR-556ALS-WA Light and Proximity Sensor' )]
+  +TArduinoLightProximitySensor_LTR_553ALS_WA : TArduinoI2CAddressControlPinComponent, TArduinoLightProximitySensor_LTR_553ALS_WA_Extender
+  
+    Address = $23
+    
+  ;
+//---------------------------------------------------------------------------
+  [Name( 'Light/Proximity' )]
+  [CreateName( 'Light/Proximity' )]
+  [ArduinoExcludeNotConnectedAndDefault]
+  *TArduinoLightProximitySensor_LTR_553ALS_WA_Module : TArduinoShield, TArduinoLightProximitySensor_LTR_553ALS_WA_Extender;
+//---------------------------------------------------------------------------
+{
+  [Name( 'LITE-ON  Light and Proximity Sensor LTR-507ALS-WA(I2C)' )]
+  [ArduinoClass( 'Mitov::TArduinoLightProximitySensor_LTR_553ALS_WA' )]
+  [ArduinoWebKeywords( 'LTR-507ALS-WA Light and Proximity Sensor' )]
+  +TArduinoLightProximitySensor_LTR_507ALS_WA : TArduinoI2CAddressControlPinComponent, TArduinoLightProximitySensor_LTR_5XXALS_WA_Extender
+  
+    [PropertyListDesignValue( '35' )]
+    [PropertyListDesignValue( '58' )]
+    [PropertyListDesignValue( '59' )]
+    Address = $23
+    
+    Light : TArduinoLightProximitySensor_LTR_507ALS_WA_Light
+    Proximity : TArduinoLightProximitySensor_LTR_507ALS_WA_Proximity
+    
+  ;
+}
+//---------------------------------------------------------------------------
+; // Mitov

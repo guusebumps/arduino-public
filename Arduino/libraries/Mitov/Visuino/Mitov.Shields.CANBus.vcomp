@@ -1,0 +1,137 @@
+Mitov : Namespace
+//---------------------------------------------------------------------------
+  [Name( 'CANBus' )]
+  [Category( TCommunicationToolbarCategory )]
+  [ParentImage( IOWCanBusStream )]
+  TCanBusToolbarCategory : TClassCategory;
+//---------------------------------------------------------------------------
+  [CreateName( 'CANBus' )]
+  [SingleCollectionInstance]
+  [Collection( TArduinoBasicShields )]
+  [Category( TCanBusToolbarCategory )]
+  [ArduinoShieldPin( '10' )]
+  [ArduinoSPI( 0 )]
+  [ArduinoExcludeNotConnectedAndDefault]
+  [ArduinoTemplateParameter( '0_IMPLEMENTATION', '::Mitov::TArduinoCanBusShield_Implementation' )]
+  TArduinoBasicCanBusShield : TArduinoEnabledShield, IStandardShield, TArduinoMicrochipCanBusMCP2515_Extender
+    
+    [ArduinoAddToTemplate( '0_IMPLEMENTATION' )]
+    SPISpeed : Unsigned = 8000000
+    
+  ;
+//---------------------------------------------------------------------------
+//  +TArduinoBasicGroveCanBusShield_I2C_Grove : TArduinoI2CGrove;
+//---------------------------------------------------------------------------
+  TArduinoBasicGroveCanBusShield : TArduinoBasicCanBusShield
+
+    [AddNamedItem( TArduino_I2C_Grove, 'I2C' )]
+    [AddNamedItem( TArduinoSerial0Grove, 'Serial' )]
+    Grove : TArduinoGroveChannels
+    
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoTemplateParameter( 'ChipSelectPin', 'Mitov::ConstantProperty<66, uint32_t, 9 >' )]
+  [ArduinoShieldPin( '9', 'MicroSD' )]
+  TArduinoCanBusShieldMicroSDModuleElement : TArduinoBasicMicroSDShieldElement;
+//---------------------------------------------------------------------------
+  [Name( 'CANBus Shield' )]
+  [ArduinoTemplateParameter( '0_IMPLEMENTATION.ChipSelectPin', 'Mitov::ConstantProperty<166, uint32_t, 10 >' )]
+  [ParentImage( IOWCanBusStream )]
+  [ArduinoWebKeywords( 'Arduino CANBus Shield' )]
+  +TArduinoCanBusShield : TArduinoBasicGroveCanBusShield;
+//---------------------------------------------------------------------------
+  [ArduinoTemplateParameter( '0_IMPLEMENTATION.ChipSelectPin', 'Mitov::ConstantProperty<166, uint32_t, 10 >' )]
+  [ArduinoWebKeywords( 'Keystudio CANBus Shield' )]
+  [Name( 'Keystudio CANBus and Micro SD Shield' )]
+  +TArduinoKeystudioCanBusShield : TArduinoBasicCanBusShield
+
+    MicroSD : TArduinoCanBusShieldMicroSDModuleElement
+    
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoWebKeywords( 'Seeed Studio CANBus Shield' )]
+  TArduinoSeeedStudioCanBusShield_Basic : TArduinoBasicGroveCanBusShield
+
+    [OWExcludeBindings]
+    [ArduinoAddToTemplate( '0_IMPLEMENTATION' )]
+    [MaxValue( 19 )]
+    [DesignRange( 9, 10 )]
+    ChipSelectPin : Unsigned = 9
+
+  ;
+//---------------------------------------------------------------------------
+  [Name( 'Seeed Studio CANBus Shield V1.2' )]
+  +TArduinoSeeedStudioCanBusShield_1_2 : TArduinoSeeedStudioCanBusShield_Basic;
+//---------------------------------------------------------------------------
+  TArduinoSeeedStudioCanBusShieldMicroSDModuleElement : TArduinoBasicMicroSDShieldElement
+
+    [MaxValue( 19 )]
+    [DesignRange( 4, 5 )]
+    ChipSelectPin : Unsigned = 4
+    
+  ;
+//---------------------------------------------------------------------------
+  [Name( 'Seeed Studio CANBus and Micro SD Shield V2.0' )]
+  +TArduinoSeeedStudioCanBusShield_2_0 : TArduinoSeeedStudioCanBusShield_Basic
+  
+    MicroSD : TArduinoSeeedStudioCanBusShieldMicroSDModuleElement
+    
+  ;
+//---------------------------------------------------------------------------
+{
+  [ArduinoInclude( 'Mitov_Makerfocus_ESP8266_OLED_Joystick.h' )]
+  [ArduinoClass( 'Mitov::Makerfocus_ESP8266_OLED_Joystick' )]
+  [ArduinoExcludeNotConnected]
+  [Name( 'Joystick' )]
+  [CreateName( 'Joystick' )]
+  [ParentImage( TArduinoEVIVENavigationModule )]
+  [ArduinoInit]
+  [ArduinoLoopBegin]
+  +TArduinoSparkfunCanBusShield_Joystick_Module : TArduinoCodePersistent
+
+    [OWPrimaryPin]
+    [OWPinListPrimaryPinType( TOWArduinoDigitalSourcePin )]
+    [ArduinoPinListGetterDirect]
+    [OWAddArduinoBoardDigitalPin( 'Up', TOWArduinoDigitalInputSourcePin, '15' )]
+    [OWAddArduinoBoardDigitalPin( 'Down', TOWArduinoDigitalInputSourcePin, '17' )]
+    [OWAddArduinoBoardDigitalPin( 'Left', TOWArduinoDigitalInputSourcePin, '16' )]
+    [OWAddArduinoBoardDigitalPin( 'Right', TOWArduinoDigitalInputSourcePin, '19' )]
+    [OWAddArduinoBoardDigitalPin( 'Press', TOWArduinoDigitalInputSourcePin, '18' )]
+    OutputPins : TOWArduinoPinList
+
+  ;
+}
+//---------------------------------------------------------------------------
+  [ArduinoTemplateParameter( '0_PIN_UP', '15' )]
+  [ArduinoTemplateParameter( '0_PIN_DOWN', '17' )]
+  [ArduinoTemplateParameter( '0_PIN_LEFT', '16' )]
+  [ArduinoTemplateParameter( '0_PIN_RIGHT', '19' )]
+  [ArduinoTemplateParameter( '0_PIN_PRESS', '18' )]
+  [ArduinoShieldPin( '15', 'Up' )]
+  [ArduinoShieldPin( '17', 'Down' )]
+  [ArduinoShieldPin( '16', 'Left' )]
+  [ArduinoShieldPin( '19', 'Right' )]
+  [ArduinoShieldPin( '18', 'Press' )]
+  +TArduinoSparkfunCanBusShield_Joystick_Module : TArduino_Basic_Navigation_Joystick_Module;
+//---------------------------------------------------------------------------
+  [ArduinoTemplateParameter( 'PIN', '7' )]
+  [ArduinoShieldPin( '7', 'LED 1' )]
+  +TArduinoSparkfunCanBusShieldLED1 : TArduinoBasicDigitalLED;
+//---------------------------------------------------------------------------
+  [ArduinoTemplateParameter( 'PIN', '8' )]
+  [ArduinoShieldPin( '8', 'LED 2' )]
+  +TArduinoSparkfunCanBusShieldLED2 : TArduinoBasicDigitalLED;
+//---------------------------------------------------------------------------
+  [Name( 'Sparkfun CANBus, Micro SD and Joystick Shield' )]
+  +TArduinoSparkfunCanBusShield : TArduinoSeeedStudioCanBusShield_Basic
+  
+    MicroSD : TArduinoCanBusShieldMicroSDModuleElement
+    Joystick : TArduinoSparkfunCanBusShield_Joystick_Module
+    
+    [AddItem( TArduinoSparkfunCanBusShieldLED1 )]
+    [AddItem( TArduinoSparkfunCanBusShieldLED2 )]
+    LEDs : TArduinoFixedPersistentCollection
+    
+  ;
+//---------------------------------------------------------------------------
+; // Mitov

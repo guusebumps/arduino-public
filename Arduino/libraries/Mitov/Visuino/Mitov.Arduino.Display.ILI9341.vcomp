@@ -1,0 +1,84 @@
+Mitov : Namespace
+//---------------------------------------------------------------------------
+  [Name( 'TFT Color Display Ilitek ILI9341/ILI9342 SPI' )]
+  [ArduinoInclude( 'Mitov_Display_ILI9341.h' )]
+  [ArduinoInclude( 'Mitov_Display_ILI9341_SPI.h' )]
+  [ArduinoTemplateParameter( 'C_HAS_READ', 'false' )]
+  [ArduinoTemplateParameter( '0_IMPLEMENTATION', 'Mitov::DisplayILI9341_SPI' )]
+  [ArduinoTemplateParameter( '0_ORIENTATION_IMPLEMENTATION', 'Mitov::DisplayILI9341_Otientation_Up' )]
+  [ArduinoTemplateParameter( 'C_WIDTH', '240' )]
+  [ArduinoTemplateParameter( 'C_HEIGHT', '320' )]
+  [ArduinoOptionalVariable( Unsigned, 9, 'FCursorX', 0 )]
+  [ArduinoOptionalVariable( Unsigned, 9, 'FCursorY', 0 )]
+  +TArduinoDisplayILI9341_SPI : TArduinoBasicDisplayILI9341
+
+    [OWPrimaryPin]
+    [ArduinoAddToTemplate( '0_IMPLEMENTATION' )]
+    ControlOutputPin : TOWArduinoSPISourcePin
+
+    [ArduinoAddToTemplate( '0_IMPLEMENTATION' )]
+    ChipSelectOutputPin : TOWArduinoDigitalSourcePin
+
+    [OWRequiredPin]
+    [ArduinoAddToTemplate( '0_IMPLEMENTATION' )]
+    DataCommandOutputPin : TOWArduinoDigitalSourcePin
+
+    [ArduinoResetPinImplementation_AddToImplementation]
+    [ArduinoAddToTemplate( '0_IMPLEMENTATION' )]
+    ResetOutputPin : TOWArduinoDigitalSourcePin
+
+    [ArduinoAddToTemplate( '0_IMPLEMENTATION' )]
+    SPISpeed : Unsigned = 8000000
+
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoInit]
+  [ArduinoStart]
+  TArduinoDisplay_Basic_Color_Extender : TArduinoDisplay_Basic_Extender
+
+    [ArduinoUseBindingCheckSetter( 'UpdateOrientation' )]
+    Orientation
+    
+    Elements : TArduinoColorGraphicsElements
+
+    [ArduinoNeedsRGBColor]
+    BackgroundColor : TColor = Black
+
+    Text : TArduinoColorGraphicsTextSettings
+
+  ;
+//---------------------------------------------------------------------------
+  [Supports565Color]
+  TArduinoDisplay_Basic_565_Color_Extender : TArduinoDisplay_Basic_Color_Extender;
+//---------------------------------------------------------------------------
+  TArduinoDisplay_Basic_Invertable_565_Color_Extender : TArduinoDisplay_Basic_565_Color_Extender
+
+    [ArduinoUseBindingCheckSetter( 'UpdateInverted' )]
+    Inverted : Boolean = False
+
+  ;
+//---------------------------------------------------------------------------
+  TArduinoDisplay_Basic_Invertable_Mirror_565_Color_Extender : TArduinoDisplay_Basic_Invertable_565_Color_Extender
+
+    Mirror : TArduinoGraphicsMirror
+
+  ;
+//---------------------------------------------------------------------------
+  [CreateName( 'TFT Display' )]
+  [Category( TArduinoDisplaysToolbarCategory )]
+  TArduinoDisplayILI9341BasicShield : TArduinoShield, TArduinoDisplay_Basic_Invertable_Mirror_565_Color_Extender, IStandardShield;
+//---------------------------------------------------------------------------
+  [ArduinoInclude( 'Mitov_Display_ILI9341.h' )]
+  [ArduinoTemplateParameter( 'C_HAS_READ', 'true' )]
+  [ArduinoTemplateParameter( '0_ORIENTATION_IMPLEMENTATION', 'Mitov::DisplayILI9341_Otientation_Up' )]
+  [ArduinoTemplateParameter( 'C_WIDTH', '240' )]
+  [ArduinoTemplateParameter( 'C_HEIGHT', '320' )]
+  [ArduinoOptionalVariable( Unsigned, 9, 'FCursorX', 0 )]
+  [ArduinoOptionalVariable( Unsigned, 9, 'FCursorY', 0 )]
+  TArduinoDisplayILI9341BasicParallelShield : TArduinoDisplayILI9341BasicShield;
+//---------------------------------------------------------------------------
+  [ArduinoInclude( 'Mitov_Display_ILI9341_SPI.h' )]
+  [ArduinoTemplateParameter( 'C_HAS_READ', 'false' )]
+  TArduinoDisplayILI9341BasicSPIShield : TArduinoDisplayILI9341BasicShield;
+//---------------------------------------------------------------------------
+; // Mitov

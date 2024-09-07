@@ -1,0 +1,186 @@
+Mitov : Namespace
+//---------------------------------------------------------------------------
+  *TArduinoBasicProcessorModuleOperations : TArduinoPersistentCollection;
+//---------------------------------------------------------------------------
+  [ArduinoClass( 'Mitov::TAurduinoEnableValue' )]
+  [ParentImage( TArduinoTimer )]
+  *TArduinoSerialBreakPeriod : TArduinoCodeDisabledPersistent
+
+    [NamePostfix( ' (mS)' )]
+    Value : Unsigned = 100
+
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoClass( 'Mitov::TArduinoSerialBreak' )]
+  [ArduinoProcessChildParentVariables]
+  *TArduinoSerialBreak : TArduinoCodeDisabledPersistent
+
+    [ArduinoUseBindingCheckSetter_Parent( 'UpdateBreak' )]
+    [ArduinoVariableIfNotDefault_Parent( 'FInBreak' )]
+    Enabled
+
+    Period : TArduinoSerialBreakPeriod
+
+  ;
+//---------------------------------------------------------------------------
+  TArduinoBasicExtractFromDataInfo : TArduinoCodePersistent
+    
+    ExtractFromData : Boolean = False
+    
+   ;
+//---------------------------------------------------------------------------
+  [Name( 'EEPROM' )]
+  [CreateName( 'EEPROM' )]
+  [ArduinoInclude( 'Mitov_EEPROM.h' )]
+  [ArduinoInclude( 'EEPROM.h' )]
+  [ArduinoClass( 'Mitov::ArduinoEEPROM' )]
+  [ArduinoInit]
+  [ArduinoLoopUpdateHardware]
+  +TArduinoEEPROMModule : TArduinoBasicEEPROMSizeModule;
+//---------------------------------------------------------------------------
+  TArduinoProcessorModuleOperations : TArduinoBasicProcessorModuleOperations;
+//---------------------------------------------------------------------------
+  [Name( 'GetPeriod' )]
+  [ArduinoPopulatedCallChainParameter( 'unsigned long &', 'APeriod' )]
+  [ArduinoCallChainIndex]
+  TArduinoSerialTimedBreakElementGetPeriodCallChainAttribute : ArduinoCallChainCompleteAttribute;
+//---------------------------------------------------------------------------
+  [ParentImage( TArduinoProcessorModuleOperations )]
+  [ArduinoTemplateParameterCollectionPowerConstIfZero( 'FElementIndex', 1, 0 )]
+  [TArduinoSerialTimedBreakElementGetPeriodCallChain]
+  *TArduinoSerialBreakElements : TArduinoPersistentCollection;
+//---------------------------------------------------------------------------
+  [ArduinoProcessChildParentVariables]
+  [ArduinoOptionalVariable( Boolean, 'FInBreak', False )]
+  TArduinoSerialBreak_Extender : Extender
+
+    SendBreak : TArduinoSerialBreak
+    
+    [ComponentEditorEntryDesign( 'Add &Elements ...' )]
+//    [ArduinoTemplateParameterCollectionCount]
+    Elements : TArduinoSerialBreakElements
+
+  ;
+//---------------------------------------------------------------------------
+  [Name( 'Processor' )]
+  [CreateName( 'Processor' )]
+  TArduinoBasicProcessorModule : TArduinoShield;
+//---------------------------------------------------------------------------
+  [CollectionItemAssociation( TArduinoBasicProcessorModule )]
+  +TArduinoProcessorModule : TArduinoBasicProcessorModule;
+//---------------------------------------------------------------------------
+//  [ArduinoDefine( '_MITOV_SERIAL_SENDING_PIN_' )]
+  [ArduinoLoopBegin]
+  [ArduinoForceVariable( 'FSending' )]
+  [ArduinoForceVariable( 'FEndTime' )]
+  [ArduinoVariable( Boolean, 'FTransmit' )]
+  TArduinoRS485_Extender : Extender
+
+    TransmitInputPin : TOWArduinoDigitalSinkPin // Use for manual control of the transmit direction
+    
+  ;
+//---------------------------------------------------------------------------
+  TArduinoRS485Loopback_Extender : TArduinoRS485_Extender
+  
+    Loopback : Boolean = False
+    
+  ;
+//---------------------------------------------------------------------------
+  TArduinoBasicPinDefinedSerial_Extender : TArduinoSerialBreak_Extender
+
+    [OWExcludeBindings]
+    [ArduinoBoardRemapPin]
+    [ArduinoUseBindingCheckSetter( 'ResetSerial' )]
+    [ArduinoBoardIndexChannel( 'RX' )]
+    [Name( 'RX Pin' )]
+    RXPin : Unsigned = 0
+
+    [OWExcludeBindings]
+    [ArduinoBoardRemapPin]
+    [ArduinoUseBindingCheckSetter( 'ResetSerial' )]
+    [ArduinoBoardIndexChannel( 'TX' )]
+    [Name( 'TX Pin' )]
+    TXPin : Unsigned = 0
+    
+  ;
+//---------------------------------------------------------------------------
+  TArduinoClockedEnableComponent : TArduinoEnabledComponent
+  
+    ClockInputPin : TOWArduinoClockSinkPin
+
+  ;
+//---------------------------------------------------------------------------
+  TArduinoCodeEnabledSetterPersistent : TArduinoCodeEnabledPersistent
+  
+  [ArduinoUseBindingCheckSetter( 'UpdateEnabled' )]
+    Enabled
+
+  ;
+//---------------------------------------------------------------------------
+  TArduinoCommonAnalogEnabledSource : TArduinoCommonAnalogSource
+
+    Enabled : Boolean = True
+
+  ;
+//---------------------------------------------------------------------------
+  TArduinoBasicEnabledRotationQuaternionSensor : TArduinoCodeEnabledPersistent
+
+    [OWAddPin( 'X(Roll)',   TOWArduinoAnalogSourcePin )]
+    [OWAddPin( 'Y(Pitch)',  TOWArduinoAnalogSourcePin )]
+    [OWAddPin( 'Z(Yaw)',    TOWArduinoAnalogSourcePin )]
+    [OWPrimaryPin]
+    [OWPinListPrimaryPinType( TOWArduinoAnalogSourcePin )]
+    OutputPins : TOWArduinoPinList
+
+    QuaternionOutputPin : TOWArduinoQuaternionSourcePin
+
+    Units : TArduinoAngleUnits = auDegree
+    PositiveOnly : Boolean = True
+
+  ;
+//---------------------------------------------------------------------------
+  TArduinoBasicEnabledClockedRotationQuaternionSensor : TArduinoBasicEnabledRotationQuaternionSensor
+  
+    ClockInputPin : TOWArduinoClockSinkPin
+
+  ;
+//---------------------------------------------------------------------------
+  [OWExcludeBindings]
+  TArduinoBinaryNoBindingPersistent : TArduinoBinaryPersistentBasic;
+//---------------------------------------------------------------------------
+  [ArduinoPopulatedCallChainParameter( 'uint8_t &', 'AValue' )]
+  [Name( 'GetValue' )]
+  [ArduinoCallChainIndex]
+  ArduinoBinaryValueArrayGetValueCallChainAttribute : ArduinoCallChainCompleteAttribute;
+//---------------------------------------------------------------------------
+  [ArduinoPopulatedCallChainParameter( 'uint8_t *', 'AValue' )]
+  [Name( 'ApplyValues' )]
+  ArduinoBinaryValueArrayApplyValueCallChainAttribute : ArduinoCallChainCompleteAttribute;
+//---------------------------------------------------------------------------
+  [ArduinoBinaryValueArrayGetValueCallChain]
+  [ArduinoBinaryValueArrayApplyValueCallChain]
+  TArduinoBinaryPersistent : TArduinoBinaryPersistentBasic;
+//---------------------------------------------------------------------------
+  TAurduinoEnabledAnalogValue : TArduinoCodeEnabledPersistent
+  
+    Value : Single = 0
+    
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoClass( 'Mitov::TAurduinoEnableValue' )]
+  TAurduinoDisabledAnalogValue : TAurduinoEnabledAnalogValue
+  
+    Enabled = False
+    
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoScopedEnum]
+  TArduinoSpeedUnits : Enum 
+  
+    MilesPerHour
+    KilometersPerHour
+    Knots
+    
+  ;
+//---------------------------------------------------------------------------
+; // Mitov

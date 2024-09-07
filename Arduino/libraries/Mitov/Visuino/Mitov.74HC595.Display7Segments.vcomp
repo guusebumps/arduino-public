@@ -1,0 +1,77 @@
+Mitov : Namespace
+//---------------------------------------------------------------------------
+  TArduino_8Digits_7SegmentElements : TArduinoTM1637_Basic7SegmentElements;
+//---------------------------------------------------------------------------
+  [Collection( TArduino_8Digits_7SegmentElements )]
+  [ParentImage( TArduinoTM1637_IntegerDisplay7Segments )]
+  +TArduino_IntegerDisplay_8Digits_7Segments : TArduinoTM163X_IntegerDisplay7Segments
+
+    CountDigits = 8
+
+  ;
+//---------------------------------------------------------------------------
+  [Collection( TArduino_8Digits_7SegmentElements )]
+  [ParentImage( TArduinoTM1637_AnalogDisplay7Segments )]
+  +TArduino_AnalogDisplay_8Digits_7Segments : TArduinoTM163X_AnalogDisplay7Segments
+
+    CountDigits = 8
+
+  ;
+//---------------------------------------------------------------------------
+  [Collection( TArduino_8Digits_7SegmentElements )]
+  [ParentImage( TArduinoTM1637_TextDisplay7Segments )]
+  +TArduino_TextDisplay_8Digits_7Segments : TArduinoTM163X_TextDisplay7Segments
+
+    CountDigits = 8
+
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoInclude( 'Mitov_Display_74HC595_7Segment.h' )]
+  [ArduinoClass( 'Mitov::Display_74HC595_7Segment' )]
+  [ArduinoStart]
+  [ArduinoLoopBegin]
+  TArduino74HC595Display7Segments8Digits_Extender : Extender
+
+    [NamePostfix( ' (uS)' )]
+    RefreshInterval : Unsigned = 1000
+
+  ;
+//---------------------------------------------------------------------------
+  [CreateName( 'TArduino74HC595Display7Segments8Digits' )]
+  [Name( '74HC595 Shift Register 8 Digits 7 Segment Display' )]
+  [CreateName( 'Display' )]
+  [Category( TArduinoDisplaysToolbarCategory )]
+  +TArduino74HC595Display7Segments8Digits : TArduinoTexasInstrumentsShiftRegister74595_Basic, TArduino74HC595Display7Segments8Digits_Extender
+  
+    Enabled : Boolean = True
+
+    [DesignRange( 1, 8 )]
+    [MinValue( 1 )]
+    [ArduinoExclude]
+    [OWExcludeBindings]
+    [ArduinoTemplateParameterConst]
+    CountDigits : Unsigned = 8
+
+    InvertedDigits : Boolean = False
+    ReversedDigits : Boolean = False
+    RightAllignedDigits : Boolean = False
+    
+    InvertedSegments : Boolean = True
+    ReversedSegments : Boolean = False
+    
+    [ComponentEditorEntryDesign( 'Add Digit &Groups ...' )]
+    Digits : TArduino_8Digits_7SegmentElements
+    
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoDeclaredClass]
+  [ArduinoExcludeNotConnectedAndDefault]
+  [ParentImage( TArduinoDisplayDynamic7Segments )]
+  *TArduinoBasic74HC595Display7Segments4DigitsElement : TArduinoCodeEnabledPersistent, TArduino74HC595Display7Segments8Digits_Extender
+
+    [ComponentEditorEntryDesign( 'Add Digit &Groups ...' )]
+    Digits : TArduino_4Digits_7SegmentElements
+    
+  ;
+//---------------------------------------------------------------------------
+; // Mitov

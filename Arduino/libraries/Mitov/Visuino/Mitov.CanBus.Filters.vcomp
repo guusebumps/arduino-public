@@ -1,0 +1,286 @@
+Mitov : Namespace
+//---------------------------------------------------------------------------
+  [Name( 'CAN bus' )]
+  [Category(TCommunicationToolbarCategory)]
+  TArduinoCommunicationCanBusToolbarCategory : TClassCategory;
+//---------------------------------------------------------------------------
+  TArduinoCommonCanBusSink : TArduinoComponent
+
+    [OWPrimaryPin]
+    InputPin : TOWArduinoCanBusSinkPin
+
+  ;
+//---------------------------------------------------------------------------
+  TArduinoCommonCanBusSource : TArduinoComponent
+
+    [OWPrimaryPin]
+    OutputPin : TOWArduinoCanBusSourcePin
+
+  ;
+//---------------------------------------------------------------------------
+  TArduinoCommonClockedCanBusSource : TArduinoCommonCanBusSource
+
+    ClockInputPin : TOWArduinoClockSinkPin
+
+  ;
+//---------------------------------------------------------------------------
+  TArduinoCommonCanBusFilter : TArduinoCommonCanBusSource
+
+    [OWPrimaryPin]
+    InputPin : TOWArduinoCanBusSinkPin
+
+    Enabled : Boolean = True
+
+  ;
+//---------------------------------------------------------------------------
+  TArduinoCommonEnableCanBusFilter : TArduinoCommonCanBusSink
+
+    [OWPrimaryPin]
+    OutputPin : TOWArduinoCanBusSourcePin
+    
+    Enabled : Boolean = True
+
+  ;
+//---------------------------------------------------------------------------
+  TArduinoCanBusMultiInputSource : TArduinoCommonCanBusSource
+
+    [OWPrimaryPin]
+    [ArduinoTemplatePinListSize]
+    [OWPinListPrimaryPinType( TOWArduinoCanBusSinkPin )]
+    [OWAutoManagePinListOwner( TOWArduinoCanBusSinkPin, 2, 2, 200 )]
+    InputPins : TOWPinListOwner
+
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoSetValueTryActiveCallChain]
+  TArduinoCanBusSetValueElements : TArduinoPersistentCollection;
+//---------------------------------------------------------------------------
+  TArduinoToCanBusInfo_Extender : Extender
+
+    ID : TArduinoUInt8 = 0    
+    IsRequest : Boolean = False
+    IsExtended : Boolean = False
+    
+  ;
+//---------------------------------------------------------------------------
+  TArduinoToCanBusMessageInfo_Extender : TArduinoToCanBusInfo_Extender
+  
+    Message : TArduinoBinaryPersistent
+    
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoClass( 'Mitov::CanBusValueSourcePersistent' )]
+  [ParentImage(TArduinoCommunicationCanBusToolbarCategory)]
+  *TArduinoCanBusValuePersistent : TArduinoCodePersistent, TArduinoToCanBusMessageInfo_Extender;
+//---------------------------------------------------------------------------
+  [ArduinoInclude( 'Mitov_CanBus.h' )]
+  [ArduinoClass( 'Mitov::CanBusValueSource' )]
+  [CreateName( 'CanBusValue' )]
+  [Name( 'CAN bus Value' )]
+  [Category( TArduinoBinaryDataSourcesToolbarCategory )]
+//  [ArrayValueSourceComponent]
+  +TArduinoCanBusValue : TArduinoCommonClockedCanBusSource, TArduinoValue_BasicExtender
+
+    Value : TArduinoCanBusValuePersistent
+    Elements : TArduinoCanBusSetValueElements
+
+  ;
+//---------------------------------------------------------------------------
+  [Collection( TArduinoCanBusSetValueElements )]
+  [ArduinoHelpPostfix( '(CAN bus Set Values)' )]
+  [ArduinoDeclaredClass]
+  [ArduinoOwnerTemplateTypeAndReference]
+  TArduinoBasicCanBusSetValueElement : TArduinoBasicEnabledNamedExludePersistent;
+//---------------------------------------------------------------------------
+  TArduinoCanBusBasicValueElement : TArduinoBasicCanBusSetValueElement
+
+    Value : TArduinoCanBusValuePersistent
+
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoInclude( 'Mitov_SetValueItems.h' )]
+  [ArduinoClass( 'Mitov::ArduinoCanBusSetValueElement' )]
+  [ParentImage( TArduinoCanBusValue )]
+  [Name( 'Set Value' )]
+  [ArduinoCallChainExcludeOwnerComplete]
+  +TArduinoCanBusSetValueElement : TArduinoCanBusBasicValueElement
+
+    [OWPinGroup( TArduinoCanBusSetValueElement )]
+    InputPin : TOWArduinoClockSinkPin
+
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoInclude( 'Mitov_SetValueItems.h' )]
+  [ArduinoClass( 'Mitov::ArduinoCanBusStateSetValueElement' )]
+  [ArduinoVariable( Boolean, 'FInputValue' )]
+  [Name( 'Set Value State' )]
+  [ArduinoValueState]
+  [ArduinoSetValueTryActiveCallChain]
+  +TArduinoCanBusStateSetValueElement : TArduinoCanBusBasicValueElement
+
+    [OWPinGroup( TArduinoCanBusStateSetValueElement )]
+    InputPin : TOWArduinoDigitalSinkPin
+
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoInclude( 'Mitov_CanBus.h' )]
+  [ArduinoClass( 'Mitov::TArduinoBinaryToCanBusInfo' )]
+  [ParentImage( TArduinoFingerprintReaderGetInfo )]
+  *TArduinoBinaryToCanBusInfo : TArduinoBasicExtractFromDataInfo, TArduinoToCanBusInfo_Extender;
+//---------------------------------------------------------------------------
+  [ArduinoInclude( 'Mitov_CanBus.h' )]
+  [ArduinoClass( 'Mitov::BinaryToCanBus' )]
+  [CreateName( 'BinaryToCanBus' )]
+  [Name( 'Binary To CAN bus' )]
+  [Category( TArduinoCommunicationCanBusToolbarCategory )]
+  [Category( TArduinoBinaryConvertersToolbarCategory )]
+  +TArduinoBinaryToCanBus : TArduinoCommonByteEnabledSink
+
+    [OWPrimaryPin]
+    OutputPin : TOWArduinoCanBusSourcePin
+    
+    Info : TArduinoBinaryToCanBusInfo
+    
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoInclude( 'Mitov_CanBus.h' )]
+  [ArduinoClass( 'Mitov::CanBusToBinary' )]
+  [CreateName( 'CanBusToBinary' )]
+  [Name( 'CAN bus To Binary' )]
+  [Category( TArduinoCommunicationCanBusToolbarCategory )]
+  [Category( TArduinoBinaryConvertersToolbarCategory )]
+  +TArduinoCanBusToBinary : TArduinoCommonEnabledByteSource, TArduinoBasicCanBus_Extender
+
+    [OWPrimaryPin]
+    InputPin : TOWArduinoCanBusSinkPin
+    
+    IncludeInfo : Boolean = False
+    
+  ;
+//---------------------------------------------------------------------------
+  [Name( 'CAN bus Multi-Source Merger' )]
+  [CreateName( 'CanBusMultiMerger' )]
+  [Category( TArduinoCommunicationCanBusToolbarCategory )]
+  +TArduinoCanBusMultiMerger : TArduinoCanBusMultiInputSource, TArduinoMultiMerger_Extender;
+//---------------------------------------------------------------------------
+  [Name( 'CAN bus Multi Source' )]
+  [Category( TSynchronizationToolbarCategory )]
+  [Category( TArduinoCommunicationCanBusToolbarCategory )]
+  +TArduinoCanBusMultiSource : TArduinoCommonCanBusSink, TArduinoMultiSource_Extender
+
+    [OWPinListPrimaryPinType( TOWArduinoCanBusSourcePin )]
+    [OWAutoManagePinListOwner( TOWArduinoCanBusSourcePin, 2, 2, 100 )]
+    OutputPins : TOWPinListOwner
+
+  ;
+//---------------------------------------------------------------------------
+  [Name( 'Repeat CAN bus' )]
+  [Category( TSynchronizationToolbarCategory )]
+  +TArduinoRepeatCanBus : TArduinoCommonEnableCanBusFilter, TArduinoRepeat_Extender;
+//---------------------------------------------------------------------------
+  [ArduinoTemplateParameter( 'TYPE', '::Mitov::TStoredCanBusPacket' )]
+  [Name( 'CAN bus On/Off Switch' )]
+  [Category( TArduinoCommunicationCanBusToolbarCategory )]
+  [ArduinoTemplateParameter( '0_IMPLEMENTATION_OUTPUT_VALUE', '::Mitov::CommonSwitch_Value', '0, ::Mitov::TStoredCanBusPacket' )]
+  [ArduinoTemplateParameter( '0_IMPLEMENTATION_VALUE', '::Mitov::CommonSwitch_Value', '1, ::Mitov::TStoredCanBusPacket' )]
+  +TArduinoCanBusSwitch : TArduinoCommonCanBusSource, TArduinoObjectSwitch_Extender
+
+    [OWPrimaryPin]
+    InputPin : TOWArduinoCanBusSinkPin
+
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoTemplateParameter( 'TYPE', 'Mitov::TStoredCanBusPacket' )]
+  [Name( 'CAN bus Toggle Switch' )]
+  [Category( TArduinoCommunicationCanBusToolbarCategory )]
+  +TArduinoCanBusToggleSwitch : TArduinoCommonCanBusSource, TArduinoToggleSwitch_Extender
+
+    [OWPrimaryPin]
+    TrueInputPin : TOWArduinoCanBusSinkPin
+
+    [OWPrimaryPin]
+    FalseInputPin : TOWArduinoCanBusSinkPin
+
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoTemplateParameter( 'TYPE', 'Mitov::TStoredCanBusPacket' )]
+  [Name( 'CAN bus Demux(Multiple Output channel Switch)' )]
+  [Category( TArduinoCommunicationCanBusToolbarCategory )]
+  +TArduinoCanBusDemux : TArduinoCommonCanBusSink, TArduinoObjectDemux_Extender
+
+    [OWPinListPrimaryPinType( TOWArduinoCanBusSourcePin )]
+    [OWAutoManagePinListOwner( TOWArduinoCanBusSourcePin, 2, 2, 4000 )]
+    OutputPins : TOWPinListOwner
+
+  ;
+//---------------------------------------------------------------------------
+  [Name( 'CAN bus Toggle Demux' )]
+  [Category( TArduinoCommunicationCanBusToolbarCategory )]
+  +TArduinoCanBusToggleDemux : TArduinoCommonCanBusSink, TArduinoToggleDemux_Extender
+
+    [OWPrimaryPin]
+    TrueOutputPin : TOWArduinoCanBusSourcePin
+
+    [OWPrimaryPin]
+    FalseOutputPin : TOWArduinoCanBusSourcePin
+
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoTemplateParameter( 'TYPE', 'Mitov::TStoredCanBusPacket' )]
+  [Name( 'CAN bus Mux(Multi channel Switch)' )]
+  [CreateName( 'CanBusMux' )]
+  [Category( TArduinoCommunicationCanBusToolbarCategory )]
+  +TArduinoCanBusMux : TArduinoCanBusMultiInputSource, TArduinoMux_Object_Extender;
+//---------------------------------------------------------------------------
+  [ArduinoTemplateParameter( '0_TYPE', 'Mitov::TStoredCanBusPacket' )]
+  [Name( 'CAN bus Snapshot' )]
+  [Category( TArduinoCommunicationCanBusToolbarCategory )]
+  +TArduinoCanBusSnapshot : TArduinoCommonCanBusFilter, TArduinoSnapshot_Extender;
+//---------------------------------------------------------------------------
+  [ArduinoPopulatedCallChainParameter( 'Mitov::TStoredCanBusPacket &', 'AValue' )]
+  [Name( 'GetValue' )]
+  [ArduinoCallChainIndex]
+  ArduinoCanBusElementsValueArrayGetValueCallChainAttribute : ArduinoCallChainCompleteAttribute;
+//---------------------------------------------------------------------------
+  [ArduinoCanBusElementsValueArrayGetValueCallChain]
+  TArduinoCanBusValueElements : TArduinoBasicArrayElements;
+//---------------------------------------------------------------------------
+  [Collection( TArduinoCanBusValueElements )]
+  [ArduinoHelpPostfix( '(CanBus Value Array)' )]
+  [Name( 'Value' )]
+  [ArduinoDisplayParentName( 'Item' )]
+  [ParentImage( TArduinoCommunicationCanBusToolbarCategory )]
+  [ArduinoDeclaredClass]
+  [ArduinoClass( 'Mitov::TArduinoCanBusValueElement' )]
+  [ArduinoCanBusElementsValueArrayGetValueCallChain]
+  [ArduinoExcludeNotConnectedAndDefault]
+  +TArduinoCanBusValueElement : TArduinoCodePersistent, TArduinoToCanBusMessageInfo_Extender
+
+    [ArduinoUseBindingCheckSetter_Parent( 'UpdateArrayValue' )]
+    ID
+
+    [ArduinoUseBindingCheckSetter_Parent( 'UpdateArrayValue' )]
+    IsRequest
+
+    [ArduinoUseBindingCheckSetter_Parent( 'UpdateArrayValue' )]
+    IsExtended
+
+    [ArduinoUseBindingCheckSetter_Parent( 'UpdateArrayValue' )]
+    Message
+
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoInclude( 'Mitov_CanBus.h' )]
+  [ArduinoClass( 'Mitov::CanBusValueArray' )]
+  [Name( 'CAN bus Array' )]
+  [CreateName( 'Array' )]
+  [Category( TArduinoBinaryDataSourcesToolbarCategory )]
+  [ArduinoStart]
+  +TArduinoCanBusValueArray : TArduinoCommonClockedCanBusSource, TArduinoValueArray_BasicExtender
+
+    [ArduinoTemplateParameterCollectionCount]
+    Elements : TArduinoCanBusValueElements
+
+  ;
+//---------------------------------------------------------------------------
+; // Mitov

@@ -1,0 +1,283 @@
+Mitov : Namespace
+//---------------------------------------------------------------------------
+  TArduinoCommonClockedUnsignedArraySource : TArduinoCommonUnsignedArraySource
+
+    ClockInputPin : TOWArduinoClockSinkPin
+
+  ;
+//---------------------------------------------------------------------------
+  TArduinoCommonUnsignedArrayEnableSink : TArduinoCommonUnsignedArraySink
+
+    Enabled : Boolean = True
+
+  ;
+//---------------------------------------------------------------------------
+  TArduinoCommonUnsignedArrayEnableSinkUnsignedSource : TArduinoCommonUnsignedArrayEnableSink
+
+    [OWPrimaryPin]
+    OutputPin : TOWArduinoUnsignedSourcePin
+
+  ;
+//---------------------------------------------------------------------------
+  TArduinoCommonUnsignedArrayFilter : TArduinoCommonUnsignedArraySource
+
+    [OWPrimaryPin]
+    InputPin : TOWArduinoUnsignedArraySinkPin
+
+    Enabled : Boolean = True
+
+  ;
+//---------------------------------------------------------------------------
+  TArduinoUnsignedArrayIndexBasic : TArduinoCommonUnsignedArrayFilter
+
+    [ValueRange( 0, 255 )]
+    Index : Unsigned = 0
+
+  ;
+//---------------------------------------------------------------------------
+  TArduinoUnsignedArrayMultiInputSource : TArduinoCommonUnsignedArraySource
+
+    [OWPrimaryPin]
+    [ArduinoTemplatePinListSize]
+    [OWPinListPrimaryPinType( TOWArduinoUnsignedUnsignedArraySinkPin )]
+    [OWAutoManagePinListOwner( TOWArduinoUnsignedUnsignedArraySinkPin, 2, 2, 200 )]
+    InputPins : TOWPinListOwner
+
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoInclude( 'Mitov_ArrayOperations.h' )]
+  [ArduinoClass( 'Mitov::ArrayDeleteItems' )]
+  [ArduinoTemplateParameter( 'TYPE', 'uint32_t' )]
+  [Name( 'Unsigned Array Delete Items' )]
+  [CreateName( 'ArrayDeleteItems' )]
+  [Category( TArduinoUnsignedFiltersToolbarCategory )]
+  +TArduinoUnsignedArrayDeleteItems : TArduinoUnsignedArrayIndexBasic
+
+    [ValueRange( 0, 255 )]
+    Count : Unsigned = 1
+
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoUnsignedValueArrayGetValueCallChain]
+  [ArduinoUnsignedValueArrayApplyValueCallChain]
+  TArduinoUnsignedArrayValueElements : TArduinoUnsignedValueBasicElements;
+//---------------------------------------------------------------------------
+  [Collection( TArduinoUnsignedArrayValueElements )]
+  [ArduinoHelpPostfix( '(Unsigned Value Array)' )]
+  +TArduinoUnsignedArrayValueElement : TArduinoBasicUnsignedValueElement;
+//---------------------------------------------------------------------------
+  TArduinoUnsignedArrayItemsAtIndexBasic : TArduinoUnsignedArrayIndexBasic
+
+    [ComponentEditorEntryDesign( 'Edit Value Elements ...', True )]
+    ValueElements : TArduinoUnsignedArrayValueElements
+
+  ;
+//---------------------------------------------------------------------------
+  [Name( 'Unsigned To Unsigned Array' )]
+  [CreateName( 'UnsignedToUnsignedArray' )]
+  [ArduinoTemplateParameter( 'TYPE', 'uint32_t' )]
+  [Category( TArduinoUnsignedConvertersToolbarCategory )]
+  +TArduinoUnsignedToUnsignedArray : TArduinoCommonClockedUnsignedArraySource, TArduinoItemToItemArray_Extender
+
+    [TOWArduinoUnsignedUnsignedArraySinkPinGetValueCallChain]
+    [OWPinListPrimaryPinType( TOWArduinoUnsignedUnsignedArraySinkPin )]
+    [OWAutoManagePinListOwner( TOWArduinoUnsignedUnsignedArraySinkPin, 8, 1, 255 )]
+    InputPins : TOWPinListOwner
+
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoInclude( 'Mitov_ArrayOperations.h' )]
+  [ArduinoClass( 'Mitov::ArrayInsertItems' )]
+  [ArduinoTemplateParameter( 'TYPE', 'uint32_t' )]
+  [Name( 'Unsigned Array Insert Items' )]
+  [CreateName( 'ArrayInsertItems' )]
+  [Category( TArduinoUnsignedFiltersToolbarCategory )]
+  +TArduinoUnsignedArrayInsertItems : TArduinoUnsignedArrayItemsAtIndexBasic;
+//---------------------------------------------------------------------------
+  [ArduinoInclude( 'Mitov_ArrayOperations.h' )]
+  [ArduinoClass( 'Mitov::ArrayReplaceItemsAtIndex' )]
+  [ArduinoTemplateParameter( 'TYPE', 'uint32_t' )]
+  [Name( 'Unsigned Array Replace Items At Index' )]
+  [CreateName( 'ArrayReplaceItemsAtIndex' )]
+  [Category( TArduinoUnsignedFiltersToolbarCategory )]
+  +TArduinoUnsignedArrayReplaceItemsAtIndex : TArduinoUnsignedArrayItemsAtIndexBasic;
+//---------------------------------------------------------------------------
+  [ArduinoSetValueTryActiveCallChain]
+  [ParentImage( TArduinoBasicGraphicsElements )]
+  TArduinoUnsignedArraySetValueElements : TArduinoPersistentCollection;
+//---------------------------------------------------------------------------
+  [Collection( TArduinoUnsignedArraySetValueElements )]
+  [ArduinoHelpPostfix( '(Unsigned Array Set Values)' )]
+  [ArduinoDeclaredClass]
+  [ArduinoOwnerTemplateTypeAndReference]
+  TArduinoBasicUnsignedArraySetValueElement : TArduinoBasicEnabledNamedExludePersistent;
+//---------------------------------------------------------------------------
+  TArduinoUnsignedArrayBasicValueElement : TArduinoBasicUnsignedArraySetValueElement
+
+    [ComponentEditorEntryDesign( 'Edit &Value Elements ...', True )]
+    ValueElements : TArduinoUnsignedArrayValueElements
+
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoClass( 'Mitov::ArduinoSetValueArrayElement' )]
+  [ArduinoTemplateParameter( 'TYPE', 'uint32_t' )]
+  [Name( 'Set Value' )]
+  [ParentImage( TArduinoUnsignedArrayValue )]
+  [ArduinoCallChainExcludeOwnerComplete]
+  +TArduinoUnsignedArraySetValueElement : TArduinoUnsignedArrayBasicValueElement
+
+    [OWPinGroup( TArduinoUnsignedArraySetValueElement )]
+    InputPin : TOWArduinoClockSinkPin
+
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoInclude( 'Mitov_SetValueItems.h' )]
+  [ArduinoClass( 'Mitov::ArduinoStateSetArrayValueElement' )]
+  [ArduinoTemplateParameter( 'TYPE', 'uint32_t' )]
+  [ArduinoVariable( Boolean, 'FInputValue' )]
+  [Name( 'Set Value State' )]
+  [ArduinoValueState]
+  +TArduinoUnsignedArrayStateSetValueElement : TArduinoUnsignedArrayBasicValueElement
+
+    [OWPinGroup( TArduinoUnsignedArrayStateSetValueElement )]
+    InputPin : TOWArduinoDigitalSinkPin
+
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoTemplateParameter( '0_TYPE', 'uint32_t' )]
+  [Name( 'Unsigned Array Snapshot' )]
+  [Category( TArduinoUnsignedFiltersToolbarCategory )]
+  +TArduinoUnsignedArraySnapshot : TArduinoCommonUnsignedArrayFilter, TArduinoArraySnapshot_Extender;
+//---------------------------------------------------------------------------
+  TArduinoUnsignedArrayValueNoBindingElements : TArduinoUnsignedValueBasicElements;
+//---------------------------------------------------------------------------
+  TArduinoUnsignedArrayBasicInitialValueFilter : TArduinoCommonUnsignedArrayFilter
+
+    [ComponentEditorEntryDesign( 'Edit &Initial Value Elements ...', True )]
+    InitialValueElements : TArduinoUnsignedArrayValueNoBindingElements
+
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoTemplateParameter( 'DATA', 'uint32_t' )]
+  [Name( 'Remember Unsigned Array' )]
+  [Category( TArduinoUnsignedToolbarCategory )]
+  +TArduinoRememberUnsignedArray : TArduinoUnsignedArrayBasicInitialValueFilter, TArduinoRememberArray_Extender;
+//---------------------------------------------------------------------------
+  [ArduinoTemplateParameter( 'TYPE', 'uint32_t' )]
+  [Name( 'Step/Iterate Unsigned Array Items' )]
+  [Category( TArduinoUnsignedToolbarCategory )]
+  +TArduinoUnsignedArrayIterateItems : TArduinoCommonUnsignedArrayEnableSinkUnsignedSource, TArduinoArrayIterateItems_Extender;
+//---------------------------------------------------------------------------
+  [ArduinoTemplateParameter( 'TYPE', 'uint32_t' )]
+  [Name( 'Get Unsigned Array Item At Index' )]
+  [Category( TArduinoUnsignedToolbarCategory )]
+  +TArduinoUnsignedArrayGetItemAt : TArduinoCommonUnsignedArrayEnableSinkUnsignedSource, TArduinoArrayGetItemAt_Extender;
+//---------------------------------------------------------------------------
+  [ArduinoInclude( 'Mitov_ArrayOperations.h' )]
+  [ArduinoClass( 'Mitov::ValueArraySource' )]
+  [ArduinoTemplateParameter( 'TYPE', 'uint32_t' )]
+  [CreateName( 'ArrayValue' )]
+  [Name( 'Unsigned Array Value' )]
+  [Category( TArduinoUnsignedDataSourcesToolbarCategory )]
+//  [ArduinoStart]
+//  [ArrayValueSourceComponent]
+  +TArduinoUnsignedArrayValue : TArduinoCommonClockedUnsignedArraySource, TArduinoValue_BasicExtender
+
+    [ComponentEditorEntryDesign( 'Edit &Value Elements ...', True )]
+    ValueElements : TArduinoUnsignedArrayValueElements
+
+    Elements : TArduinoUnsignedArraySetValueElements
+
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoInclude( 'Mitov_ArrayOperations.h' )]
+  [ArduinoClass( 'Mitov::ArrayReplace' )]
+  [ArduinoTemplateParameter( 'TYPE', 'uint32_t' )]
+  [Name( 'Unsigned Array Replace' )]
+  [CreateName( 'ArrayReplace' )]
+  [Category( TArduinoUnsignedFiltersToolbarCategory )]
+  +TArduinoUnsignedArrayReplace : TArduinoCommonUnsignedArrayFilter
+
+    [ComponentEditorEntryDesign( 'Edit &From Value Elements ...', True )]
+    FromValueElements : TArduinoUnsignedArrayValueElements
+
+    [ComponentEditorEntryDesign( 'Edit &To Value Elements ...', True )]
+    ToValueElements : TArduinoUnsignedArrayValueElements
+
+  ;
+//---------------------------------------------------------------------------
+  [Name( 'Unsigned Array Change Only' )]
+  [Category( TArduinoUnsignedFiltersToolbarCategory )]
+  [ArduinoTemplateParameter( 'DATA', 'float' )]
+  +TArduinoUnsignedArrayChangeOnly : TArduinoCommonUnsignedArrayFilter, TArduinoChangeOnlyArray_Extender;
+//---------------------------------------------------------------------------
+  [Name( 'Unsigned Array Multi Source' )]
+  [Category( TSynchronizationToolbarCategory )]
+  [Category( TArduinoUnsignedToolbarCategory )]
+  +TArduinoUnsignedArrayMultiSource : TArduinoCommonUnsignedArraySink, TArduinoMultiSource_Extender
+
+    [OWPinListPrimaryPinType( TOWArduinoUnsignedArraySourcePin )]
+    [OWAutoManagePinListOwner( TOWArduinoUnsignedArraySourcePin, 2, 2, 100 )]
+    OutputPins : TOWPinListOwner
+
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoTemplateParameter( 'TYPE', 'Mitov::TValueArray<uint32_t>' )]
+  [Name( 'Unsigned Array Mux(Multi channel Switch)' )]
+  [CreateName( 'UnsignedArrayMux' )]
+  [Category( TArduinoUnsignedToolbarCategory )]
+  +TArduinoUnsignedArrayMux : TArduinoUnsignedArrayMultiInputSource, TArduinoMux_Object_Extender;
+//---------------------------------------------------------------------------
+  [ArduinoTemplateParameter( 'TYPE', '::Mitov::TValueArray<uint32_t>' )]
+  [Name( 'Unsigned Array On/Off Switch' )]
+  [Category( TArduinoUnsignedToolbarCategory )]
+  [ArduinoTemplateParameter( '0_IMPLEMENTATION_OUTPUT_VALUE', '::Mitov::CommonSwitch_Value', '0, ::Mitov::TValueArray<uint32_t>' )]
+  [ArduinoTemplateParameter( '0_IMPLEMENTATION_VALUE', '::Mitov::CommonSwitch_Value', '1, ::Mitov::TValueArray<uint32_t>' )]
+  +TArduinoUnsignedArraySwitch : TArduinoCommonUnsignedArraySource, TArduinoObjectSwitch_Extender
+
+    [OWPrimaryPin]
+    InputPin : TOWArduinoUnsignedArraySinkPin
+
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoTemplateParameter( 'TYPE', '::Mitov::TValueArray<uint32_t>' )]
+  [Name( 'Unsigned Array Toggle Switch' )]
+  [Category( TArduinoUnsignedToolbarCategory )]
+  +TArduinoUnsignedArrayToggleSwitch : TArduinoCommonUnsignedArraySource, TArduinoToggleSwitch_Extender
+
+    [OWPrimaryPin]
+    TrueInputPin : TOWArduinoUnsignedArraySinkPin
+
+    [OWPrimaryPin]
+    FalseInputPin : TOWArduinoUnsignedArraySinkPin
+
+  ;
+//---------------------------------------------------------------------------
+  [Name( 'Unsigned Array Toggle Demux' )]
+  [Category( TArduinoUnsignedToolbarCategory )]
+  +TArduinoUnsignedArrayToggleDemux : TArduinoCommonUnsignedArraySink, TArduinoToggleDemux_Extender
+
+    [OWPrimaryPin]
+    TrueOutputPin : TOWArduinoUnsignedArraySourcePin
+
+    [OWPrimaryPin]
+    FalseOutputPin  : TOWArduinoUnsignedArraySourcePin
+
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoTemplateParameter( 'TYPE', '::Mitov::TValueArray<uint32_t>' )]
+  [Name( 'Unsigned Array Demux(Multiple Output channel Switch)' )]
+  [Category( TArduinoUnsignedToolbarCategory )]
+  +TArduinoUnsignedArrayDemux : TArduinoCommonUnsignedArraySink, TArduinoObjectDemux_Extender
+
+    [OWPinListPrimaryPinType( TOWArduinoUnsignedArraySourcePin )]
+    [OWAutoManagePinListOwner( TOWArduinoUnsignedArraySourcePin, 2, 2, 4000 )]
+    OutputPins : TOWPinListOwner
+
+  ;
+//---------------------------------------------------------------------------
+  [Name( 'Repeat Unsigned Array' )]
+  [Category( TArduinoUnsignedToolbarCategory )]
+  +TArduinoRepeatUnsignedArray : TArduinoCommonUnsignedArrayFilter, TArduinoRepeat_Extender;
+//---------------------------------------------------------------------------
+; // Mitov

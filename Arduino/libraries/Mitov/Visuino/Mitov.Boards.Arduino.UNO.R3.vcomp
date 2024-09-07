@@ -1,0 +1,194 @@
+Mitov : Namespace
+//---------------------------------------------------------------------------
+  [Name( 'AVR' )]
+  TAVRCategory : TClassCategory;
+//---------------------------------------------------------------------------
+  [Name( 'Arduino' )]
+  TArduinoCategory : TClassCategory;
+//---------------------------------------------------------------------------
+  [Name( 'AVR' )]
+  [Category( TArduinoCategory )]
+  [AlternateCategory( TAVRCategory )]
+  [ParentImage( TAVRCategory )]
+  TArduinoAVRCategory : TClassCategory;
+//---------------------------------------------------------------------------
+  ['{13A78629-556E-4422-8FD4-DB44AEC883CA}']
+  IStandardShield : Interface;
+//---------------------------------------------------------------------------
+  [ArduinoShieldsType( IStandardShield )]
+  TArduinoStandardShields : TArduinoShields;
+//---------------------------------------------------------------------------
+  TArduinoProcessor328ModuleOperations : TArduinoProcessorModuleOperations;
+//---------------------------------------------------------------------------
+  +TArduinoProcessor328Module : TArduinoProcessorModule
+
+    [ArduinoExcludeCollectionItems]
+    [ComponentEditorEntryDesign( 'Add &Operations ...' )]
+    Operations : TArduinoProcessor328ModuleOperations
+
+  ;
+//---------------------------------------------------------------------------
+  TArduinoWatchdogTimerInterval : Enum
+  
+    wdt15mS
+    wdt30mS
+    wdt60mS
+    wdt120mS
+    wdt250mS
+    wdt500mS
+    wdt1S
+    wdt2S
+    wdt4S
+    wdt8S
+    
+  ;
+//---------------------------------------------------------------------------
+  [Name( 'Watchdog Timer' )]
+  [CreateName( 'Watchdog Timer' )]
+  [ArduinoInclude( 'Mitov_Arduino_Processor.h' )]
+  [ArduinoClass( 'Mitov::ArduinoWatchdogTimer' )]
+  [ArduinoExcludeNotConnectedAndDefault]
+  [ArduinoStart]
+  +TArduinoWatchdogTimerModule : TArduinoDisabledUpdateShield
+
+    ClockInputPin : TOWArduinoClockSinkPin
+
+    [ArduinoTemplateParameterConst]
+    [OWExcludeBindings]
+    [ArduinoExclude]
+    Interval : TArduinoWatchdogTimerInterval = wdt8S
+
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoBoardIndex( '' )]
+  [ArduinoBoardArchitecture( 'avr' )]
+  ArduinoBoardArchitecture_AVRAttribute : TAttributeCollectionAttribute;
+//---------------------------------------------------------------------------
+//  [ArduinoBoardArchitecture( 'avr' )]
+  [ArduinoBoardArchitecture_AVR]
+  [ArduinoBoardCanReset]
+  TArduino_AVR_Basic_Modules_Board : TArduinoBoardExtendableImplementation
+
+    [ArduinoExclude]
+    AnalogInputReference : TArduinoAnalogInputReference = Default
+
+    [AddItem( TArduinoEEPROMModule )]
+    [AddItem( TArduinoWatchdogTimerModule )]
+    Modules : TArduinoModules
+
+    Serial : TArduinoSerials
+
+  ;
+//---------------------------------------------------------------------------
+  // For backward compatibility
+  +TArduinoSerial : TArduinoHardwareSerial;
+//---------------------------------------------------------------------------
+  [Collection( TArduinoSerialBreakElements )]
+  [ArduinoHelpPostfix( '(Serial Operations)' )]
+  [ArduinoDeclaredClass]
+  [ArduinoOwnerTemplateTypeAndReference]
+  [ArduinoTemplateParameterCollectionItemIndex]
+  [ArduinoClass( 'Mitov::TArduinoSerialTimedBreakElement' )]
+  [ParentImage( TArduinoSerialBreak )]
+  [Name( 'Timed Break' )]
+  [CreateName( 'Timed Break' )]
+  +TArduinoSerialTimedBreakElement : TArduinoCodeEnabledPersistent
+  
+    ClockInputPin : TOWArduinoClockSinkPin
+    
+    [NamePostfix( ' (mS)' )]
+    Period : Unsigned = 100
+    
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoInclude( 'Mitov_StandardBreakSerial.h' )]
+  [ArduinoClass( 'Mitov::BreakSerialPort' )]
+  TArduinoBasicBreakSerial : TArduinoBasicHardwareParitySerial, TArduinoSerialBreak_Extender;
+//---------------------------------------------------------------------------
+  [ArduinoTemplateParameter( '0_SERIAL_TYPE', 'HardwareSerial' )]
+  TArduinoBasicBreakHardwareSerial : TArduinoBasicBreakSerial;
+//---------------------------------------------------------------------------
+  [ArduinoTemplateParameter( 'TXPin', 'Mitov::ConstantProperty<87, uint32_t, 1 >' )]
+  +TArduinoBreakHardwareSerial0 : TArduinoBasicBreakHardwareSerial;
+//---------------------------------------------------------------------------
+  TArduino_AVR328_Basic_Modules_Board : TArduino_AVR_Basic_Modules_Board
+
+    [AddItem( TArduinoProcessor328Module )]
+    Modules
+
+    [AddItem( TArduinoBreakHardwareSerial0 )]
+    Serial
+
+  ;
+//---------------------------------------------------------------------------
+  TArduino_AVR328_BasicBoardNoDigitalChannels : TArduino_AVR328_Basic_Modules_Board
+
+    [Name( 'I2C Channels' )]
+    [AddItem( TArduinoI2C )]
+    I2CChannels : TArduinoI2CChannels
+
+    [Name( 'SPI Channels' )]
+    [AddItem( TArduinoSPI )]
+    SPIChannels : TArduinoSPIChannels
+
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoSerial( 0 )]
+  TArduinoAdditionalDigitalSerial0Channel : TArduinoAdditionalDigitalChannel;
+//---------------------------------------------------------------------------
+  [ArduinoInterruptPin]
+  +TArduinoAdditionalDigitalInterruptChannel : TArduinoAdditionalDigitalChannel;
+//---------------------------------------------------------------------------
+  [ArduinoSPI( 0 )]
+  +TArduinoAdditionalDigitalSPI0Channel : TArduinoAdditionalDigitalChannel;
+//---------------------------------------------------------------------------
+  [ArduinoInterruptPin]
+  +TArduinoCombinedAnalogDigitalInterruptChannel : TArduinoCombinedAnalogDigitalChannel;
+//---------------------------------------------------------------------------
+  [ArduinoI2C( 0 )]
+  +TArduinoCombinedAnalogDigitalI2C0InterruptChannel : TArduinoCombinedAnalogDigitalInterruptChannel;
+//---------------------------------------------------------------------------
+  [ArduinoI2C( 0 )]
+  +TArduinoCombinedAnalogDigitalI2C0Channel : TArduinoCombinedAnalogDigitalChannel;
+//---------------------------------------------------------------------------
+  TArduino_AVR328_Basic_DigitalChannels_Board : TArduino_AVR328_BasicBoardNoDigitalChannels
+
+    [ArduinoBoard_Reserve_DigitalAnalogChannels( 0,  1, TArduinoAdditionalDigitalSerial0Channel, 'Digital(RX)' )]
+    [ArduinoBoard_Reserve_DigitalAnalogChannels( 1,  1, TArduinoAdditionalDigitalSerial0Channel, 'Digital(TX)' )]
+    [ArduinoBoard_Reserve_DigitalAnalogChannels( 2,  1, TArduinoAdditionalDigitalInterruptChannel )]
+    [ArduinoBoard_Reserve_DigitalAnalogChannels( 3,  1, TArduinoBasicDigitalPWMInterruptChannel )]
+    [ArduinoBoard_Reserve_DigitalAnalogChannels( 4,  1, TArduinoAdditionalDigitalChannel )]
+    [ArduinoBoard_Reserve_DigitalAnalogChannels( 5,  2, TArduinoBasicDigitalPWMChannel )]
+    [ArduinoBoard_Reserve_DigitalAnalogChannels( 7,  2, TArduinoAdditionalDigitalChannel )]
+    [ArduinoBoard_Reserve_DigitalAnalogChannels( 9,  2, TArduinoBasicDigitalPWMChannel )]
+    [ArduinoBoard_Reserve_DigitalAnalogChannels( 11, 1, TArduinoBasicDigitalPWMSPI0Channel, 'Digital(SPI-MOSI)' )]
+    [ArduinoBoard_Reserve_DigitalAnalogChannels( 12, 1, TArduinoAdditionalDigitalSPI0Channel, 'Digital(SPI-MISO)' )]
+    [ArduinoBoard_Reserve_DigitalAnalogChannels( 13, 1, TArduinoAdditionalDigitalSPI0Channel, 'Digital(LED)(SPI-SCK)' )]
+    [ArduinoBoard_Reserve_DigitalNamedAnalogChannels( 14, 0, 4, TArduinoCombinedAnalogDigitalChannel )]
+    [ArduinoBoard_Reserve_DigitalNamedAnalogChannels( 18, 4, 1, TArduinoCombinedAnalogDigitalI2C0Channel, 'Digital(I2C-SDA)' )]
+    [ArduinoBoard_Reserve_DigitalNamedAnalogChannels( 19, 5, 1, TArduinoCombinedAnalogDigitalI2C0Channel, 'Digital(I2C-SCL)' )]
+    Digital : TArduinoDigitalChannels
+
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoDefine( 'VISUINO_ARDUINO_UNO' )]
+  [ArduinoBoardCompileParams( 'arduino:avr:uno' )]
+  TArduino_AVR328_Basic_UNO_Board : TArduino_AVR328_Basic_DigitalChannels_Board
+
+    [ComponentEditorEntryDesign( 'Add S&hields ...' )]
+    Shields : TArduinoStandardShields
+
+  ;
+//---------------------------------------------------------------------------
+  [OldName( 'Arduino Uno' )]
+  [Name( 'Arduino Uno R3' )]
+  [Category( TArduinoAVRCategory )]
+//  [ParentImage( TArduinoCategory )]
+  +TArduino_UNO_Board : TArduino_AVR328_Basic_UNO_Board
+
+    [ArduinoBoard_Add_AllChannels]
+    Digital
+
+  ;
+//---------------------------------------------------------------------------
+; // Mitov

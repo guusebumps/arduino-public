@@ -1,0 +1,36 @@
+Mitov : Namespace
+//---------------------------------------------------------------------------
+  [ArduinoInclude( 'Mitov_SharpOpticalDustSensorGP2Y1010AU0F.h' )]
+  [ArduinoClass( 'Mitov::TArduinoSharpOpticalDustSensorGP2Y1010AU0F' )]
+  [Name( 'Sharp Optical Dust Sensor GP2Y1010AU0F/Ks0196 Keyestudio' )]
+  [CreateName( 'DustMeter' )]
+  [ArduinoWebKeywords( 'Sharp GP2Y1010AU0F' )]
+  [ArduinoWebKeywords( 'Keyestudio Ks0196' )]
+  [Category( TArduinoAnalogMeasurementToolbarCategory )]
+//  [ArduinoPeriodMicros( 9680 + 280 + 40 )]
+  [ArduinoPeriodMicros( 100000 )]
+  [ArduinoInit]
+  [ArduinoOptionalVariable( Boolean, 'FClocked', False )]
+  [ArduinoOptionalVariable( Boolean, 'FReady', False )]
+  +TArduinoSharpOpticalDustSensorGP2Y1010AU0F : TArduinoCommonClockedAnalogEnabledSource //TArduinoCommonAnalogVoltageReferenceFilter
+  
+    [ArduinoPinDisconnectedAddCodeEntry( ceStart )]
+    [ArduinoVariableIfPinConnected( 'FClocked' )]
+    [ArduinoVariableIfPinConnected( 'FReady' )]
+    [ArduinoPinIsConnectedFlag]
+    ClockInputPin
+    
+    SensorInputPin : TOWArduinoAnalogInputSinkPin
+    LEDOutputPin : TOWArduinoDigitalSourcePin
+  
+    [NamePostfix( ' (ug/m3)' )]
+    OutputPin
+    
+//    [ValueRange( 1, 500 )]
+//    CountSamples : Unsigned = 5
+    
+    VoltageReference : TArduino_VoltageReference
+    
+  ;
+//---------------------------------------------------------------------------
+; // Mitov

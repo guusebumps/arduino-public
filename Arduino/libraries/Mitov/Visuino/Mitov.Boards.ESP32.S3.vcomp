@@ -1,0 +1,370 @@
+Mitov : Namespace
+//---------------------------------------------------------------------------
+  [Name( 'ESP32 S3' )]
+  TESP32_S3_Category : TClassCategory;
+//---------------------------------------------------------------------------
+  [ArduinoInclude( 'Mitov_SimpleSerial.h' )]
+  [ArduinoClass( 'Mitov::USBSerialPort' )]
+  [ArduinoTemplateParameter( '0_SERIAL_TYPE', 'HWCDC' )]
+  [Name( 'USB' )]
+//  [ArduinoTemplateParameter( 'Speed', 'Mitov::ConstantProperty<26, uint32_t, 2000000 >' )]
+//  [ArduinoPortInstanceName( 'USBSerial' )]
+  +TArduinoEssentialESP32_S3_USBSerial : TArduinoBasicSerial, TArduinoWaitForConnectionSerial_Extender;
+//---------------------------------------------------------------------------
+  TArduinoESP32DefinedPinsBasic_S3_Serial : TArduinoESP32DefinedPinsBasicUnrestrictedSerial
+
+    [ValueRange( 0, 48 )]
+    RXPin
+
+    [ValueRange( 0, 48 )]
+    TXPin
+    
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoPortInstanceName( 'Serial' )]
+  +TArduinoHardwareSerialESP32_S3_Serial : TArduinoESP32DefinedPinsBasic_S3_Serial
+
+    RXPin = 44
+    TXPin = 43
+
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoPortInstanceName( 'Serial1' )]
+  +TArduinoHardwareSerialESP32_S3_Serial1 : TArduinoESP32DefinedPinsBasic_S3_Serial
+  
+    RXPin = 15
+    TXPin = 16
+    
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoPortInstanceName( 'Serial2' )]
+  +TArduinoHardwareSerialESP32_S3_Serial2 : TArduinoESP32DefinedPinsBasic_S3_Serial
+  
+    RXPin = 19
+    TXPin = 20
+    
+  ;
+//---------------------------------------------------------------------------
+  +TArduinoESP32_S3_Generic_I2C : TArduinoPinMapFrequencyI2C
+
+    [MaxValue( 48 )]
+    SDA = 7
+
+    [MaxValue( 48 )]
+    SCL = 6
+
+  ;
+//---------------------------------------------------------------------------
+  +TArduinoESP32_S3_Generic_I2C_2 : TArduinoPinMapFrequencyI2C
+
+    [MaxValue( 48 )]
+    SDA = 41
+
+    [MaxValue( 48 )]
+    SCL = 40
+
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoBoardCompileParam( 'CDCOnBoot', 'cdc' )]
+  [ArduinoBoardCompileParam( 'USBMode', 'default' )]
+  +TArduinoESP32_S3_MouseModule : TArduinoBasicESP32_MouseModule;  
+//---------------------------------------------------------------------------
+  [ArduinoBoardCompileParam( 'CDCOnBoot', 'cdc' )]
+  [ArduinoBoardCompileParam( 'USBMode', 'default' )]
+  +TArduinoESP32_S3_KeyboardModule : TArduinoBasicESP32_KeyboardModule;
+//---------------------------------------------------------------------------
+  *TArduinoESP32_S3ProcessorModuleOperations : TArduinoESP32BasicProcessorModuleOperations;
+//---------------------------------------------------------------------------
+  [Collection( TArduinoESP32_S3ProcessorModuleOperations )]
+  [ArduinoHelpPostfix( '(ESP32 S3 Processor Operations)' )]
+  TArduinoESP32_S3ModuleOperation_Extender : Extender;
+//---------------------------------------------------------------------------
+  *TArduinoESP32_S3ProcessorModuleSleepWakeUpSources : TArduinoESP32BasicProcessorModuleSleepWakeUpSources;
+//---------------------------------------------------------------------------
+  [Collection( TArduinoESP32_S3ProcessorModuleSleepWakeUpSources )]
+  TArduinoESP32_S3ProcessorWakeUpBasicOperation : TArduinoESP32BasicProcessorWakeUpBasicOperation;
+//---------------------------------------------------------------------------
+  +TArduinoESP32_S3ProcessorWakeUpByTouchOperation : TArduinoESP32_S3ProcessorWakeUpBasicOperation, TArduinoESP32ProcessorWakeUpByTouchOperation_Extender
+  
+    [AddItem( TArduinoESP32ProcessorWakeUpByTouchOperationPin_1 )]
+    [AddItem( TArduinoESP32ProcessorWakeUpByTouchOperationPin_2 )]
+    [AddItem( TArduinoESP32ProcessorWakeUpByTouchOperationPin_3 )]
+    [AddItem( TArduinoESP32ProcessorWakeUpByTouchOperationPin_4 )]
+    [AddItem( TArduinoESP32ProcessorWakeUpByTouchOperationPin_5 )]
+    [AddItem( TArduinoESP32ProcessorWakeUpByTouchOperationPin_6 )]
+    [AddItem( TArduinoESP32ProcessorWakeUpByTouchOperationPin_7 )]
+    [AddItem( TArduinoESP32ProcessorWakeUpByTouchOperationPin_8 )]
+    [AddItem( TArduinoESP32ProcessorWakeUpByTouchOperationPin_9 )]
+    [AddItem( TArduinoESP32ProcessorWakeUpByTouchOperationPin_10 )]
+    [AddItem( TArduinoESP32ProcessorWakeUpByTouchOperationPin_11 )]
+    [AddItem( TArduinoESP32ProcessorWakeUpByTouchOperationPin_12 )]
+    [AddItem( TArduinoESP32ProcessorWakeUpByTouchOperationPin_13 )]
+    [AddItem( TArduinoESP32ProcessorWakeUpByTouchOperationPin_14 )]
+//    [AddItem( TArduinoESP32ProcessorWakeUpByTouchOperationPin_15 )]
+    Pins : TArduinoESP32ProcessorWakeUpByTouchOperationPins
+  
+  ;
+//---------------------------------------------------------------------------
+  [ParentImage( TArduinoESP32ProcessorWakeUpByPinOperation )]
+  +TArduinoESP32_S3ProcessorWakeUpByPinOperation : TArduinoESP32_S3ProcessorWakeUpBasicOperation, TArduinoESP32ProcessorWakeUpByPinOperation_Extender
+
+    [ValueRange( 0, 48 )]
+    Pin : Unsigned = 0
+    
+  ;
+//---------------------------------------------------------------------------
+  [ParentImage( TArduinoESP32ProcessorWakeUpByPinsOperation )]
+  +TArduinoESP32_S3ProcessorWakeUpByPinsOperation : TArduinoESP32_S3ProcessorWakeUpBasicOperation, TArduinoESP32ProcessorWakeUpByPinsOperation_Extender
+  
+    [AddItem( TArduinoESP32ProcessorWakeUpByPinsOperationPin, 48 )]
+    Pins : TArduinoESP32ProcessorWakeUpByPinsOperationPins
+    
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoInclude( 'Esp.h' )]
+  [ArduinoInclude( 'Mitov_ESP32_Processor.h' )]
+  [Category( TArduinoPowerToolbarCategory )]
+  TArduinoESP32_S3ProcessorModuleBasicSleepOperation : TArduinoESP32_BasicProcessorModuleBasicSleepOperation
+  
+    Wakeup : TArduinoESP32_S3ProcessorModuleSleepWakeUpSources
+  
+  ;
+//---------------------------------------------------------------------------
+  [ParentImage( TArduinoESP32ProcessorModuleDeepSleepOperation )]
+  +TArduinoESP32_S3ProcessorModuleDeepSleepOperation : TArduinoESP32_S3ProcessorModuleBasicSleepOperation, TArduinoESP32ProcessorModuleDeepSleepOperation_Extender, TArduinoESP32_S3ModuleOperation_Extender;
+//---------------------------------------------------------------------------
+  [ParentImage( TArduinoESP32ProcessorModuleLightSleepOperation )]
+  +TArduinoESP32_S3ProcessorModuleLightSleepOperation : TArduinoESP32_S3ProcessorModuleBasicSleepOperation, TArduinoESP32ProcessorModuleLightSleepOperation_Extender, TArduinoESP32_S3ModuleOperation_Extender;
+//---------------------------------------------------------------------------
+  +TArduinoESP32_S3ProcessorModule : TArduinoESP32BasicProcessorModule
+
+    [ArduinoExcludeCollectionItems]
+    [ComponentEditorEntryDesign( 'Add &Operations ...' )]
+    Operations : TArduinoESP32_S3ProcessorModuleOperations
+
+  ;
+//---------------------------------------------------------------------------
+  *TArduinoESP32S3_CanBusModulePins : TArduinoESP32CanBusModule_BasicPins
+
+    [MaxValue( 48 )]
+    RX
+
+    [MaxValue( 48 )]
+    TX
+    
+    [ValueRange( -1, 48 )]
+    Clock
+    
+  ;
+//---------------------------------------------------------------------------
+  +TArduinoESP32S3_CanBusModule : TArduinoESP32CanBus_BasicModule
+    
+    Pins : TArduinoESP32S3_CanBusModulePins
+    
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoDefine( 'VISUINO_ESP32_S3' )]
+  TArduinoEssentialESP32_S3_NoI2S_Board : TArduinoBasicEssentialESP32Board
+
+    [AddItem( TArduinoESP32WiFiModule )]
+    [AddItem( TArduinoEEPROMModule )]
+    [AddItem( TArduinoESP32_S3ProcessorModule )]
+    [AddItem( TArduinoESP32BluetoothLEModule )]
+    [AddItem( TArduinoESP32_S3_MouseModule )]
+    [AddItem( TArduinoESP32_S3_KeyboardModule )]
+    [AddItem( TArduinoESP32S3_CanBusModule )]
+    Modules : TArduinoModules
+
+    [Name( 'Audio Channels' )]
+    I2SChannels : TArduinoI2SChannels
+
+    Serial : TArduinoSerials
+
+    [Name( 'I2C Channels' )]
+    I2CChannels : TArduinoI2CChannels
+
+    [Name( 'SPI Channels' )]
+    SPIChannels : TArduinoSPIChannels
+
+    [ArduinoEssentialESP32_S2_S3_Board_Channels]
+    [ArduinoEssentialESP32_S2_S3_Board_Channels35]
+    [ArduinoBoard_Reserve_DigitalAnalogChannels( 46,  3, TArduinoCombinedPullDownDigitalInterruptChannel )]
+    Digital : TArduinoDigitalChannels
+
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoDefine( 'VISUINO_ESP32_S3' )]
+  TArduinoEssentialESP32_S3_Board : TArduinoEssentialESP32_S3_NoI2S_Board
+
+    [AddItem( TArduino_ESP32_I2SPDM, 2 )]
+    I2SChannels
+
+  ;
+//---------------------------------------------------------------------------
+  TArduinoBasicESP32_S3_Digital_SPI_I2C_ChannelsBoard : TArduinoEssentialESP32_S3_Board, TArduinoBasicESP32_S2_SPI_Channels_Extender
+  
+    [AddItem( TArduinoESP32_S2_Generic_I2C )]
+    [AddItem( TArduinoESP32_S3_Generic_I2C_2 )]
+    I2CChannels
+    
+    [AddItem( TArduinoEssentialESP32_S3_USBSerial )]
+    [AddItem( TArduinoHardwareSerialESP32_S3_Serial )]
+    [AddItem( TArduinoHardwareSerialESP32_S3_Serial1 )]
+    [AddItem( TArduinoHardwareSerialESP32_S3_Serial2 )]
+    Serial
+    
+  ;
+//---------------------------------------------------------------------------
+  [ParentImage( TESP32_S3_Category )]
+  [Category( TESP32_S3_Category )]
+  [Name( 'Generic ESP32 S3' )]
+  [ArduinoBoardCompileParams( 'esp32:esp32:esp32s3:CDCOnBoot=cdc' )]
+  +TArduinoESP32_S3_Generic_Board : TArduinoBasicESP32_S3_Digital_SPI_I2C_ChannelsBoard
+  
+    [ArduinoBoard_Add_AllChannels]
+    Digital
+    
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoShieldPin( '48',  'RGB Led' )]
+  [ArduinoTemplateParameter( 'C_PIN', '48' )]
+  +TArduinoESP32_S3_Development_Board_RGBLed : TArduinoNeoPixelRGBLedBasicGBRLedModule;
+//---------------------------------------------------------------------------
+  [Category( TESP32_S3_Category )]
+  [Name( 'ESP32 S3 Development Kit C-1' )]
+  [ArduinoBoardCompileParams( 'esp32:esp32:esp32s3:CDCOnBoot=cdc' )]
+  +TArduinoESP32_S3_Development_Board : TArduinoBasicESP32_S3_Digital_SPI_I2C_ChannelsBoard
+  
+    [AddItem( TArduinoESP_BootButtonModule )]
+    [AddItem( TArduinoESP32_S3_Development_Board_RGBLed )]
+    Modules
+  
+    [ArduinoBoard_Add_AllChannels]
+    Digital
+    
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoSerialBasicObjectName( 'Serial' )]
+  +TArduinoNanoESP32_Board_Serial1 : TArduinoESP32DefinedPinsBasicSerial
+
+    RXPin = 1
+    TXPin = 0
+
+  ;
+//---------------------------------------------------------------------------
+  +TArduinoNanoESP32_Board_I2C : TArduinoPinMapFrequencyI2C
+
+    [MaxValue( 46 )]
+    SDA = 21
+
+    [MaxValue( 46 )]
+    SCL = 22
+
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoInclude( 'Arduino_ESP32_SPI_Class.h' )]
+  [ArduinoClass( 'Mitov::Arduino_ESP32_SPI' )]
+  +TArduinoNanoESP32_Board_SPI : TArduinoPinMapSPI
+
+    [MaxValue( 46 )]
+    MOSI = 11
+
+    [MaxValue( 46 )]
+    MISO = 12
+
+    [MaxValue( 46 )]
+    SCK  = 13
+
+  ;
+//---------------------------------------------------------------------------
+  [Name( '(Red)' )]
+  [ArduinoTemplateParameter( 'C_PIN', '46' )]
+  [ParentImage( TArduinoMacchinaLED_RGB_Red )]
+  +TArduinoNanoESP32_Board_LED_RGB_Red : TArduinoAnalogDigitalSingleLED;
+//---------------------------------------------------------------------------
+  [Name( '(Green)' )]
+  [ArduinoTemplateParameter( 'C_PIN', '0' )]
+  [ParentImage( TArduinoMacchinaLED_RGB_Green )]
+  +TArduinoNanoESP32_Board_LED_RGB_Green : TArduinoAnalogDigitalSingleLED;
+//---------------------------------------------------------------------------
+  [Name( '(Blue)' )]
+  [ArduinoTemplateParameter( 'C_PIN', '45' )]
+  [ParentImage( TArduinoMacchinaLED_RGB_Blue )]
+  +TArduinoNanoESP32_Board_LED_RGB_Blue : TArduinoAnalogDigitalSingleLED;
+//---------------------------------------------------------------------------
+  [Name( '(RGB)' )]
+  [ParentImage( TArduinoMacchinaLED_RGB )]
+  [ArduinoExcludeNotConnectedAndDefault]
+  [ArduinoDeclaredClass]
+  +TArduinoNanoESP32_Board_LED_RGB : TArduinoShield
+
+    [AddItem( TArduinoNanoESP32_Board_LED_RGB_Red )]
+    [AddItem( TArduinoNanoESP32_Board_LED_RGB_Green )]
+    [AddItem( TArduinoNanoESP32_Board_LED_RGB_Blue )]
+    Channels : TArduino_RGB_LEDItems
+
+  ;
+//---------------------------------------------------------------------------
+  [Category( TArduinoESP32_S2_Category )]
+  [Name( 'Arduino Nano ESP32' )]
+//  [ArduinoBoardArchitecture( 'arduino' )]
+//  [ArduinoBoardCompileParams( 'arduino:esp32:nano_nora' )]
+//  [ArduinoBoardCompileParams( 'esp32:esp32:nano_nora' )]
+  [ArduinoBoardCompileParams( 'esp32:esp32:esp32s3:CDCOnBoot=cdc' )]
+  [ArduinoBoardNeedsReset]
+  +TArduinoNanoESP32_Board : TArduinoEssentialESP32_S3_Board // TArduinoBasicESP32_S2_Digital_SPI_I2C_ChannelsBoard
+  
+    [AddItem( TArduinoNanoESP32_Board_LED_RGB )]
+    Modules
+
+    [AddItem( TArduinoNanoESP32_Board_I2C )]
+    [AddItem( TArduinoESP32_Generic_I2C_2 )]
+    I2CChannels
+   
+    [AddItem( TArduinoNanoESP32_Board_SPI )]
+    [AddItem( TArduinoESP32_Generic_SPI1 )]
+    [AddItem( TArduinoESP32_Generic_SPI2 )]
+    [AddItem( TArduinoESP32_Generic_SPI3 )]
+    SPIChannels
+  
+    [ComponentEditorEntryDesign( 'Add S&hields ...' )]
+    Shields : TArduinoNanoShields
+  
+    [AddItem( TArduinoEssentialESP32_S3_USBSerial )]
+    [AddItem( TArduinoHardwareSerialESP32_S3_Serial )]
+    [AddItem( TArduinoHardwareSerialESP32_S3_Serial1 )]
+    [AddItem( TArduinoHardwareSerialESP32_S3_Serial2 )]
+    Serial
+    
+    [ArduinoBoard_Add_RemappedChannel(  0,    44, 'Digital' )]
+    [ArduinoBoard_Add_RemappedChannel(  1,    43, 'Digital' )]
+    [ArduinoBoard_Add_RemappedChannel(  2,     5, 'Digital' )]
+    [ArduinoBoard_Add_RemappedChannel(  3,     6, 'Digital' )]
+    [ArduinoBoard_Add_RemappedChannel(  4,     7, 'Digital' )]
+    [ArduinoBoard_Add_RemappedChannel(  5,     8, 'Digital' )]
+    [ArduinoBoard_Add_RemappedChannel(  6,     9, 'Digital' )]
+    [ArduinoBoard_Add_RemappedChannel(  7,    10, 'Digital' )]
+    [ArduinoBoard_Add_RemappedChannel(  8,    17, 'Digital' )]
+    [ArduinoBoard_Add_RemappedChannel(  9,    18, 'Digital' )]
+    [ArduinoBoard_Add_RemappedChannel( 10,    21, 'Digital' )]
+    [ArduinoBoard_Add_RemappedChannel( 11,    38, 'Digital' )]
+    [ArduinoBoard_Add_RemappedChannel( 12,    47, 'Digital' )]
+    [ArduinoBoard_Add_RemappedChannel( 13,    48, 'Digital(LED)' )]
+
+    [ArduinoBoard_Add_RemappedChannel( 17,     1, 'Analog[ 0 ]/Digital' )]
+    [ArduinoBoard_Add_RemappedChannel( 18,     2, 'Analog[ 1 ]/Digital' )]
+    [ArduinoBoard_Add_RemappedChannel( 19,     3, 'Analog[ 2 ]/Digital' )]
+    [ArduinoBoard_Add_RemappedChannel( 20,     4, 'Analog[ 3 ]/Digital' )]
+    [ArduinoBoard_Add_RemappedChannel( 21,    11, 'Analog[ 4 ]/Digital' )]
+    [ArduinoBoard_Add_RemappedChannel( 22,    12, 'Analog[ 5 ]/Digital' )]
+    [ArduinoBoard_Add_RemappedChannel( 23,    13, 'Analog[ 6 ]/Digital' )]
+    [ArduinoBoard_Add_RemappedChannel( 24,    14, 'Analog[ 7 ]/Digital' )]
+    [ArduinoBoard_Add_RemappedChannel( 25,    0, 'B1', True )]
+    
+    [ArduinoBoard_Add_ReservedChannels( 39, 4 )]
+    [ArduinoBoard_Add_ReservedChannel( 46,  46 )]
+    Digital
+    
+  ;
+//---------------------------------------------------------------------------
+; // Mitov

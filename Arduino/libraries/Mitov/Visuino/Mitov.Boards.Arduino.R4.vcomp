@@ -1,0 +1,469 @@
+Mitov : Namespace
+//---------------------------------------------------------------------------
+  [ArduinoInclude( 'Mitov_SimpleSerial.h' )]
+  [ArduinoClass( 'Mitov::USBSerialPort' )]
+  [ArduinoTemplateParameter( '0_SERIAL_TYPE', '_SerialUSB' )]
+  [Name( 'USB' )]
+  [ArduinoPortInstanceName( 'Serial' )]
+  +TArduino_UNO_R4_USBSerial : TArduinoBasicSerial, TArduinoWaitForConnectionSerial_Extender;
+//---------------------------------------------------------------------------
+  [ArduinoTemplateParameter( '0_SERIAL_TYPE', 'UART' )]
+  [ArduinoTemplateParameter( 'TXPin', 'Mitov::ConstantProperty<87, uint32_t, 1 >' )]
+  +TArduinoUARTHardwareSerial : TArduinoBasicBreakHardwareSerial;
+//---------------------------------------------------------------------------
+  [Name( 'USB' )]
+  [ArduinoTemplateParameter( '0_SERIAL_TYPE', 'UART' )]
+  +TArduinoUARTHardwareSerial0 : TArduinoHardwareSerial;
+//---------------------------------------------------------------------------
+//  [ArduinoDeclaredClass]
+  [ArduinoStandardClassChannel]
+  [ArduinoInclude( 'Mitov_UNO_R4_DAC_Channel.h' )]
+  [ArduinoClass( 'Mitov::Arduino_UNO_R4_DAC_Channel' )]
+//  [ArduinoClass( 'Mitov::TArduinoCombinedPullDownAnalogDigitalDACChannel' )]
+//  [ArduinoChannelDeclaredClass]
+  [ArduinoExcludeNotConnectedAndDefault]
+  [ArduinoInit]
+  +TArduinoCombinedPullDownAnalogDigitalDACChannel : TArduinoCombinedOpenDrainAnalogDigitalDACBasicChannel
+  
+    [ValueRange( 8, 12 )]
+    [ArduinoUseBindingCheckSetter( 'Update_Resolution' )]
+    [ArduinoDACParameter]
+    Resolution : Unsigned = 8
+    
+    [ArduinoPinIsConnectedFlag]
+    DigitalInputPin
+    
+    [ArduinoPinIsConnectedFlag]
+    AnalogInputPin
+    
+    [ArduinoPinConnectedAddCodeEntry( ceStart )]
+    [ArduinoPinConnectedAddCodeEntry( ceLoopBegin )]
+    OutputPin
+    
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoClass( 'Mitov::ArduinoBasicSPI' )]
+  [ArduinoTemplateParameter( '0A_SPI_TYPE', 'ArduinoSPI' )]
+  +TArduino_UNO_R4_SPI : TArduinoSPI;
+//---------------------------------------------------------------------------
+  [ParentImage( TArduinoBasicProcessorModuleOperations )]
+  TArduino_UNO_R4_ProcessorModuleOperations : TArduinoPersistentCollection;
+//---------------------------------------------------------------------------
+  [Collection( TArduino_UNO_R4_ProcessorModuleOperations )]
+  [ArduinoHelpPostfix( '(UNO R4 Processor Operations)' )]
+  TArduino_UNO_R4_ProcessorModuleBasicOperation_Extender : Extender;
+//---------------------------------------------------------------------------
+  [ArduinoDeclaredClass]
+  TArduino_UNO_R4_ProcessorModuleBasicOperation : TArduinoBasicEnabledNamedExludePersistent, TArduino_UNO_R4_ProcessorModuleBasicOperation_Extender;
+//---------------------------------------------------------------------------
+  TArduino_UNO_R4_ProcessorModuleBasicClockedOperation : TArduino_UNO_R4_ProcessorModuleBasicOperation
+
+    ClockInputPin : TOWArduinoClockSinkPin
+
+  ;
+//---------------------------------------------------------------------------
+  [Name( 'Reset' )]
+  [CreateName( 'Reset' )]
+  [ArduinoInclude( 'Mitov_UNO_R4_Processor.h' )]
+  [ArduinoClass( 'Mitov::UNO_R4_ProcessorReset' )]
+  [ParentImage( TArduinoProcessorModuleResetOperation )]
+  +TArduino_UNO_R4_ProcessorModuleResetOperation : TArduino_UNO_R4_ProcessorModuleBasicClockedOperation;
+//---------------------------------------------------------------------------
+  [Name( 'Get Available RAM' )]
+  [CreateName( 'Available RAM' )]
+  [ArduinoInclude( 'Mitov_UNO_R4_Processor.h' )]
+  [ArduinoClass( 'Mitov::TArduino_UNO_R4_ProcessorAvailableRAMOperation' )]
+  [ParentImage( TArduinoProcessorAvailableRAMOperation )]
+  +TArduino_UNO_R4_ProcessorAvailableRAMOperation : TArduino_UNO_R4_ProcessorModuleBasicClockedOperation
+
+    [ArduinoPinDisconnectedAddCodeEntry( ceLoopBegin )]
+    [ArduinoPinDisconnectedAddCodeEntry( ceStart )]
+    ClockInputPin
+
+    [OWPrimaryPin]
+    [ArduinoChangeOnlyPin]
+    OutputPin : TOWArduinoUnsignedSourcePin
+
+  ;
+//---------------------------------------------------------------------------
+  [Name( 'Processor' )]
+  [CreateName( 'Processor' )]
+  [ParentImage( TArduinoProcessorModule )]
+  +TArduino_UNO_R4_ProcessorModule : TArduinoShield
+
+    [ArduinoExcludeCollectionItems]
+    [ComponentEditorEntryDesign( 'Add &Operations ...' )]
+    Operations : TArduino_UNO_R4_ProcessorModuleOperations
+
+  ;
+//---------------------------------------------------------------------------
+  [Name( 'Watchdog Timer' )]
+  [CreateName( 'Watchdog Timer' )]
+  [ArduinoInclude( 'WDT.h' )]
+  [ArduinoInclude( 'Mitov_UNO_R4_WatchdogTimer.h' )]
+  [ArduinoClass( 'Mitov::UNO_R4_WatchdogTimer' )]
+  [ArduinoExcludeNotConnectedAndDefault]
+  [ArduinoStart]
+  [ParentImage( TArduinoWatchdogTimerModule )]
+  +TArduino_UNO_R4_WatchdogTimerModule : TArduinoDisabledUpdateShield
+
+    ClockInputPin : TOWArduinoClockSinkPin
+
+    [MaxValue( $7FFFFF )]
+    [NamePostfix( '(mS)' )]
+    [ArduinoUseBindingCheckSetter( 'UpdatePeriod' )]
+    Period : Unsigned = $7FFFFF
+    
+  ;
+//---------------------------------------------------------------------------
+  [CreateName( 'Real Time Clock' )]
+  [ArduinoInclude( 'RTC.h' )]
+  [ArduinoInclude( 'Mitov_UNO_R4_RTCModule.h' )]
+  [ArduinoClass( 'Mitov::TArduino_UNO_R4_RTCModule' )]
+  [ArduinoInit]
+  +TArduino_UNO_R4_RTCModule : TArduinoBasicRTCClcokHandledModule
+  
+    [ArduinoUseBindingCheckSetter( 'UpdateEnabled' )]
+    Enabled
+    
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoPopulatedCallChainParameter( 'uint32_t', 'AID' )]
+  [ArduinoPopulatedCallChainParameter( 'bool', 'ASuccess' )]
+  [Name( 'MessageSendCompeled' )]
+//  [ArduinoCallChainIndex]
+  ArduinoCanBus_UNO_R4_MessageSendCompeledCallChainAttribute : ArduinoCallChainCompleteAttribute;
+//---------------------------------------------------------------------------
+  [ArduinoPopulatedCallChainParameter( 'uint32_t', 'AID' )]
+  [ArduinoPopulatedCallChainParameter( 'bool &', 'AResult' )]
+  [Name( 'IsSending' )]
+  ArduinoCanBus_UNO_R4_MessageIsSendingCallChainAttribute : ArduinoCallChainCompleteAttribute;
+//---------------------------------------------------------------------------
+  [ArduinoCanBus_UNO_R4_MessageSendCompeledCallChain]
+  [ArduinoCanBus_UNO_R4_MessageIsSendingCallChain]
+  TArduino_UNO_R4_CanBus_Elements : TArduinoCanBusElements;
+//---------------------------------------------------------------------------
+  [ArduinoHelpPostfix( '(Arduino UNO R4 CAN bus)' )]
+  [Collection( TArduino_UNO_R4_CanBus_Elements )]
+  [ArduinoLoopBegin]
+  [ArduinoCanBus_UNO_R4_MessageSendCompeledCallChain]
+  [ArduinoCanBus_UNO_R4_MessageIsSendingCallChain]
+  [ArduinoVariable( Unsigned, 32, 'FSendTime' )]
+  [ArduinoOptionalVariable( Unsigned, 32, 'FSendingID', 0 )]
+  TArduinoCanBusSendMessage_UNO_R4_Element_Extender : Extender
+  
+    [ArduinoVariableIfBinding( 'FSendingID' )]
+    ID
+    
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoClass( 'Mitov::TArduinoCanBusSendMessage_UNO_R4_Element' )]
+  +TArduinoCanBusSendMessage_UNO_R4_Element : TArduinoCanBusBasicSendMessageElement, TArduinoCanBusSendMessage_UNO_R4_Element_Extender;
+//---------------------------------------------------------------------------
+  [ArduinoClass( 'Mitov::Microchip_UNO_R4_CanBus_RequestMessage' )]
+  +TArduinoCanBusRequestMessage_UNO_R4_Element : TArduinoBasicCanBusRequestMessageElement, TArduinoCanBusSendMessage_UNO_R4_Element_Extender;
+//---------------------------------------------------------------------------
+  [ArduinoScopedEnum]
+  TArduino_UNO_R4_CanBus_TestMode : Enum
+    
+    None
+    Listen
+    ExternalLoopback
+    InternalLoopback
+    InternalBus
+    
+  ;
+//---------------------------------------------------------------------------
+  [Name( 'CANbus' )]
+  [ArduinoDeclaredClass]
+  [ArduinoExcludeNotConnectedAndDefault]
+//  [ArduinoInclude( 'Arduino_CAN.h' )]
+  [ArduinoInclude( 'Mitov_Arduino_UNO_R4_CANBus.h' )]
+  [ArduinoClass( 'Mitov::TArduino_UNO_R4_CANBus_Module' )]
+  [ParentImage( IOWCanBusStream )]
+  [ArduinoInit]
+  [ArduinoLoopBegin]
+//  [ArduinoOptionalVariable( Boolean, 'FSending', False )]
+//  [ArduinoOptionalVariable( Boolean, 'FMessageSent', False )]
+//  [ArduinoOptionalVariable( Boolean, 'FSendFailed', False )]
+  [ArduinoOptionalVariable( Unsigned, 32, 'FSendTime', 0 )]
+  [ArduinoOptionalVariable( Unsigned, 32, 'FSendingID', 0 )]
+  +TArduino_UNO_R4_CanBus_Module : TArduinoEnabledShield, TArduinoCanBus_Extender
+  
+//    [ArduinoVariableIfPinConnected( 'FSending' )]
+//    [ArduinoVariableIfPinConnected( 'FMessageSent' )]
+//    [ArduinoVariableIfPinConnected( 'FSendFailed' )]
+    [ArduinoVariableIfPinConnected( 'FSendTime' )]
+    [ArduinoVariableIfPinConnected( 'FSendingID' )]
+    InputPin
+    
+    [ArduinoUseBindingCheckSetter( 'UpdateEnabled' )]
+    Enabled
+    
+    [NamePostfix( '(kBPS)' )]
+    [ValueRange( 125, 1000 )]
+    BusSpeed : Unsigned = 250
+    
+    [ArduinoUseBindingCheckSetter( 'UpdateTestMode' )]
+    TestMode : TArduino_UNO_R4_CanBus_TestMode = None
+    
+    Sending : TArduinoBasicCanBus_Sending
+
+    Elements : TArduino_UNO_R4_CanBus_Elements
+    
+  ;
+//---------------------------------------------------------------------------
+  [Name( 'Operational Amplifier' )]
+  [ArduinoDeclaredClass]
+  [ArduinoExcludeNotConnectedAndDefault]
+  [ArduinoInclude( 'Mitov_Arduino_UNO_R4_OperationalAmplifier.h' )]
+  [ArduinoClass( 'Mitov::TArduino_UNO_R4_OperationalAmplifier' )]
+  [ArduinoInit]
+  +TArduino_UNO_R4_OperationalAmplifier : TArduinoEnabledShield
+  
+    [ArduinoUseBindingCheckSetter( 'UpdateEnabled' )]
+    Enabled = False
+    
+    [ArduinoUseBindingCheckSetter( 'UpdateHighSpeed' )]
+    HighSpeed : Boolean = False
+    
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoSerial( 1 )]
+  +TArduinoDigitalOpenDrainSerial1Channel : TArduinoDigitalOpenDrainChannel;
+//---------------------------------------------------------------------------
+  [ArduinoSPI( 0 )]
+  +TArduinoDigitalOpenDrainPWMSPI0Channel : TArduinoDigitalOpenDrainPWMChannel;
+//---------------------------------------------------------------------------
+  [ArduinoSPI( 0 )]
+  +TArduinoDigitalOpenDrainSPI0Channel : TArduinoDigitalOpenDrainChannel;
+//---------------------------------------------------------------------------
+  [ArduinoI2C( 0 )]
+  +TArduinoCombinedOpenDrainAnalogDigitalAnalogI2C0Channel : TArduinoCombinedOpenDrainAnalogDigitalAnalogChannel;
+//---------------------------------------------------------------------------
+  [ArduinoInterruptPin]
+  +TArduinoDigitalOpenDrainInterruptChannel : TArduinoDigitalOpenDrainChannel;
+//---------------------------------------------------------------------------
+  [ArduinoDefine( 'VISUINO_UNO_R4' )]
+  [ArduinoBoardNeedsReset]
+  [ArduinoBoardIndex( '' )]
+  [ArduinoBoardArchitecture( 'renesas_uno' )]
+  [Category( TArduinoARMCategory )]
+  TArduino_UNO_R4_Basic_Board : TArduinoBoardExtendableImplementation
+
+    [AddItem( TArduino_UNO_R4_ProcessorModule )]
+    [AddItem( TArduinoEEPROMModule )]
+    [AddItem( TArduino_UNO_R4_WatchdogTimerModule )]
+    [AddItem( TArduino_UNO_R4_RTCModule )]
+    [AddItem( TArduino_UNO_R4_CanBus_Module )]
+    [AddItem( TArduino_UNO_R4_OperationalAmplifier )]
+    Modules : TArduinoModules
+
+    Serial : TArduinoSerials
+
+    [Name( 'I2C Channels' )]
+    [AddItem( TArduinoI2C, 2 )]
+    I2CChannels : TArduinoI2CChannels
+    
+    [Name( 'SPI Channels' )]
+    [AddItem( TArduino_UNO_R4_SPI )]
+    SPIChannels : TArduinoSPIChannels
+    
+    [ArduinoBoard_Add_DigitalAnalogChannels( 0,   1, TArduinoDigitalOpenDrainSerial1Channel, 'Digital(RX1)' )]
+    [ArduinoBoard_Add_DigitalAnalogChannels( 1,   1, TArduinoDigitalOpenDrainSerial1Channel, 'Digital(TX1)' )]
+    [ArduinoBoard_Add_DigitalAnalogChannels( 2,   1, TArduinoDigitalOpenDrainInterruptChannel )]
+    [ArduinoBoard_Add_DigitalAnalogChannels( 3,   1, TArduinoBasicDigitalPWMInterruptChannel )]
+    [ArduinoBoard_Add_DigitalAnalogChannels( 4,   1, TArduinoDigitalOpenDrainChannel )]
+    [ArduinoBoard_Add_DigitalAnalogChannels( 5,   2, TArduinoDigitalOpenDrainPWMChannel )]
+    [ArduinoBoard_Add_DigitalAnalogChannels( 7,   2, TArduinoDigitalOpenDrainChannel )]
+    [ArduinoBoard_Add_DigitalAnalogChannels( 9,   2, TArduinoDigitalOpenDrainPWMChannel )]
+    [ArduinoBoard_Add_DigitalAnalogChannels( 11,  1, TArduinoDigitalOpenDrainPWMSPI0Channel, 'Digital(SPI-MISO)' )]
+    [ArduinoBoard_Add_DigitalAnalogChannels( 12,  1, TArduinoDigitalOpenDrainSPI0Channel, 'Digital(SPI-MOSI)' )]
+    [ArduinoBoard_Add_DigitalAnalogChannels( 13,  1, TArduinoDigitalOpenDrainSPI0Channel, 'Digital(LED)(SPI-SCK)' )]    
+//    [ArduinoBoard_Add_DigitalNamedAnalogChannels( 14, 0, 1, TArduinoCombinedAnalogDigitalChannel )]
+    [ArduinoBoard_Add_DigitalNamedAnalogChannels( 14, 0, 1, TArduinoCombinedPullDownAnalogDigitalDACChannel, 'Digital(DAC)' )]
+    [ArduinoBoard_Add_DigitalNamedAnalogChannels( 15, 1, 3, TArduinoCombinedOpenDrainAnalogDigitalAnalogChannel )] // TArduinoCombinedAnalogDigitalChannel )]
+    [ArduinoBoard_Add_DigitalNamedAnalogChannels( 18, 4, 1, TArduinoCombinedOpenDrainAnalogDigitalAnalogI2C0Channel, 'Digital(I2C-SDA)' )]
+    [ArduinoBoard_Add_DigitalNamedAnalogChannels( 19, 5, 1, TArduinoCombinedOpenDrainAnalogDigitalAnalogI2C0Channel, 'Digital(I2C-SCL)' )]
+    [Name( 'Channels' )]
+    Digital : TArduinoDigitalChannels
+
+    [ComponentEditorEntryDesign( 'Add S&hields ...' )]
+    Shields : TArduinoStandardShields
+    
+  ;
+//---------------------------------------------------------------------------  
+  [Name( 'Arduino UNO R4 Minima' )]
+  [ArduinoBoardCompileParams( 'arduino:renesas_uno:minima' )]
+  +TArduino_UNO_R4_Minima_Board : TArduino_UNO_R4_Basic_Board
+
+    [AddItem( TArduino_UNO_R4_USBSerial )]
+//    [AddItem( TArduinoUARTHardwareSerial, 3 )]
+//    [AddItem( TArduinoUARTHardwareSerial0 )]
+    [AddItem( TArduinoUARTHardwareSerial )]
+    Serial
+    
+  ;
+//---------------------------------------------------------------------------
+  TArduino_UNO_R4_WiFiModuleOperations : TArduinoBasicNetworkOperations;
+//---------------------------------------------------------------------------
+  [Collection( TArduino_UNO_R4_WiFiModuleOperations )]
+  [ArduinoHelpPostfix( '(UNO R4 WiFi Operations)' )]
+  [ArduinoDeclaredClass]
+  [ArduinoOwnerTemplateTypeAndReference]
+  TArduino_UNO_R4_WiFiModuleBasicOperation : TArduinoCodeEnabledPersistent;
+//---------------------------------------------------------------------------
+  [ArduinoClass( 'Mitov::TArduino_UNO_R4_WiFiModuleScanNetworksOperation' )]
+  [ArduinoLoopBegin]
+//  [ArduinoVariable( Boolean, 'FScanRequest' )]
+  [ParentImage( TArduinoESP32WiFiModuleScanNetworksOperation )]
+  [CollectionItemAssociation( TArduinoESP32WiFiModuleScanNetworksOperation )]
+  +TArduino_UNO_R4_WiFiModuleScanNetworksOperation : TArduino_UNO_R4_WiFiModuleBasicOperation, TArduinoScanNetworksOperation_Extender;
+//---------------------------------------------------------------------------
+  [ArduinoClass( 'Mitov::TArduino_UNO_R4_WiFi_AccessPoint' )]
+  *TArduino_UNO_R4_WiFi_AccessPoint : TArduinoBasicWiFiModuleAccessPoint
+
+//    IsHidden : Boolean = False
+
+//    Config : TArduinoESP8266WiFiModuleConfig
+
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoInclude( 'WiFiS3.h' )]
+  [ArduinoInclude( 'Mitov_Arduino_UNO_R4_WiFi.h' )]
+  [ArduinoClass( 'Mitov::TArduino_UNO_R4_WiFi' )]
+
+  [ArduinoVariable( Boolean, 'FStatusChanged' )]
+
+  [ParentImage( TArduinoESP32WiFiModuleRemoteAccessPoint )]
+  [CollectionItemAssociation( TArduinoESP32BasicWiFiModule )]
+  [ArduinoDeclaredClass]
+  +TArduino_UNO_R4_WiFi : TArduinoCodeEnabledPersistent, TArduinoBasicSimpleWiFi_Extender
+
+    FirmwareVersionOutputPin : TOWArduinoStringSourcePin
+    
+    HostName : String = ''
+
+    AccessPoint : TArduino_UNO_R4_WiFi_AccessPoint
+
+    AccessPoints : TArduinoPortenta_H7_WiFi_AccessPoints
+
+//    Config : TArduinoESP8266WiFiModuleRemoteConfig
+
+    Operations : TArduino_UNO_R4_WiFiModuleOperations
+
+    Sockets : TArduinoPortenta_H7_WiFi_Sockets
+        
+  ;
+//---------------------------------------------------------------------------
+  [Name( 'Control' )]
+  [ParentImage( TArduinoPortenta_H7_RPC_Serial )]
+  [ArduinoPortInstanceName( 'Serial2' )]
+  [ArduinoChannelInstanceName( 'Serial2' )]
+  [ArduinoChannelIndex( 2 )]
+  +TArduino_UNO_R4_Serial2 : TArduinoUARTHardwareSerial
+  
+    Speed = 115200
+    
+  ;
+//---------------------------------------------------------------------------  
+  [Name( 'Debug' )]
+  [ParentImage( TArduinoPortenta_H7_RPC_Serial )]
+  [ArduinoInclude( 'Mitov_Arduino_UNO_R4_Serial3.h' )]
+  [ArduinoPortInstanceName( 'Serial3' )]
+  [ArduinoChannelInstanceName( 'Serial3' )]
+  [ArduinoChannelIndex( 3 )]
+  +TArduino_UNO_R4_Serial3 : TArduinoUARTHardwareSerial
+  
+    Speed = 115200
+    
+  ;
+//---------------------------------------------------------------------------  
+//  [ArduinoSerial( 2 )]
+//  [ArduinoSerialOutput( 2 )]
+//  [ArduinoTemplateParameter( '0_SERIAL_TYPE_PIN', '::BoardDeclarations::Types::SerialPort2' )]
+//  [ArduinoTemplateParameter( '1_SERIAL_NAME_PIN', '::BoardDeclarations::Instances::SerialPort2' )]
+{
+  [ArduinoOwnerTemplateTypeAndReference]
+  [ArduinoInclude( 'Mitov_Arduino_UNO_R4_BluetoothModule.h' )]
+  [ArduinoClass( 'Mitov::TArduino_UNO_R4_BluetoothModule' )]
+  TArduino_UNO_R4_BluetoothModule : TArduinoPortenta_BluetoothModule;
+}
+//---------------------------------------------------------------------------  
+  [Name( 'Communication' )]
+  [CreateName( 'Communication' )]
+{
+  [ArduinoExcludeNotConnectedAndDefault]
+  [ArduinoInclude( 'Mitov_Arduino_UNO_R4_Communication_Module.h' )]
+  [ArduinoClass( 'Mitov::TArduino_UNO_R4_Communication_Module' )]
+  [ArduinoSerial( 2 )]
+  [ArduinoSerialOutput( 2 )]
+  [ArduinoTemplateParameter( '0_SERIAL_TYPE_PIN', '::BoardDeclarations::Types::Serial2' )]
+  [ArduinoTemplateParameter( '1_SERIAL_NAME_PIN', '::BoardDeclarations::Instances::Serial2' )]
+}
+  +TArduino_UNO_R4_Communication_Module : TArduinoShield
+  
+    [AddItem( TArduino_UNO_R4_Serial2 )]
+    [AddItem( TArduino_UNO_R4_Serial3 )]
+    Serial : TArduinoSerials
+    
+    WiFi : TArduino_UNO_R4_WiFi
+    
+    [Name( 'Bluetooth Low Energy' )]
+    Bluetooth : TArduinoPortenta_BluetoothModule
+    
+  ;
+//---------------------------------------------------------------------------
+  [Name( 'Display' )]
+  [ArduinoDeclaredClass]
+  [ArduinoExcludeNotConnectedAndDefault]
+  [ArduinoInclude( 'Mitov_Arduino_UNO_R4_Display.h' )]
+  [ArduinoClass( 'Mitov::TArduino_UNO_R4_Display_Module' )]
+  [ArduinoOptionalVariable( Unsigned, 4, 'FCursorX', 0 )]
+  [ArduinoOptionalVariable( Unsigned, 4, 'FCursorY', 0 )]
+  [ParentImage( TArduinoESP32HeltecSSD1306Display )]
+  [ArduinoInit]
+  [ArduinoStart]
+  +TArduino_UNO_R4_Display_Module : TArduinoEnabledShield, TArduinoDisplay_Basic_Monochrome_NoRefresh_Extender
+  
+    [ArduinoUseBindingCheckSetter( 'UpdateEnabled' )]
+    Enabled
+  
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoStandardClassChannel]
+  [ArduinoInclude( 'Mitov_Arduino_UNO_R4_LoveChannel.h' )]
+  [ArduinoClass( 'Mitov::Arduino_UNO_R4_LoveChannel' )]
+  [ArduinoInit]
+  [ArduinoExcludeNotConnectedAndDefault]
+  Arduino_UNO_R4_Basic_LoveChannel : TArduinoDigitalOpenDrainChannel
+  
+    [ArduinoPinIsConnectedFlag]
+    DigitalInputPin
+    
+    [ArduinoPinConnectedAddCodeEntry( ceStart )]
+    [ArduinoPinConnectedAddCodeEntry( ceLoopBegin )]
+    OutputPin
+    
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoTemplateParameter( '0_PIN', 'BSP_IO_PORT_01_PIN_13' )]
+  +Arduino_UNO_R4_WiFI_LoveChannel : Arduino_UNO_R4_Basic_LoveChannel;
+//---------------------------------------------------------------------------
+  [ArduinoBoardCompileParams( 'arduino:renesas_uno:unor4wifi' )]
+  [Name( 'Arduino UNO R4 WiFi' )]
+  +TArduino_UNO_R4_WiFi_Board : TArduino_UNO_R4_Basic_Board
+  
+    [AddItem( TArduino_UNO_R4_Display_Module )]
+    [AddItem( TArduino_UNO_R4_Communication_Module )]
+    Modules
+    
+    [AddItem( TArduinoUARTHardwareSerial0 )]
+    [AddItem( TArduinoUARTHardwareSerial )]
+    Serial
+    
+    [ArduinoBoard_Add_DigitalAnalogChannels( 20,  1, Arduino_UNO_R4_WiFI_LoveChannel, 'Love' )]
+    Digital
+  ;
+//---------------------------------------------------------------------------
+; // Mitov

@@ -1,0 +1,89 @@
+Mitov : Namespace
+//---------------------------------------------------------------------------
+  [Name( 'Read Binary Color' )]
+  [CreateName( 'Read Binary Color' )]
+  [ArduinoClass( 'Mitov::MemoryStorageElementReadTyped' )]
+  [ArduinoTemplateParameter( 'TYPE', 'Mitov::TColor' )]
+  [OldName( 'TArduinoMicroSDCardFileElementReadBinaryColor' )]
+  +TArduinoStorageElementReadBinaryColor : TArduinoStorageElementBasicReader
+
+    OutputPin : TOWArduinoColorSourcePin
+
+  ;
+//---------------------------------------------------------------------------
+  [Name( 'Read Binary Alpha Color' )]
+  [CreateName( 'Read Binary Alpha Color' )]
+  [ArduinoClass( 'Mitov::MemoryStorageElementReadTyped' )]
+  [ArduinoTemplateParameter( 'TYPE', 'Mitov::TAlphaColor' )]
+  [OldName( 'TArduinoMicroSDCardFileElementReadBinaryAlphaColor' )]
+  +TArduinoStorageElementReadBinaryAlphaColor : TArduinoStorageElementBasicReader
+
+    OutputPin : TOWArduinoAlphaColorSourcePin
+
+  ;
+//---------------------------------------------------------------------------
+  [Name( 'Read Binary RGBW Color' )]
+  [CreateName( 'Read Binary RGBW Color' )]
+  [ArduinoClass( 'Mitov::MemoryStorageElementReadTyped' )]
+  [ArduinoTemplateParameter( 'TYPE', 'Mitov::TRGBWColor' )]
+  [OldName( 'TArduinoMicroSDCardFileElementReadBinaryRGBWColor' )]
+  +TArduinoStorageElementReadBinaryRGBWColor : TArduinoStorageElementBasicReader
+
+    OutputPin : TOWArduinoRGBWColorSourcePin
+
+  ;
+//---------------------------------------------------------------------------
+  [Name( 'Read Binary RGBW Alpha Color' )]
+  [CreateName( 'Read Binary RGBW Alpha Color' )]
+  [ArduinoClass( 'Mitov::MemoryStorageElementReadTyped' )]
+  [ArduinoTemplateParameter( 'TYPE', 'Mitov::TRGBWAlphaColor' )]
+  +TArduinoStorageElementReadBinaryRGBWAlphaColor : TArduinoStorageElementBasicReader
+
+    OutputPin : TOWArduinoRGBWAlphaColorSourcePin
+
+  ;
+//---------------------------------------------------------------------------
+  [Name( 'Write Binary Color' )]
+  [CreateName( 'Write Binary Color' )]
+  [ArduinoClass( 'Mitov::MemoryStorageElementWriteTyped' )]
+  [ArduinoTemplateParameter( 'TYPE', 'Mitov::TColor' )]
+  [OldName( 'TArduinoMicroSDCardFileElementWriteBinaryColor' )]
+  +TArduinoStorageElementWriteBinaryColor : TArduinoStorageElementBasicWriter
+
+    InputPin : TOWArduinoColorSinkPin
+
+  ;
+//---------------------------------------------------------------------------
+  [Name( 'Write Binary Alpha Color' )]
+  [CreateName( 'Write Binary Alpha Color' )]
+  [ArduinoClass( 'Mitov::MemoryStorageElementWriteTyped' )]
+  [ArduinoTemplateParameter( 'TYPE', 'Mitov::TAlphaColor' )]
+  [OldName( 'TArduinoMicroSDCardFileElementWriteBinaryAlphaColor' )]
+  +TArduinoStorageElementWriteBinaryAlphaColor : TArduinoStorageElementBasicWriter
+
+    InputPin : TOWArduinoAlphaColorSinkPin
+
+  ;
+//---------------------------------------------------------------------------
+  [Name( 'Write Binary RGBW Color' )]
+  [CreateName( 'Write Binary RGBW Color' )]
+  [ArduinoClass( 'Mitov::MemoryStorageElementWriteTyped' )]
+  [ArduinoTemplateParameter( 'TYPE', 'Mitov::TRGBWColor' )]
+  [OldName( 'TArduinoMicroSDCardFileElementWriteBinaryRGBWColor' )]
+  +TArduinoStorageElementWriteBinaryRGBWColor : TArduinoStorageElementBasicWriter
+
+    InputPin : TOWArduinoRGBWColorSinkPin
+
+  ;
+//---------------------------------------------------------------------------
+  [Name( 'Write Binary RGBW Alpha Color' )]
+  [CreateName( 'Write Binary RGBW Alpha Color' )]
+  [ArduinoClass( 'Mitov::MemoryStorageElementWriteTyped' )]
+  [ArduinoTemplateParameter( 'TYPE', 'Mitov::TRGBWAlphaColor' )]
+  +TArduinoStorageElementWriteBinaryRGBWAlphaColor : TArduinoStorageElementBasicWriter
+
+    InputPin : TOWArduinoRGBWAlphaColorSinkPin
+
+  ;
+//---------------------------------------------------------------------------
+; // Mitov

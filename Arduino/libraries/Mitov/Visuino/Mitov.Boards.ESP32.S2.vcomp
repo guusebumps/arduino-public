@@ -1,0 +1,311 @@
+Mitov : Namespace
+//---------------------------------------------------------------------------
+  [Name( 'ESP32 S2' )]
+  TESP32_S2_Category : TClassCategory;
+//---------------------------------------------------------------------------
+  [Name( 'ESP32 S2' )]
+  [Category( TArduinoCategory )]
+  [AlternateCategory( TESP32_S2_Category )]
+  [ParentImage( TESP32_S2_Category )]
+  TArduinoESP32_S2_Category : TClassCategory;
+//---------------------------------------------------------------------------
+  +TArduinoESP32_S2_MouseModule : TArduinoBasicESP32_MouseModule;  
+//---------------------------------------------------------------------------
+  +TArduinoESP32_S2_KeyboardModule : TArduinoBasicESP32_KeyboardModule;
+//---------------------------------------------------------------------------
+  [Name( 'Channels' )]
+  [ArduinoBoardDefaultChannelName( 'GPIO' )]
+  [ArduinoBoard_Reserve_DigitalAnalogChannels( 0,   1, TArduinoCombinedPullDownDigitalInterruptChannel )]
+  [ArduinoBoard_Reserve_DigitalAnalogChannels( 1,  15, TArduinoCombinedTouchPullDownAnalogDigitalInterruptChannel )]
+  [ArduinoBoard_Reserve_DigitalAnalogChannels( 16,  1, TArduinoCombinedPullDownAnalogDigitalInterruptChannel )]
+  [ArduinoBoard_Reserve_DigitalAnalogChannels( 17,  2, TArduinoESP32CombinedPullDownAnalogDigitalDACChannel, 'Digital(DAC)' )]
+  [ArduinoBoard_Reserve_DigitalAnalogChannels( 19,  2, TArduinoCombinedPullDownAnalogDigitalInterruptChannel )]
+  [ArduinoBoard_Reserve_DigitalAnalogChannels( 21,  1, TArduinoCombinedPullDownDigitalInterruptChannel )]
+  ArduinoEssentialESP32_S2_S3_Board_ChannelsAttribute : TAttributeCollectionAttribute;
+
+  [ArduinoBoard_Reserve_DigitalAnalogChannels( 35, 10, TArduinoCombinedPullDownDigitalInterruptChannel )]
+  ArduinoEssentialESP32_S2_S3_Board_Channels35Attribute : TAttributeCollectionAttribute;
+//---------------------------------------------------------------------------
+  *TArduinoESP32_S2ProcessorModuleOperations : TArduinoESP32BasicProcessorModuleOperations;
+//---------------------------------------------------------------------------
+  [Collection( TArduinoESP32_S2ProcessorModuleOperations )]
+  [ArduinoHelpPostfix( '(ESP32 S2 Processor Operations)' )]
+  TArduinoESP32_S2ModuleOperation_Extender : Extender;
+//---------------------------------------------------------------------------
+  *TArduinoESP32_S2ProcessorModuleSleepWakeUpSources : TArduinoESP32BasicProcessorModuleSleepWakeUpSources;
+//---------------------------------------------------------------------------
+  [Collection( TArduinoESP32_S2ProcessorModuleSleepWakeUpSources )]
+  TArduinoESP32_S2ProcessorWakeUpBasicOperation : TArduinoESP32BasicProcessorWakeUpBasicOperation;
+//---------------------------------------------------------------------------
+  +TArduinoESP32_S2ProcessorWakeUpByTouchOperation : TArduinoESP32_S2ProcessorWakeUpBasicOperation, TArduinoESP32ProcessorWakeUpByTouchOperation_Extender
+  
+    [AddItem( TArduinoESP32ProcessorWakeUpByTouchOperationPin_1 )]
+    [AddItem( TArduinoESP32ProcessorWakeUpByTouchOperationPin_2 )]
+    [AddItem( TArduinoESP32ProcessorWakeUpByTouchOperationPin_3 )]
+    [AddItem( TArduinoESP32ProcessorWakeUpByTouchOperationPin_4 )]
+    [AddItem( TArduinoESP32ProcessorWakeUpByTouchOperationPin_5 )]
+    [AddItem( TArduinoESP32ProcessorWakeUpByTouchOperationPin_6 )]
+    [AddItem( TArduinoESP32ProcessorWakeUpByTouchOperationPin_7 )]
+    [AddItem( TArduinoESP32ProcessorWakeUpByTouchOperationPin_8 )]
+    [AddItem( TArduinoESP32ProcessorWakeUpByTouchOperationPin_9 )]
+    [AddItem( TArduinoESP32ProcessorWakeUpByTouchOperationPin_10 )]
+    [AddItem( TArduinoESP32ProcessorWakeUpByTouchOperationPin_11 )]
+    [AddItem( TArduinoESP32ProcessorWakeUpByTouchOperationPin_12 )]
+    [AddItem( TArduinoESP32ProcessorWakeUpByTouchOperationPin_13 )]
+    [AddItem( TArduinoESP32ProcessorWakeUpByTouchOperationPin_14 )]
+    [AddItem( TArduinoESP32ProcessorWakeUpByTouchOperationPin_15 )]
+    Pins : TArduinoESP32ProcessorWakeUpByTouchOperationPins
+  
+  ;
+//---------------------------------------------------------------------------
+  [ParentImage( TArduinoESP32ProcessorWakeUpByPinOperation )]
+  +TArduinoESP32_S2ProcessorWakeUpByPinOperation : TArduinoESP32_S2ProcessorWakeUpBasicOperation, TArduinoESP32ProcessorWakeUpByPinOperation_Extender
+
+    [ValueRange( 0, 46 )]
+    Pin : Unsigned = 0
+    
+  ;
+//---------------------------------------------------------------------------
+  [ParentImage( TArduinoESP32ProcessorWakeUpByPinsOperation )]
+  +TArduinoESP32_S2ProcessorWakeUpByPinsOperation : TArduinoESP32_S2ProcessorWakeUpBasicOperation, TArduinoESP32ProcessorWakeUpByPinsOperation_Extender
+  
+    [AddItem( TArduinoESP32ProcessorWakeUpByPinsOperationPin, 46 )]
+    Pins : TArduinoESP32ProcessorWakeUpByPinsOperationPins
+    
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoInclude( 'Esp.h' )]
+  [ArduinoInclude( 'Mitov_ESP32_Processor.h' )]
+  [Category( TArduinoPowerToolbarCategory )]
+  TArduinoESP32_S2ProcessorModuleBasicSleepOperation : TArduinoESP32_BasicProcessorModuleBasicSleepOperation
+  
+    Wakeup : TArduinoESP32_S2ProcessorModuleSleepWakeUpSources
+  
+  ;
+//---------------------------------------------------------------------------
+  [ParentImage( TArduinoESP32ProcessorModuleDeepSleepOperation )]
+  +TArduinoESP32_S2ProcessorModuleDeepSleepOperation : TArduinoESP32_S2ProcessorModuleBasicSleepOperation, TArduinoESP32ProcessorModuleDeepSleepOperation_Extender, TArduinoESP32_S2ModuleOperation_Extender;
+//---------------------------------------------------------------------------
+  [ParentImage( TArduinoESP32ProcessorModuleLightSleepOperation )]
+  +TArduinoESP32_S2ProcessorModuleLightSleepOperation : TArduinoESP32_S2ProcessorModuleBasicSleepOperation, TArduinoESP32ProcessorModuleLightSleepOperation_Extender, TArduinoESP32_S2ModuleOperation_Extender;
+//---------------------------------------------------------------------------
+  +TArduinoESP32_S2ProcessorModule : TArduinoESP32BasicProcessorModule
+
+    [ArduinoExcludeCollectionItems]
+    [ComponentEditorEntryDesign( 'Add &Operations ...' )]
+    Operations : TArduinoESP32_S2ProcessorModuleOperations
+
+  ;
+//---------------------------------------------------------------------------
+  *TArduinoESP32S2_CanBusModulePins : TArduinoESP32CanBusModule_BasicPins
+
+    [MaxValue( 46 )]
+    RX
+
+    [MaxValue( 46 )]
+    TX
+    
+    [ValueRange( -1, 46 )]
+    Clock
+    
+  ;
+//---------------------------------------------------------------------------
+  +TArduinoESP32S2_CanBusModule : TArduinoESP32CanBus_BasicModule
+    
+    Pins : TArduinoESP32S3_CanBusModulePins
+    
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoDefine( 'VISUINO_ESP32_S2' )]
+  TArduinoEssentialESP32_S2_Board : TArduinoBasicEssentialESP32Board
+
+    [AddItem( TArduinoESP32WiFiModule )]
+    [AddItem( TArduinoEEPROMModule )]
+    [AddItem( TArduinoESP32_S2ProcessorModule )]
+    [AddItem( TArduinoESP32BluetoothLEModule )]
+    [AddItem( TArduinoESP32_S2_MouseModule )]
+    [AddItem( TArduinoESP32_S2_KeyboardModule )]
+    [AddItem( TArduinoESP32S2_CanBusModule )]
+    Modules : TArduinoModules
+
+    [AddItem( TArduino_ESP32_I2SPDM )]
+    [Name( 'Audio Channels' )]
+    I2SChannels : TArduinoI2SChannels
+
+    Serial : TArduinoSerials
+
+    [Name( 'I2C Channels' )]
+    I2CChannels : TArduinoI2CChannels
+
+    [Name( 'SPI Channels' )]
+    SPIChannels : TArduinoSPIChannels
+
+    [ArduinoEssentialESP32_S2_S3_Board_Channels]
+    [ArduinoBoard_Reserve_DigitalAnalogChannels( 33, 2, TArduinoCombinedPullDownDigitalInterruptChannel )]
+    [ArduinoEssentialESP32_S2_S3_Board_Channels35]
+    [ArduinoBoard_Reserve_DigitalAnalogChannels( 46, 1, TArduinoSimpleDigitalInputOnlyInterruptChannel )]
+    Digital : TArduinoDigitalChannels
+    
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoInclude( 'Mitov_StandardSerial.h' )]
+//  [ArduinoInclude( 'Mitov_StandardSpeedSerial.h' )]
+  [ArduinoClass( 'Mitov::SimpleUSBSerialPort' )]
+//  [ArduinoTemplateParameter( '0_SERIAL_TYPE', 'USBCDC' )]
+  [ArduinoTemplateParameter( '0_SERIAL_TYPE', 'HardwareSerial' )]
+  [Name( 'USB' )]
+//  [ArduinoTemplateParameter( 'Speed', 'Mitov::ConstantProperty<26, uint32_t, 2000000 >' )]
+  [ArduinoPortInstanceName( 'Serial' )]
+  +TArduinoEssentialESP32_S2_USBSerial : TArduinoBasicSerial;
+//---------------------------------------------------------------------------
+  [ArduinoTemplateParameter( '0_SERIAL_TYPE', 'USBCDC' )]
+  +TArduinoEssentialESP32_S2_USBCDC_USBSerial : TArduinoEssentialESP32_S2_USBSerial;
+//---------------------------------------------------------------------------
+  [ArduinoTemplateParameter( '0_SERIAL_TYPE', 'HardwareSerial' )]
+  TArduinoESP32DefinedPinsBasic_S2_Serial : TArduinoESP32DefinedPinsBasicUnrestrictedSerial
+
+    [ValueRange( 0, 46 )]
+    RXPin
+
+    [ValueRange( 0, 46 )]
+    TXPin
+    
+  ;
+//---------------------------------------------------------------------------
+  +TArduinoHardwareSerialESP32_S2_Serial : TArduinoESP32DefinedPinsBasic_S2_Serial
+  
+    RXPin = 44
+    TXPin = 43
+  
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoPortInstanceName( 'Serial' )]
+  +TArduinoHardwareSerialESP32_S2_Serial_Labeled : TArduinoHardwareSerialESP32_S2_Serial;
+//---------------------------------------------------------------------------
+  +TArduinoHardwareSerialESP32_S2_Serial1 : TArduinoESP32DefinedPinsBasic_S2_Serial
+  
+    RXPin = 18
+    TXPin = 17
+  
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoPortInstanceName( 'Serial1' )]
+  +TArduinoHardwareSerialESP32_S2_Serial1_Labeled : TArduinoHardwareSerialESP32_S2_Serial1;
+//---------------------------------------------------------------------------
+  +TArduinoESP32_S2_Generic_I2C : TArduinoPinMapFrequencyI2C
+
+    [MaxValue( 46 )]
+    SDA = 8
+
+    [MaxValue( 46 )]
+    SCL = 9
+
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoInclude( 'Arduino_ESP32_SPI_Class.h' )]
+  [ArduinoClass( 'Mitov::Arduino_ESP32_SPI' )]
+  +TArduinoESP32_S2_Generic_SPI : TArduinoPinMapSPI
+
+    [MaxValue( 46 )]
+    MOSI = 35
+
+    [MaxValue( 46 )]
+    MISO = 37
+
+    [MaxValue( 46 )]
+    SCK  = 36
+
+  ;
+//---------------------------------------------------------------------------
+  TArduinoBasicESP32_S2_SPI_Channels_Extender : Extender
+
+    [AddItem( TArduinoESP32_S2_Generic_SPI )]
+    [AddItem( TArduinoESP32_Generic_SPI1 )]
+    [AddItem( TArduinoESP32_Generic_SPI2 )]
+    [AddItem( TArduinoESP32_Generic_SPI3 )]
+    SPIChannels
+
+  ;
+//---------------------------------------------------------------------------
+  TArduinoBasicESP32_S2_Digital_SPI_I2C_ChannelsBoard : TArduinoEssentialESP32_S2_Board, TArduinoBasicESP32_S2_SPI_Channels_Extender
+
+    [AddItem( TArduinoESP32_S2_Generic_I2C )]
+    [AddItem( TArduinoESP32_Generic_I2C_2 )]
+    I2CChannels
+
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoBoardNeedsReset]
+  TArduinoBasicESP32_S2_Serial_Channels_Extender : Extender
+
+    [AddItem( TArduinoEssentialESP32_S2_USBSerial )]
+    [AddItem( TArduinoHardwareSerialESP32_S2_Serial_Labeled )]
+    [AddItem( TArduinoHardwareSerialESP32_S2_Serial1_Labeled )]
+    Serial
+
+  ;
+//---------------------------------------------------------------------------
+  TArduinoBasicESP32_S2_Digital_SPI_I2C_Serial_ChannelsBoard : TArduinoBasicESP32_S2_Digital_SPI_I2C_ChannelsBoard, TArduinoBasicESP32_S2_Serial_Channels_Extender;
+//---------------------------------------------------------------------------
+  [ParentImage( TESP32_S2_Category )]
+  [Category( TESP32_S2_Category )]
+  [Name( 'Generic ESP32 S2' )]
+  [ArduinoBoardCompileParams( 'esp32:esp32:esp32s2' )]
+  +TArduinoESP32_S2_Generic_Board : TArduinoBasicESP32_S2_Digital_SPI_I2C_Serial_ChannelsBoard
+  
+    [ArduinoBoard_Add_AllChannels]
+    Digital
+    
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoShieldPin( '48',  'RGB Led' )]
+  [ArduinoTemplateParameter( 'C_PIN', '48' )]
+  +TArduinoESP32_S2_Development_Board_RGBLed : TArduinoNeoPixelRGBLedBasicGBRLedModule;
+//---------------------------------------------------------------------------
+//  +TArduinoHardwareSerialESP32_S2_Serial_USB : TArduinoHardwareSerialESP32_S2_Serial;
+//---------------------------------------------------------------------------
+  [Category( TESP32_S2_Category )]
+  [Name( 'ESP32 S2 Development Kit C-1(USB)' )]
+  [ArduinoBoardCompileParams( 'esp32:esp32:esp32s2usb' )]
+  [ArduinoBoardNeedsReset]
+  +TArduinoESP32_S2_C1_USB_Development_Board : TArduinoBasicESP32_S2_Digital_SPI_I2C_ChannelsBoard
+  
+    [AddItem( TArduinoESP_BootButtonModule )]
+    [AddItem( TArduinoESP32_S2_Development_Board_RGBLed )]
+    Modules
+  
+    [AddItem( TArduinoEssentialESP32_S2_USBCDC_USBSerial )]
+    [AddItem( TArduinoHardwareSerialESP32_S2_Serial1 )]
+//    [AddItem( TArduinoEssentialESP32_S2_USBSerial )]
+    Serial
+    
+    [ArduinoBoard_Add_AllChannels]
+    Digital
+    
+  ;
+//---------------------------------------------------------------------------
+  [Category( TESP32_S2_Category )]
+  [ArduinoBoardCompileParams( 'esp32:esp32:esp32s2' )]
+  [ArduinoBoardCanReset]
+  TArduinoESP32_S2_Basic_Development_Board : TArduinoBasicESP32_S2_Digital_SPI_I2C_ChannelsBoard
+  
+    [AddItem( TArduinoESP_BootButtonModule )]
+    [AddItem( TArduinoESP32_S2_Development_Board_RGBLed )]
+    Modules
+  
+    [AddItem( TArduinoEssentialESP32_S2_USBSerial )]
+    [AddItem( TArduinoHardwareSerialESP32_S2_Serial1 )]
+    Serial
+    
+    [ArduinoBoard_Add_AllChannels]
+    Digital
+    
+  ;
+//---------------------------------------------------------------------------
+  [Name( 'ESP32 S2 Development Kit C-1(Serial)' )]
+  +TArduinoESP32_S2_C1_Development_Board : TArduinoESP32_S2_Basic_Development_Board;
+//---------------------------------------------------------------------------
+  [Name( 'ESP32 S2 Development Kit M/Saola-1' )]
+  +TArduinoESP32_S2_M1_Development_Board : TArduinoESP32_S2_Basic_Development_Board;
+//---------------------------------------------------------------------------
+; // Mitov

@@ -1,0 +1,49 @@
+Mitov : Namespace
+//---------------------------------------------------------------------------
+  [IncludeOneWireAttribute]
+  [ArduinoLibrary( 'MAX31850 OneWire', 'https://github.com/adafruit/MAX31850_OneWire' )]
+  [ArduinoInclude( 'DallasTemperature.h', 'MAX31850 DallasTemp', 'https://github.com/adafruit/MAX31850_DallasTemp' )]
+//  [ArduinoInclude( 'DallasTemperature.h', 'MAX31850 OneWire', 'https://github.com/adafruit/MAX31850_DallasTemp' )]
+  [ArduinoInclude( 'Mitov_Maxim_OneWire_Thermometer.h' )]
+  [ArduinoClass( 'Mitov::OneWireThermometer' )]
+  [ArduinoInit]
+  [ArduinoStart]
+  [ArduinoLoopBegin]
+  [ArduinoTemplateParameter( 'Address', 'Mitov::NestedProperty<20, Mitov::TOneWireAddress<'#13#10'    Mitov::ConstantProperty<13, uint32_t, 0 >, // Octet1'#13#10'    Mitov::ConstantProperty<14, uint32_t, 0 >, // Octet2'#13#10'    Mitov::ConstantProperty<15, uint32_t, 0 >, // Octet3'#13#10'    Mitov::ConstantProperty<16, uint32_t, 0 >, // Octet4'#13#10'    Mitov::ConstantProperty<17, uint32_t, 0 >, // Octet5'#13#10'    Mitov::ConstantProperty<18, uint32_t, 0 >, // Octet6'#13#10'    Mitov::ConstantProperty<19, uint32_t, 0 >, // Octet7'#13#10'    Mitov::ConstantProperty<20, uint32_t, 0 > // Octet8'#13#10'     > >' )]
+  [ArduinoTemplateParameter( 'DEVICE_INDEX', '0' )]
+  [ArduinoTemplateParameter( 'OneWireOutputPin', 'Mitov::GenericPin_NoImplementation<4>' )]
+  [ArduinoTemplateParameter( 'AutoDiscover', 'Mitov::ConstantProperty<8, bool, true >' )]
+  TArduinoMaximOneWireThermometer_Extender : Extender
+  
+    [ArduinoPinIsConnectedFlag]
+    ClockInputPin : TOWArduinoClockSinkPin
+
+    [OWPrimaryPin]
+    OutputPin : TOWArduinoAnalogSourcePin
+
+    AddressOutputPin : TOWArduinoStringSourcePin
+    AlarmOutputPin : TOWArduinoDigitalSourcePin
+
+    Enabled : Boolean = True
+
+    [ValueRange( 9, 12 )]
+    Resolution   : Unsigned = 12
+
+    [ValueRange( -55, 125 )]
+    AlarmHighTemperature : Single = 100.0
+
+    [ValueRange( -55, 125 )]
+    AlarmLowTemperature : Single = 0.0
+
+    InFahrenheit : Boolean = False
+
+  ;
+//---------------------------------------------------------------------------
+  [Name( 'Thermometer DS1820' )]
+  [CreateName( 'Thermometer' )]
+  +TArduinoMaximOneWireThermometerModule : TArduinoShield, TArduinoMaximOneWireThermometer_Extender;
+//---------------------------------------------------------------------------
+  [ParentImage( TArduinoMaximOneWireThermometerModule )]
+  *TArduinoMaximOneWireThermometerPersistent : TArduinoCodePersistent, TArduinoMaximOneWireThermometer_Extender;
+//---------------------------------------------------------------------------
+; // Mitov

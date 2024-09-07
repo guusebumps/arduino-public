@@ -1,0 +1,108 @@
+Mitov : Namespace
+//---------------------------------------------------------------------------
+  TArduinoCommonUnsigned64Filter : TArduinoCommonUnsigned64Source
+
+    [OWPrimaryPin]
+    InputPin : TOWArduinoUInt64SinkPin
+
+    Enabled : Boolean = True
+
+  ;
+//---------------------------------------------------------------------------
+  TArduinoUnsigned64MultiInputSource : TArduinoCommonUnsigned64Source
+
+    [OWPrimaryPin]
+    [ArduinoTemplatePinListSize]
+    [OWPinListPrimaryPinType( TOWArduinoUInt64SinkPin )]
+    [OWAutoManagePinListOwner( TOWArduinoUInt64SinkPin, 2, 2, 200 )]
+    InputPins : TOWPinListOwner
+
+  ;
+//---------------------------------------------------------------------------
+  [Name( '64 bit Unsigned Multi Source' )]
+  [Category( TSynchronizationToolbarCategory )]
+  [Category( TArduinoUnsignedToolbarCategory )]
+  +TArduinoUnsigned64MultiSource : TArduinoCommonUnsigned64Sink, TArduinoMultiSource_Extender
+
+    [OWPinListPrimaryPinType( TOWArduinoUInt64SourcePin )]
+    [OWAutoManagePinListOwner( TOWArduinoUInt64SourcePin, 2, 2, 100 )]
+    OutputPins : TOWPinListOwner
+
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoTemplateParameter( 'TYPE', 'uint64_t' )]
+  [Name( '64 bit Unsigned Mux(Multi channel Switch)' )]
+  [CreateName( 'Unsigned64Mux' )]
+  [Category( TArduinoUnsignedToolbarCategory )]
+  +TArduinoUnsigned64Mux : TArduinoUnsigned64MultiInputSource, TArduinoMux_Extender;
+//---------------------------------------------------------------------------
+  [ArduinoTemplateParameter( 'TYPE', 'uint64_t' )]
+  [ArduinoContructorParameter( '0' )]
+  [Name( '64 bit Unsigned On/Off Switch' )]
+  [Category( TArduinoUnsignedToolbarCategory )]
+  [ArduinoOptionalVariable( Unsigned, 'FValue', 0 )]
+  [ArduinoOptionalVariable( Unsigned, 'FOutputValue', 0 )]
+  +TArduinoUnsigned64Switch : TArduinoCommonUnsigned64Source, TArduinoSwitch_Extender
+
+    [OWPrimaryPin]
+    InputPin : TOWArduinoUInt64SinkPin
+
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoTemplateParameter( 'TYPE', 'uint64_t' )]
+  [Name( '64 bit Unsigned Toggle Switch' )]
+  [ArduinoContructorParameter( '0' )]
+  [Category( TArduinoUnsignedToolbarCategory )]
+  +TArduinoUnsigned64ToggleSwitch : TArduinoCommonUnsigned64Source, TArduinoToggleSwitch_Extender
+
+    [OWPrimaryPin]
+    TrueInputPin : TOWArduinoUInt64SinkPin
+
+    [OWPrimaryPin]
+    FalseInputPin : TOWArduinoUInt64SinkPin
+
+  ;
+//---------------------------------------------------------------------------
+  [Name( '64 bit Unsigned Toggle Demux' )]
+  [Category( TArduinoUnsignedToolbarCategory )]
+  +TArduinoUnsigned64ToggleDemux : TArduinoCommonUnsigned64Sink, TArduinoToggleDemux_Extender
+
+    [OWPrimaryPin]
+    TrueOutputPin : TOWArduinoUInt64SourcePin
+
+    [OWPrimaryPin]
+    FalseOutputPin  : TOWArduinoUInt64SourcePin
+
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoTemplateParameter( 'TYPE', 'uint64_t' )]
+  [Name( '64 bit Unsigned Demux(Multiple Output channel Switch)' )]
+  [Category( TArduinoUnsignedToolbarCategory )]
+  +TArduinoUnsigned64Demux : TArduinoCommonUnsigned64Sink, TArduinoDemux_Extender
+
+    [OWPinListPrimaryPinType( TOWArduinoUInt64SourcePin )]
+    [OWAutoManagePinListOwner( TOWArduinoUInt64SourcePin, 2, 2, 4000 )]
+    OutputPins : TOWPinListOwner
+
+  ;
+//---------------------------------------------------------------------------
+  [Name( 'Repeat 64 bit Unsigned' )]
+  [Category( TSynchronizationToolbarCategory )]
+  +TArduinoRepeatUnsigned64 : TArduinoCommonUnsigned64Filter, TArduinoRepeat_Extender;
+//---------------------------------------------------------------------------
+  [ArduinoTemplateParameter( 'STORE', 'uint64_t' )]
+  [ArduinoTemplateParameter( 'DATA', 'uint64_t' )]
+  [Name( 'Remember 64 bit Unsigned Value' )]
+  [Category( TArduinoUnsignedToolbarCategory )]
+  +TArduinoRememberUnsigned64 : TArduinoCommonUnsigned64Filter, TArduinoRemember_Extender
+
+    [ArduinoAddVariableIfPinConnected( Unsigned, 32, 'FLastData' )]
+    RememberInputPin
+
+    [OWExcludeBindings]
+    [ArduinoFlexibleVariable]
+    InitialValue : Unsigned = 0
+
+  ;
+//---------------------------------------------------------------------------
+; // Mitov

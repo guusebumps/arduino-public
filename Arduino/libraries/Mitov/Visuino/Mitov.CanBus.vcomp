@@ -1,0 +1,125 @@
+Mitov : Namespace
+//---------------------------------------------------------------------------
+  [ArduinoPopulatedCallChainParameter( 'uint32_t', 'AID' )]
+  [ArduinoPopulatedCallChainParameter( 'bool', 'AExtended' )]
+  [ArduinoPopulatedCallChainParameter( 'bool', 'ARequest' )]
+  [ArduinoPopulatedCallChainParameter( 'uint8_t', 'ALength' )]
+  [ArduinoPopulatedCallChainParameter( 'const uint8_t *', 'ABuffer' )]
+  [Name( 'ProcessMessage' )]
+  ArduinoCanBusProcessMessageCallChainAttribute : ArduinoCallChainCompleteAttribute;
+//---------------------------------------------------------------------------
+  [ArduinoCanBusProcessMessageCallChain]
+  *TArduinoCanBusElements : TArduinoPersistentCollection;
+//---------------------------------------------------------------------------
+  [ArduinoHelpPostfix( '(CAN bus)' )]
+  [Collection( TArduinoCanBusElements )]
+  TArduinoBasicSharedCanBus_Extender : Extender;
+//---------------------------------------------------------------------------
+  [ArduinoDeclaredClass]
+  [ArduinoOwnerTemplateTypeAndReference]
+  [ArduinoCallChainExcludeOwnerComplete]
+  TArduinoCanBusBasicElement : TArduinoBasicNamedExludePersistent;
+//---------------------------------------------------------------------------
+  [ArduinoInclude( 'Mitov_CanBus.h' )]
+  [ArduinoDeclaredClass]
+  TArduinoCanBusBasicMessageElement : TArduinoCanBusBasicElement
+
+    ID : Unsigned = 0
+
+  ;
+//---------------------------------------------------------------------------
+  TArduinoCanBusBinaryPersistent : TArduinoBinaryNoBindingPersistent;
+//---------------------------------------------------------------------------
+  TArduinoCanBusBasicSendRequestMessageElement : TArduinoCanBusBasicMessageElement
+
+    [OWPinGroup( TArduinoCanBusBasicSendRequestMessageElement )]
+    [OWPrimaryPin]
+    [ArduinoPinIsConnectedFlag]
+    ClockInputPin : TOWArduinoClockSinkPin
+
+    [OWPinGroup( TArduinoCanBusBasicSendRequestMessageElement )]
+    MessageInputPin : TOWArduinoByteSinkPin
+
+    SentOutputPin : TOWArduinoClockSourcePin
+    FailedOutputPin : TOWArduinoClockSourcePin
+
+    Extended : Boolean = False
+
+    [ArduinoFlexibleVariableIfPinConnected( MessageInputPin )]
+    InitialValue : TArduinoCanBusBinaryPersistent
+
+    [NamePostfix( '(mS)' )]
+    SendTimeout : Unsigned = 500
+
+  ;
+//---------------------------------------------------------------------------
+//  [ArduinoClass( 'Mitov::CanBus_SendMessage' )]
+  [Name( 'Send Message' )]
+  [CreateName( 'Send Message' )]
+  *TArduinoCanBusBasicSendMessageElement : TArduinoCanBusBasicSendRequestMessageElement
+
+    Request : Boolean = False
+
+  ;
+//---------------------------------------------------------------------------
+  TArduinoCanBusReceiveMessageElement_PinsExtender : Extender
+
+    ExtendedOutputPin : TOWArduinoDigitalSourcePin
+    RequestOutputPin : TOWArduinoDigitalSourcePin
+    MessageOutputPin : TOWArduinoByteSourcePin
+
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoClass( 'Mitov::CanBus_ReceiveMessage' )]
+  [Name( 'Receive Message' )]
+  [CreateName( 'Receive Message' )]
+  [ArduinoCanBusProcessMessageCallChain]
+  +TArduinoCanBusReceiveMessageElement : TArduinoCanBusBasicMessageElement, TArduinoCanBusReceiveMessageElement_PinsExtender, TArduinoBasicSharedCanBus_Extender;
+//---------------------------------------------------------------------------
+  [ArduinoClass( 'Mitov::CanBus_RequestMessage' )]
+  [Name( 'Request Message' )]
+  [CreateName( 'Request Message' )]
+  [ArduinoCanBusProcessMessageCallChain]
+  *TArduinoBasicCanBusRequestMessageElement : TArduinoCanBusBasicSendRequestMessageElement, TArduinoCanBusReceiveMessageElement_PinsExtender;
+
+//    [ NamePostfix( '(mS)' ) ]
+//    SendTimeout : Unsigned = 500
+
+//  ;
+//---------------------------------------------------------------------------
+  [ArduinoClass( 'Mitov::TArduinoBasicCanBus_Sending' )]
+  [ParentImage( TArduinoCanBusBasicSendMessageElement )]
+  *TArduinoBasicCanBus_Sending : TArduinoCodePersistent
+
+    SentOutputPin : TOWArduinoClockSourcePin
+    FailedOutputPin : TOWArduinoClockSourcePin
+    
+    [ NamePostfix( '(mS)' ) ]
+    SendTimeout : Unsigned = 500
+    
+  ;
+//---------------------------------------------------------------------------
+  TArduinoBasicCanBus_Extender : Extender
+
+    IDOutputPin : TOWArduinoUnsignedSourcePin
+    ExtendedOutputPin : TOWArduinoDigitalSourcePin
+    RequestOutputPin : TOWArduinoDigitalSourcePin
+    
+  ;
+//---------------------------------------------------------------------------
+  TArduinoCanBus_Extender : TArduinoBasicCanBus_Extender
+
+    [OWPrimaryPin]
+    InputPin : TOWArduinoCanBusSinkPin
+
+    [OWPrimaryPin]
+    OutputPin : TOWArduinoCanBusSourcePin
+
+    MessageOutputPin : TOWArduinoByteSourcePin
+    
+    [ComponentEditorEntryDesign( 'Edit E&lements ...', True )]
+    Elements
+
+  ;
+//---------------------------------------------------------------------------
+; // Mitov

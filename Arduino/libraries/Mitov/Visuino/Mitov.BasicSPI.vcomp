@@ -1,0 +1,70 @@
+Mitov : Namespace
+//---------------------------------------------------------------------------
+  TArduinoBasicSpeedSPI : TArduinoBasicSPI
+
+    SPISpeed : Unsigned = 8000000
+
+  ;
+//---------------------------------------------------------------------------
+  TArduinoBasicImplementationSpeedSPI : TArduinoBasicSpeedSPI
+
+    [ArduinoAddToTemplate( '0_IMPLEMENTATION' )]
+    OutputPin
+
+    [ArduinoAddToTemplate( '0_IMPLEMENTATION' )]
+    ChipSelectOutputPin
+
+    [ArduinoAddToTemplate( '0_IMPLEMENTATION' )]
+    SPISpeed
+
+  ;
+//---------------------------------------------------------------------------
+  TArduinoBasicEnableSpeedSPI : TArduinoBasicEnableSPI
+
+    SPISpeed : Unsigned = 8000000
+
+  ;
+//---------------------------------------------------------------------------
+  TArduinoCommonBasicSPI : TArduinoComponent
+
+    [OWPrimaryPin]
+    SPIOutputPin : TOWArduinoSPISourcePin
+
+    ChipSelectOutputPin : TOWArduinoDigitalSourcePin
+
+  ;
+//---------------------------------------------------------------------------
+  TArduinoCommonSpeedSPI : TArduinoCommonBasicSPI
+
+    SPISpeed : Unsigned = 8000000
+
+  ;
+//---------------------------------------------------------------------------
+  TArduinoCommonSpeedEnabledSPI : TArduinoCommonSpeedSPI
+
+    Enabled : Boolean = True
+
+  ;
+//---------------------------------------------------------------------------
+  [ArduinoInclude( 'Mitov_Arduino_Basic_SPI.h' )]
+  [ArduinoTemplateParameter( '0_IMPLEMENTATION', '::Mitov::InterfaceSPISpeed' )]
+  TArduinoCommonSpeedImplementationSPI : TArduinoCommonSpeedSPI
+
+    [ArduinoAddToTemplate( '0_IMPLEMENTATION' )]
+    SPIOutputPin
+
+    [ArduinoAddToTemplate( '0_IMPLEMENTATION' )]
+    ChipSelectOutputPin
+    
+    [ArduinoAddToTemplate( '0_IMPLEMENTATION' )]
+    SPISpeed
+    
+  ;
+//---------------------------------------------------------------------------
+  TArduinoCommonSpeedEnabledSImplementationSPI : TArduinoCommonSpeedImplementationSPI
+
+    Enabled : Boolean = True
+
+  ;
+//---------------------------------------------------------------------------
+; // Mitov
