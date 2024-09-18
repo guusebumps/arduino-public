@@ -6,11 +6,11 @@
 #define pinledvermelho 4
 #define pinledverde 5
 
-MFRC522 rfid(SS_PIN, RST_PIN);  // Instance of the class
+MFRC522 rfid(SS_PIN, RST_PIN);
 MFRC522::MIFARE_Key key;
 
-int code[] = { 224, 155, 245, 25 };  //This is the stored UID (Unlock Card)
-int techfarm_card[] = { 83, 00, 148, 49 };  //This is the stored UID (Unlock Card)
+int code[] = { 224, 155, 245, 25 };
+int techfarm_card[] = { 83, 00, 148, 49 };
 
 int codeRead = 0;
 int pinbuzzer = 2;
@@ -19,8 +19,8 @@ String uidString;
 
 void setup() {
   Serial.begin(9600);
-  SPI.begin();      // Init SPI bus
-  rfid.PCD_Init();  // Init MFRC522
+  SPI.begin();
+  rfid.PCD_Init();
   Serial.println(F("Arduino RFID Gustavo e Virgilio"));
   pinMode(pinledvermelho, OUTPUT);
   pinMode(pinledverde, OUTPUT);
@@ -35,15 +35,12 @@ void loop() {
   delay(100);
 }
 
-
-
 void readRFID() {
   rfid.PICC_ReadCardSerial();
   Serial.print(F("\n Tipo de PICC: "));
   MFRC522::PICC_Type piccType = rfid.PICC_GetType(rfid.uid.sak);
   Serial.println(rfid.PICC_GetTypeName(piccType));
 
-  // Check is the PICC of Classic MIFARE type
   if (piccType != MFRC522::PICC_TYPE_MIFARE_MINI && piccType != MFRC522::PICC_TYPE_MIFARE_1K && piccType != MFRC522::PICC_TYPE_MIFARE_4K) {
     Serial.println(F("Your tag is not of type MIFARE Classic."));
     return;
@@ -62,7 +59,7 @@ void readRFID() {
     if ((int(rfid.uid.uidByte[i]) == int(techfarm_card[i]))) {
       match = false;
       tech_farm = true;
-    }    
+    }
     i++;
   }
 
@@ -75,8 +72,7 @@ void readRFID() {
     tone(pinbuzzer, 294, tempo);
     delay(tempo);
     digitalWrite(pinledverde, LOW);
-    delay(150); 
-
+    delay(150);
   }
   if (match) {
     digitalWrite(pinledverde, HIGH);
@@ -86,7 +82,7 @@ void readRFID() {
     tone(pinbuzzer, 294, tempo);
     delay(tempo);
     digitalWrite(pinledverde, LOW);
-    delay(150);    
+    delay(150);
   } else {
     digitalWrite(pinledvermelho, HIGH);
     delay(150);
@@ -95,25 +91,20 @@ void readRFID() {
     tone(pinbuzzer, 440, tempo);
     delay(tempo);
     digitalWrite(pinledvermelho, LOW);
-    delay(150);     
+    delay(150);
   }
   Serial.println("============================");
 
   rfid.PICC_HaltA();
 
-  // Stop encryption on PCD
-
   rfid.PCD_StopCrypto1();
 }
-
-
 
 void printDec(byte *buffer, byte bufferSize) {
 
   for (byte i = 0; i < bufferSize; i++) {
 
     Serial.print(buffer[i] < 0x10 ? " 0" : " ");
-
     Serial.print(buffer[i], DEC);
   }
 }
